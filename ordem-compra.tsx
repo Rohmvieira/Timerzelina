@@ -1,0 +1,1220 @@
+"use client"
+
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Separator } from "@/components/ui/separator"
+import { CalendarDays, FileText, Users, DollarSign, Settings, Workflow } from "lucide-react"
+
+export default function OrdemCompra() {
+  const [formData, setFormData] = useState({
+    // Tipo de Projeto
+    tipoProjeto: "integracao", // "integracao" ou "melhoria"
+
+    // Dados do Cliente
+    nomeFantasia: "",
+    razaoSocial: "",
+    endereco: "",
+    cep: "",
+    cnpj: "",
+    cidade: "",
+
+    // Responsáveis
+    nomeResponsavelTecnico: "",
+    telefoneResponsavelTecnico: "",
+    emailResponsavelTecnico: "",
+
+    // Dados Comerciais - Editáveis
+    investimentoMensal: "1.399,00",
+    investimentoSetup: "6.600,00",
+    tempoContrato: "12",
+    formaPagamento: "Boleto/PIX",
+    diaVencimento: "10",
+    parcelamentoSetup: "1", // Novo campo
+    parcelamentoMelhoria: "1", // Novo campo
+
+    // Assinaturas
+    nomeRepresentanteContratante: "",
+    cpfRepresentanteContratante: "",
+    emailRepresentanteContratante: "",
+    nomeRepresentanteContratada: "Rodrigo Vieira",
+    cpfRepresentanteContratada: "",
+    emailRepresentanteContratada: "rodrigo.vieira@tivit.com",
+
+    // Testemunhas
+    nomeTestemunha1: "",
+    cpfTestemunha1: "",
+    emailTestemunha1: "",
+    nomeTestemunha2: "",
+    cpfTestemunha2: "",
+    emailTestemunha2: "",
+
+    // Outros
+    tvt: "234578",
+    dataOC: new Date().toLocaleDateString("pt-BR"),
+
+    // Campos para Integração
+    tituloEscopo: "Automatização de dados entre sistemas PandaPé e ATS G4S",
+    descricaoEscopo: "Contendo 2 fluxos de integração",
+    tempoProjeto: "20 dias úteis",
+    fluxosInclusos: "10",
+    apiCalls: "1.000.000",
+    horasOnboarding: "8",
+    suporteTipo: "8x5",
+    quantidadeFluxos: 2,
+    fluxos: ["Candidatos (Successfactors → Pandapé)", "Vagas (Pandapé → Successfactors)"],
+
+    // Campos para Melhorias
+    tituloMelhoria: "",
+    descricaoMelhoria: "",
+    horasVendidas: "",
+    prazoMelhoria: "",
+    valorTotalMelhoria: "",
+  })
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }))
+  }
+
+  const handlePrint = () => {
+    window.print()
+  }
+
+  const calcularValorTotal = () => {
+    if (formData.tipoProjeto === "melhoria") {
+      return formData.valorTotalMelhoria || "0,00"
+    } else {
+      return (
+        Number.parseFloat(formData.investimentoSetup.replace(".", "").replace(",", ".")) +
+        Number.parseFloat(formData.investimentoMensal.replace(".", "").replace(",", ".")) *
+          Number.parseInt(formData.tempoContrato)
+      ).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+    }
+  }
+
+  return (
+    <div className="max-w-4xl mx-auto p-6 bg-white">
+      {/* Cabeçalho */}
+      <div className="text-center mb-8">
+        <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 rounded-lg mb-6">
+          <h1 className="text-3xl font-bold mb-2">ORDEM DE COMPRA</h1>
+          <p className="text-lg">TIVIT DevAPI - Plataforma de Integração de Sistemas</p>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4 text-sm">
+          <div className="text-left">
+            <p>
+              <strong>Data:</strong> {formData.dataOC}
+            </p>
+            <p>
+              <strong>TVT:</strong> {formData.tvt}
+            </p>
+          </div>
+          <div className="text-right">
+            <p>
+              <strong>Validade:</strong> 22/07/25
+            </p>
+            <p>
+              <strong>Vencimento:</strong> Todo dia {formData.diaVencimento}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Seletor de Tipo de Projeto */}
+      <Card className="mb-6">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Settings className="h-5 w-5" />
+            Tipo de Projeto
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 gap-4">
+            <div
+              className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                formData.tipoProjeto === "integracao"
+                  ? "border-blue-500 bg-blue-50"
+                  : "border-gray-200 hover:border-gray-300"
+              }`}
+              onClick={() => handleInputChange("tipoProjeto", "integracao")}
+            >
+              <div className="flex items-center gap-3">
+                <Workflow className="h-8 w-8 text-blue-500" />
+                <div>
+                  <h3 className="font-semibold">Fluxos de Integração</h3>
+                  <p className="text-sm text-gray-600">Projeto completo de integração entre sistemas</p>
+                </div>
+              </div>
+            </div>
+
+            <div
+              className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                formData.tipoProjeto === "melhoria"
+                  ? "border-green-500 bg-green-50"
+                  : "border-gray-200 hover:border-gray-300"
+              }`}
+              onClick={() => handleInputChange("tipoProjeto", "melhoria")}
+            >
+              <div className="flex items-center gap-3">
+                <Settings className="h-8 w-8 text-green-500" />
+                <div>
+                  <h3 className="font-semibold">Melhorias</h3>
+                  <p className="text-sm text-gray-600">Ajustes e melhorias em integrações existentes</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Informações da Empresa Cliente */}
+      <Card className="mb-6">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Users className="h-5 w-5" />
+            Informações da Empresa Contratante
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="nomeFantasia">Nome Fantasia</Label>
+              <Input
+                id="nomeFantasia"
+                value={formData.nomeFantasia}
+                onChange={(e) => handleInputChange("nomeFantasia", e.target.value)}
+                placeholder="Digite o nome fantasia"
+              />
+            </div>
+            <div>
+              <Label htmlFor="razaoSocial">Razão Social</Label>
+              <Input
+                id="razaoSocial"
+                value={formData.razaoSocial}
+                onChange={(e) => handleInputChange("razaoSocial", e.target.value)}
+                placeholder="Digite a razão social"
+              />
+            </div>
+            <div>
+              <Label htmlFor="endereco">Endereço</Label>
+              <Input
+                id="endereco"
+                value={formData.endereco}
+                onChange={(e) => handleInputChange("endereco", e.target.value)}
+                placeholder="Digite o endereço completo"
+              />
+            </div>
+            <div>
+              <Label htmlFor="cep">CEP</Label>
+              <Input
+                id="cep"
+                value={formData.cep}
+                onChange={(e) => handleInputChange("cep", e.target.value)}
+                placeholder="00000-000"
+              />
+            </div>
+            <div>
+              <Label htmlFor="cnpj">CNPJ</Label>
+              <Input
+                id="cnpj"
+                value={formData.cnpj}
+                onChange={(e) => handleInputChange("cnpj", e.target.value)}
+                placeholder="00.000.000/0000-00"
+              />
+            </div>
+            <div>
+              <Label htmlFor="cidade">Cidade</Label>
+              <Input
+                id="cidade"
+                value={formData.cidade}
+                onChange={(e) => handleInputChange("cidade", e.target.value)}
+                placeholder="Digite a cidade"
+              />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Responsáveis */}
+      <Card className="mb-6">
+        <CardHeader>
+          <CardTitle>Responsável Técnico</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-3 gap-4">
+            <div>
+              <Label htmlFor="nomeResponsavelTecnico">Nome</Label>
+              <Input
+                id="nomeResponsavelTecnico"
+                value={formData.nomeResponsavelTecnico}
+                onChange={(e) => handleInputChange("nomeResponsavelTecnico", e.target.value)}
+                placeholder="Nome do responsável técnico"
+              />
+            </div>
+            <div>
+              <Label htmlFor="telefoneResponsavelTecnico">Telefone</Label>
+              <Input
+                id="telefoneResponsavelTecnico"
+                value={formData.telefoneResponsavelTecnico}
+                onChange={(e) => handleInputChange("telefoneResponsavelTecnico", e.target.value)}
+                placeholder="(11) 99999-9999"
+              />
+            </div>
+            <div>
+              <Label htmlFor="emailResponsavelTecnico">E-mail</Label>
+              <Input
+                id="emailResponsavelTecnico"
+                value={formData.emailResponsavelTecnico}
+                onChange={(e) => handleInputChange("emailResponsavelTecnico", e.target.value)}
+                placeholder="email@empresa.com"
+              />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Anexo I - Escopo */}
+      <Card className="mb-6">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <FileText className="h-5 w-5" />
+            Anexo I - Escopo do Projeto
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {formData.tipoProjeto === "integracao" ? (
+            // Escopo para Integração
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="tituloEscopo">Título do Projeto</Label>
+                <Input
+                  id="tituloEscopo"
+                  value={formData.tituloEscopo}
+                  onChange={(e) => handleInputChange("tituloEscopo", e.target.value)}
+                  placeholder="Ex: Automatização de dados entre sistemas PandaPé e ATS G4S"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="descricaoEscopo">Descrição Geral</Label>
+                <Input
+                  id="descricaoEscopo"
+                  value={formData.descricaoEscopo}
+                  onChange={(e) => handleInputChange("descricaoEscopo", e.target.value)}
+                  placeholder="Ex: Contendo X fluxos de integração"
+                />
+              </div>
+
+              {/* Seletor de quantidade de fluxos */}
+              <div className="bg-blue-50 p-4 rounded-lg">
+                <Label htmlFor="quantidadeFluxos" className="text-base font-medium">
+                  Quantidade de Fluxos de Integração
+                </Label>
+                <select
+                  id="quantidadeFluxos"
+                  value={formData.quantidadeFluxos}
+                  onChange={(e) => {
+                    const quantidade = Number.parseInt(e.target.value)
+                    const novosFluxos = [...formData.fluxos]
+
+                    if (quantidade > formData.fluxos.length) {
+                      for (let i = formData.fluxos.length; i < quantidade; i++) {
+                        novosFluxos.push("")
+                      }
+                    } else {
+                      novosFluxos.splice(quantidade)
+                    }
+
+                    setFormData((prev) => ({
+                      ...prev,
+                      quantidadeFluxos: quantidade,
+                      fluxos: novosFluxos,
+                    }))
+                  }}
+                  className="mt-2 w-full p-2 border border-gray-300 rounded-md"
+                >
+                  {[...Array(30)].map((_, index) => {
+                    const num = index + 1
+                    return (
+                      <option key={num} value={num}>
+                        {num} fluxo{num > 1 ? "s" : ""}
+                      </option>
+                    )
+                  })}
+                </select>
+              </div>
+
+              {/* Campos dinâmicos para os fluxos */}
+              <div className="space-y-3">
+                <Label className="text-base font-medium">Detalhamento dos Fluxos:</Label>
+                {Array.from({ length: formData.quantidadeFluxos }, (_, index) => (
+                  <div key={index}>
+                    <Label htmlFor={`fluxo${index + 1}`}>Fluxo {index + 1}</Label>
+                    <Input
+                      id={`fluxo${index + 1}`}
+                      value={formData.fluxos[index] || ""}
+                      onChange={(e) => {
+                        const novosFluxos = [...formData.fluxos]
+                        novosFluxos[index] = e.target.value
+                        setFormData((prev) => ({ ...prev, fluxos: novosFluxos }))
+                      }}
+                      placeholder={`Ex: Sistema A → Sistema B (descrição do fluxo ${index + 1})`}
+                    />
+                  </div>
+                ))}
+              </div>
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div>
+                  <Label htmlFor="tempoProjeto">Tempo de Projeto</Label>
+                  <Input
+                    id="tempoProjeto"
+                    value={formData.tempoProjeto}
+                    onChange={(e) => handleInputChange("tempoProjeto", e.target.value)}
+                    placeholder="20 dias úteis"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="fluxosInclusos">Fluxos Inclusos</Label>
+                  <Input
+                    id="fluxosInclusos"
+                    value={formData.fluxosInclusos}
+                    onChange={(e) => handleInputChange("fluxosInclusos", e.target.value)}
+                    placeholder="10"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="apiCalls">API Calls</Label>
+                  <Input
+                    id="apiCalls"
+                    value={formData.apiCalls}
+                    onChange={(e) => handleInputChange("apiCalls", e.target.value)}
+                    placeholder="1.000.000"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="horasOnboarding">Horas Onboarding</Label>
+                  <Input
+                    id="horasOnboarding"
+                    value={formData.horasOnboarding}
+                    onChange={(e) => handleInputChange("horasOnboarding", e.target.value)}
+                    placeholder="8"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <Label htmlFor="suporteTipo">Tipo de Suporte</Label>
+                <Input
+                  id="suporteTipo"
+                  value={formData.suporteTipo}
+                  onChange={(e) => handleInputChange("suporteTipo", e.target.value)}
+                  placeholder="8x5"
+                />
+              </div>
+
+              <Separator className="my-6" />
+
+              <div className="bg-blue-50 p-4 rounded-lg">
+                <h3 className="font-semibold text-lg mb-2">{formData.tituloEscopo || "Título do Projeto"}</h3>
+                <p className="text-gray-700 mb-4">
+                  {formData.descricaoEscopo ||
+                    `Contendo ${formData.quantidadeFluxos} fluxo${
+                      formData.quantidadeFluxos > 1 ? "s" : ""
+                    } de integração`}
+                </p>
+
+                <div className="space-y-3 mb-4">
+                  {formData.fluxos.map(
+                    (fluxo, index) =>
+                      fluxo && (
+                        <div key={index} className="border-l-4 border-blue-500 pl-4">
+                          <h4 className="font-medium">
+                            Fluxo {index + 1}: {fluxo}
+                          </h4>
+                        </div>
+                      ),
+                  )}
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <h4 className="font-medium mb-2">Especificações Técnicas:</h4>
+                    <ul className="text-sm space-y-1">
+                      <li>• Tempo de projeto: {formData.tempoProjeto || "20 dias úteis"}</li>
+                      <li>• Fluxos inclusos: {formData.fluxosInclusos || "10"}</li>
+                      <li>• API Calls: {formData.apiCalls || "1.000.000"}</li>
+                      <li>• Suporte: {formData.suporteTipo || "8x5"}</li>
+                      <li>• Onboarding: {formData.horasOnboarding || "8"} horas</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="font-medium mb-2">Entregas:</h4>
+                    <ul className="text-sm space-y-1">
+                      <li>• Conectores personalizados</li>
+                      <li>• Fluxos de trabalho automatizados</li>
+                      <li>• Documentação técnica</li>
+                      <li>• Treinamento da equipe</li>
+                      <li>• Suporte pós-implementação</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            // Escopo para Melhorias
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="tituloMelhoria">Título da Melhoria</Label>
+                <Input
+                  id="tituloMelhoria"
+                  value={formData.tituloMelhoria}
+                  onChange={(e) => handleInputChange("tituloMelhoria", e.target.value)}
+                  placeholder="Ex: Otimização de performance nas integrações existentes"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="descricaoMelhoria">Descrição Detalhada</Label>
+                <textarea
+                  id="descricaoMelhoria"
+                  value={formData.descricaoMelhoria}
+                  onChange={(e) => handleInputChange("descricaoMelhoria", e.target.value)}
+                  placeholder="Descreva detalhadamente as melhorias que serão implementadas..."
+                  className="w-full p-3 border border-gray-300 rounded-md min-h-[100px] resize-y"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="horasVendidas">Horas Vendidas</Label>
+                  <Input
+                    id="horasVendidas"
+                    value={formData.horasVendidas}
+                    onChange={(e) => handleInputChange("horasVendidas", e.target.value)}
+                    placeholder="Ex: 40"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="prazoMelhoria">Prazo de Entrega</Label>
+                  <Input
+                    id="prazoMelhoria"
+                    value={formData.prazoMelhoria}
+                    onChange={(e) => handleInputChange("prazoMelhoria", e.target.value)}
+                    placeholder="Ex: 10 dias úteis"
+                  />
+                </div>
+              </div>
+
+              <Separator className="my-6" />
+
+              <div className="bg-green-50 p-4 rounded-lg">
+                <h3 className="font-semibold text-lg mb-2">{formData.tituloMelhoria || "Título da Melhoria"}</h3>
+                <p className="text-gray-700 mb-4 whitespace-pre-wrap">
+                  {formData.descricaoMelhoria || "Descrição detalhada das melhorias a serem implementadas."}
+                </p>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <h4 className="font-medium mb-2">Especificações:</h4>
+                    <ul className="text-sm space-y-1">
+                      <li>• Horas: {formData.horasVendidas || "0"} horas</li>
+                      <li>• Prazo: {formData.prazoMelhoria || "A definir"}</li>
+                      <li>• Valor total: R$ {formData.valorTotalMelhoria || "0,00"}</li>
+                      <li>
+                        • Parcelamento:{" "}
+                        {formData.parcelamentoMelhoria === "1" ? "À vista" : `${formData.parcelamentoMelhoria}x`}
+                      </li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="font-medium mb-2">Entregas:</h4>
+                    <ul className="text-sm space-y-1">
+                      <li>• Implementação das melhorias</li>
+                      <li>• Testes e validação</li>
+                      <li>• Documentação atualizada</li>
+                      <li>• Relatório de conclusão</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Anexo II - Valores */}
+      <Card className="mb-6">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <DollarSign className="h-5 w-5" />
+            Anexo II - Valores e Condições Comerciais
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {formData.tipoProjeto === "integracao" ? (
+            // Valores para Integração
+            <>
+              <div className="grid grid-cols-2 gap-6 mb-6">
+                <div className="bg-green-50 p-4 rounded-lg">
+                  <h3 className="font-semibold text-lg mb-3">Professional Services</h3>
+                  <div className="space-y-3">
+                    <div>
+                      <Label htmlFor="investimentoSetup">Valor Total (R$)</Label>
+                      <Input
+                        id="investimentoSetup"
+                        value={formData.investimentoSetup}
+                        onChange={(e) => handleInputChange("investimentoSetup", e.target.value)}
+                        placeholder="6.600,00"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="parcelamentoSetup">Parcelamento</Label>
+                      <select
+                        id="parcelamentoSetup"
+                        value={formData.parcelamentoSetup}
+                        onChange={(e) => handleInputChange("parcelamentoSetup", e.target.value)}
+                        className="w-full p-2 border border-gray-300 rounded-md"
+                      >
+                        <option value="1">À vista</option>
+                        <option value="2">2x</option>
+                        <option value="3">3x</option>
+                        <option value="4">4x</option>
+                      </select>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Valor por parcela:</span>
+                      <span>
+                        {formData.parcelamentoSetup === "1"
+                          ? `R$ ${formData.investimentoSetup}`
+                          : `${formData.parcelamentoSetup}x de R$ ${(
+                              Number.parseFloat(formData.investimentoSetup.replace(".", "").replace(",", ".")) /
+                                Number.parseInt(formData.parcelamentoSetup)
+                            ).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+                      </span>
+                    </div>
+                    <div>
+                      <Label htmlFor="tempoProjeto">Prazo</Label>
+                      <Input
+                        id="tempoProjeto"
+                        value={formData.tempoProjeto}
+                        onChange={(e) => handleInputChange("tempoProjeto", e.target.value)}
+                        placeholder="20 dias úteis"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-blue-50 p-4 rounded-lg">
+                  <h3 className="font-semibold text-lg mb-3">Plano Essencial</h3>
+                  <div className="space-y-3">
+                    <div>
+                      <Label htmlFor="investimentoMensal">Valor Mensal (R$)</Label>
+                      <Input
+                        id="investimentoMensal"
+                        value={formData.investimentoMensal}
+                        onChange={(e) => handleInputChange("investimentoMensal", e.target.value)}
+                        placeholder="1.399,00"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="tempoContrato">Contrato (meses)</Label>
+                      <Input
+                        id="tempoContrato"
+                        value={formData.tempoContrato}
+                        onChange={(e) => handleInputChange("tempoContrato", e.target.value)}
+                        placeholder="12"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="diaVencimento">Dia Vencimento</Label>
+                      <Input
+                        id="diaVencimento"
+                        value={formData.diaVencimento}
+                        onChange={(e) => handleInputChange("diaVencimento", e.target.value)}
+                        placeholder="10"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <Separator className="my-4" />
+
+              <div className="bg-gradient-to-r from-gray-50 to-gray-100 p-6 rounded-xl border-2 border-gray-200">
+                <h4 className="font-bold text-lg mb-4 text-center text-gray-800">💰 Resumo Financeiro</h4>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="text-center p-4 bg-white rounded-lg shadow-sm">
+                    <div className="text-2xl font-bold text-green-600">R$ {formData.investimentoSetup}</div>
+                    <div className="text-sm text-gray-600">Valor Setup</div>
+                    <div className="text-xs text-gray-500 mt-1">Pagamento único</div>
+                  </div>
+                  <div className="text-center p-4 bg-white rounded-lg shadow-sm">
+                    <div className="text-2xl font-bold text-blue-600">R$ {formData.investimentoMensal}</div>
+                    <div className="text-sm text-gray-600">Valor Mensal</div>
+                    <div className="text-xs text-gray-500 mt-1">Recorrente por {formData.tempoContrato} meses</div>
+                  </div>
+                  <div className="text-center p-4 bg-white rounded-lg shadow-sm">
+                    <div className="text-2xl font-bold text-purple-600">R$ {calcularValorTotal()}</div>
+                    <div className="text-sm text-gray-600">Valor Total</div>
+                    <div className="text-xs text-gray-500 mt-1">Setup + {formData.tempoContrato} mensalidades</div>
+                  </div>
+                </div>
+                <div className="mt-4 pt-4 border-t border-gray-200">
+                  <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                      <Label htmlFor="formaPagamento">Forma de Pagamento</Label>
+                      <Input
+                        id="formaPagamento"
+                        value={formData.formaPagamento}
+                        onChange={(e) => handleInputChange("formaPagamento", e.target.value)}
+                        placeholder="Boleto/PIX"
+                      />
+                    </div>
+                    <div>
+                      <span className="font-medium">Vencimento:</span> Dia {formData.diaVencimento} de cada mês
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : (
+            // Valores para Melhorias
+            <div className="space-y-6">
+              <div className="bg-green-50 p-6 rounded-xl border border-green-200">
+                <h3 className="font-semibold text-lg mb-4">Serviço de Melhorias</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="valorTotalMelhoria">Valor Total (R$)</Label>
+                    <Input
+                      id="valorTotalMelhoria"
+                      value={formData.valorTotalMelhoria}
+                      onChange={(e) => handleInputChange("valorTotalMelhoria", e.target.value)}
+                      placeholder="Ex: 6.000,00"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="parcelamentoMelhoria">Parcelamento</Label>
+                    <select
+                      id="parcelamentoMelhoria"
+                      value={formData.parcelamentoMelhoria}
+                      onChange={(e) => handleInputChange("parcelamentoMelhoria", e.target.value)}
+                      className="w-full p-2 border border-gray-300 rounded-md"
+                    >
+                      <option value="1">À vista</option>
+                      <option value="2">2x</option>
+                      <option value="3">3x</option>
+                      <option value="4">4x</option>
+                    </select>
+                  </div>
+                  <div>
+                    <Label htmlFor="formaPagamentoMelhoria">Forma de Pagamento</Label>
+                    <Input
+                      id="formaPagamentoMelhoria"
+                      value={formData.formaPagamento}
+                      onChange={(e) => handleInputChange("formaPagamento", e.target.value)}
+                      placeholder="Boleto/PIX"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="prazoMelhoria">Prazo de Entrega</Label>
+                    <Input
+                      id="prazoMelhoria"
+                      value={formData.prazoMelhoria}
+                      onChange={(e) => handleInputChange("prazoMelhoria", e.target.value)}
+                      placeholder="10 dias úteis"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="diaVencimentoMelhoria">Dia Vencimento</Label>
+                    <Input
+                      id="diaVencimentoMelhoria"
+                      value={formData.diaVencimento}
+                      onChange={(e) => handleInputChange("diaVencimento", e.target.value)}
+                      placeholder="10"
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <div className="flex justify-between items-center p-3 bg-white rounded-lg border">
+                      <span className="font-medium">Valor por parcela:</span>
+                      <span className="font-bold text-green-600">
+                        {formData.parcelamentoMelhoria === "1"
+                          ? `R$ ${formData.valorTotalMelhoria || "0,00"}`
+                          : `${formData.parcelamentoMelhoria}x de R$ ${
+                              formData.valorTotalMelhoria
+                                ? (
+                                    Number.parseFloat(formData.valorTotalMelhoria.replace(".", "").replace(",", ".")) /
+                                    Number.parseInt(formData.parcelamentoMelhoria)
+                                  ).toLocaleString("pt-BR", {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                  })
+                                : "0,00"
+                            }`}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-r from-gray-50 to-gray-100 p-6 rounded-xl border-2 border-gray-200">
+                <h4 className="font-bold text-lg mb-4 text-center text-gray-800">💰 Resumo Financeiro</h4>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="text-center p-4 bg-white rounded-lg shadow-sm">
+                    <div className="text-2xl font-bold text-green-600">{formData.horasVendidas || "0"}</div>
+                    <div className="text-sm text-gray-600">Horas Vendidas</div>
+                    <div className="text-xs text-gray-500 mt-1">Total de horas</div>
+                  </div>
+                  <div className="text-center p-4 bg-white rounded-lg shadow-sm">
+                    <div className="text-2xl font-bold text-blue-600">{formData.parcelamentoMelhoria}x</div>
+                    <div className="text-sm text-gray-600">Parcelas</div>
+                    <div className="text-xs text-gray-500 mt-1">Forma de pagamento</div>
+                  </div>
+                  <div className="text-center p-4 bg-white rounded-lg shadow-sm">
+                    <div className="text-2xl font-bold text-purple-600">R$ {formData.valorTotalMelhoria || "0,00"}</div>
+                    <div className="text-sm text-gray-600">Valor Total</div>
+                    <div className="text-xs text-gray-500 mt-1">
+                      {formData.parcelamentoMelhoria === "1" ? "À vista" : `${formData.parcelamentoMelhoria} parcelas`}
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-4 pt-4 border-t border-gray-200">
+                  <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                      <span className="font-medium">Forma de Pagamento:</span> {formData.formaPagamento}
+                    </div>
+                    <div>
+                      <span className="font-medium">Prazo:</span> {formData.prazoMelhoria || "A definir"}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* SLA - Apenas para Integração */}
+      {formData.tipoProjeto === "integracao" && (
+        <Card className="mb-6">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <CalendarDays className="h-5 w-5" />
+              Acordo de Nível de Serviço (SLA)
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              {/* Disponibilidade */}
+              <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-xl border border-green-200">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center">
+                    <span className="text-white font-bold text-xl">99.5%</span>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-green-800">Disponibilidade Garantida</h4>
+                    <p className="text-sm text-green-600">Uptime do sistema</p>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <span className="text-sm">Suporte técnico: 8x5 (Segunda a Sexta, 8h às 18h)</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <span className="text-sm">Tempo de resposta: 4 horas úteis</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <span className="text-sm">Resolução de incidentes críticos: 24 horas</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Premissas */}
+              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-200">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center">
+                    <FileText className="w-8 h-8 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-blue-800">Premissas do Cliente</h4>
+                    <p className="text-sm text-blue-600">Requisitos obrigatórios</p>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                    <span className="text-sm">Fornecimento de credenciais de acesso</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                    <span className="text-sm">Documentação das APIs disponibilizada</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                    <span className="text-sm">Queries de banco prontas (se aplicável)</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                    <span className="text-sm">Mapeamento/validação dos campos das APIs</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                    <span className="text-sm">Homologação em até 15 dias após entrega</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Pontos Importantes */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Suporte e Melhorias */}
+              <div className="bg-gradient-to-br from-orange-50 to-amber-50 p-6 rounded-xl border border-orange-200">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center">
+                    <span className="text-white font-bold text-xl">⚠️</span>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-orange-800">Suporte e Melhorias</h4>
+                    <p className="text-sm text-orange-600">Regras importantes</p>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <div className="bg-white p-3 rounded-lg border border-orange-100">
+                    <p className="text-sm font-medium text-orange-800 mb-1">Alterações Pós-Produção:</p>
+                    <p className="text-xs text-orange-700">
+                      Solicitações de alteração em itens ou ambientes já entregues em produção serão tratadas como
+                      melhorias e gerarão custo adicional por hora.
+                    </p>
+                  </div>
+                  <div className="bg-white p-3 rounded-lg border border-orange-100">
+                    <p className="text-sm font-medium text-orange-800 mb-1">Mudanças de Escopo:</p>
+                    <p className="text-xs text-orange-700">
+                      Toda solicitação de mudança dos ambientes, integrações, campos ou componentes será classificada
+                      como melhoria.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Homologação e Entrega */}
+              <div className="bg-gradient-to-br from-purple-50 to-violet-50 p-6 rounded-xl border border-purple-200">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center">
+                    <span className="text-white font-bold text-xl">✓</span>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-purple-800">Homologação e Entrega</h4>
+                    <p className="text-sm text-purple-600">Processo de finalização</p>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <div className="bg-white p-3 rounded-lg border border-purple-100">
+                    <p className="text-sm font-medium text-purple-800 mb-1">Prazo de Homologação:</p>
+                    <p className="text-xs text-purple-700">
+                      A conclusão do projeto só ocorrerá após homologação. Esta deverá acontecer em até 15 dias após a
+                      entrega do desenvolvimento.
+                    </p>
+                  </div>
+                  <div className="bg-white p-3 rounded-lg border border-purple-100">
+                    <p className="text-sm font-medium text-purple-800 mb-1">Prazo de Entrega:</p>
+                    <p className="text-xs text-purple-700">
+                      O prazo de entrega passa a ser contado após kick-off e cumprimento de todas as premissas listadas.
+                    </p>
+                  </div>
+                  <div className="bg-white p-3 rounded-lg border border-purple-100">
+                    <p className="text-sm font-medium text-purple-800 mb-1">Não Retorno:</p>
+                    <p className="text-xs text-purple-700">
+                      Em caso de não retorno da homologação em 15 dias, o projeto será dado como concluído e entregue.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Resumo dos Próximos Passos */}
+            <div className="mt-6 bg-gradient-to-r from-gray-50 to-gray-100 p-6 rounded-xl border-2 border-gray-200">
+              <h4 className="font-bold text-lg mb-4 text-center text-gray-800">📋 Próximos Passos</h4>
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+                <div className="text-center p-3 bg-white rounded-lg shadow-sm">
+                  <div className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
+                    1
+                  </div>
+                  <div className="text-xs font-medium">Assinatura da OC</div>
+                </div>
+                <div className="text-center p-3 bg-white rounded-lg shadow-sm">
+                  <div className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
+                    2
+                  </div>
+                  <div className="text-xs font-medium">Kick-off</div>
+                </div>
+                <div className="text-center p-3 bg-white rounded-lg shadow-sm">
+                  <div className="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
+                    3
+                  </div>
+                  <div className="text-xs font-medium">Desenvolvimento</div>
+                </div>
+                <div className="text-center p-3 bg-white rounded-lg shadow-sm">
+                  <div className="w-8 h-8 bg-purple-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
+                    4
+                  </div>
+                  <div className="text-xs font-medium">Homologação</div>
+                </div>
+                <div className="text-center p-3 bg-white rounded-lg shadow-sm">
+                  <div className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
+                    5
+                  </div>
+                  <div className="text-xs font-medium">Entrega Final</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Tabela de Prioridades de SLA */}
+            <div className="mt-6 bg-white p-6 rounded-xl border-2 border-gray-200">
+              <h4 className="font-bold text-lg mb-6 text-center text-gray-800">📊 Matriz de Prioridades de SLA</h4>
+
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr className="bg-gray-100">
+                      <th className="border border-gray-300 p-3 text-left font-bold">Prioridade</th>
+                      <th className="border border-gray-300 p-3 text-left font-bold">Descrição</th>
+                      <th className="border border-gray-300 p-3 text-left font-bold">Regras de SLA</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="bg-red-50">
+                      <td className="border border-gray-300 p-3">
+                        <div className="flex items-center gap-2">
+                          <div className="w-4 h-4 bg-red-500 rounded"></div>
+                          <span className="font-bold text-red-700">Urgente</span>
+                        </div>
+                      </td>
+                      <td className="border border-gray-300 p-3 text-sm">
+                        Situações onde o sistema para de integrar de forma integral, gerando impacto direto no cliente.
+                      </td>
+                      <td className="border border-gray-300 p-3 text-sm">
+                        Tempo para resposta de até <strong>4 horas úteis</strong> e resolução em até{" "}
+                        <strong>8 horas úteis</strong>.
+                      </td>
+                    </tr>
+                    <tr className="bg-orange-50">
+                      <td className="border border-gray-300 p-3">
+                        <div className="flex items-center gap-2">
+                          <div className="w-4 h-4 bg-orange-500 rounded"></div>
+                          <span className="font-bold text-orange-700">Alta</span>
+                        </div>
+                      </td>
+                      <td className="border border-gray-300 p-3 text-sm">
+                        Situações onde o sistema para de integrar de forma parcial, porém gerando impacto moderado no
+                        cliente.
+                      </td>
+                      <td className="border border-gray-300 p-3 text-sm">
+                        Tempo para resposta de até <strong>12 horas úteis</strong> e resolução em até{" "}
+                        <strong>1 dia e meio útil</strong>.
+                      </td>
+                    </tr>
+                    <tr className="bg-yellow-50">
+                      <td className="border border-gray-300 p-3">
+                        <div className="flex items-center gap-2">
+                          <div className="w-4 h-4 bg-yellow-500 rounded"></div>
+                          <span className="font-bold text-yellow-700">Média</span>
+                        </div>
+                      </td>
+                      <td className="border border-gray-300 p-3 text-sm">
+                        Situações onde o sistema integra, porém gerando algum erro nas integrações, causando um impacto
+                        baixo até moderado ao cliente.
+                      </td>
+                      <td className="border border-gray-300 p-3 text-sm">
+                        Tempo de resposta de até <strong>24 horas úteis</strong> e resolução em até{" "}
+                        <strong>2 dias úteis</strong>.
+                      </td>
+                    </tr>
+                    <tr className="bg-blue-50">
+                      <td className="border border-gray-300 p-3">
+                        <div className="flex items-center gap-2">
+                          <div className="w-4 h-4 bg-blue-500 rounded"></div>
+                          <span className="font-bold text-blue-700">Baixa</span>
+                        </div>
+                      </td>
+                      <td className="border border-gray-300 p-3 text-sm">
+                        Situações onde o sistema integra normalmente e sem nenhum relato de erros nas integrações, porém
+                        com algumas melhorias solicitadas pelo cliente.
+                      </td>
+                      <td className="border border-gray-300 p-3 text-sm">
+                        Tempo para resposta de até <strong>48 horas úteis</strong> e aplicação da melhoria ou calibrar
+                        em até <strong>5 dias úteis</strong>.
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+                <p className="text-xs text-gray-600">
+                  <strong>Observação:</strong> Os prazos são contados em dias e horas úteis (Segunda a Sexta, das 8h às
+                  18h, exceto feriados nacionais).
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Assinaturas */}
+      <Card className="mb-6">
+        <CardHeader>
+          <CardTitle>Assinatura da Ordem de Compra</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 gap-6 mb-6">
+            <div>
+              <h4 className="font-medium mb-3">Contratante:</h4>
+              <div className="space-y-3">
+                <div>
+                  <Label htmlFor="nomeRepresentanteContratante">Nome do Representante</Label>
+                  <Input
+                    id="nomeRepresentanteContratante"
+                    value={formData.nomeRepresentanteContratante}
+                    onChange={(e) => handleInputChange("nomeRepresentanteContratante", e.target.value)}
+                    placeholder="Nome completo"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="cpfRepresentanteContratante">CPF</Label>
+                  <Input
+                    id="cpfRepresentanteContratante"
+                    value={formData.cpfRepresentanteContratante}
+                    onChange={(e) => handleInputChange("cpfRepresentanteContratante", e.target.value)}
+                    placeholder="000.000.000-00"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="emailRepresentanteContratante">E-mail</Label>
+                  <Input
+                    id="emailRepresentanteContratante"
+                    value={formData.emailRepresentanteContratante}
+                    onChange={(e) => handleInputChange("emailRepresentanteContratante", e.target.value)}
+                    placeholder="email@empresa.com"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="font-medium mb-3">Contratada (TIVIT):</h4>
+              <div className="space-y-3">
+                <div>
+                  <Label htmlFor="nomeRepresentanteContratada">Nome do Representante</Label>
+                  <Input
+                    id="nomeRepresentanteContratada"
+                    value={formData.nomeRepresentanteContratada}
+                    onChange={(e) => handleInputChange("nomeRepresentanteContratada", e.target.value)}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="cpfRepresentanteContratada">CPF</Label>
+                  <Input
+                    id="cpfRepresentanteContratada"
+                    value={formData.cpfRepresentanteContratada}
+                    onChange={(e) => handleInputChange("cpfRepresentanteContratada", e.target.value)}
+                    placeholder="000.000.000-00"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="emailRepresentanteContratada">E-mail</Label>
+                  <Input
+                    id="emailRepresentanteContratada"
+                    value={formData.emailRepresentanteContratada}
+                    onChange={(e) => handleInputChange("emailRepresentanteContratada", e.target.value)}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <Separator className="my-4" />
+
+          <div>
+            <h4 className="font-medium mb-3">Testemunhas:</h4>
+            <div className="grid grid-cols-2 gap-6">
+              <div>
+                <h5 className="text-sm font-medium mb-2">Testemunha 1:</h5>
+                <div className="space-y-2">
+                  <Input
+                    value={formData.nomeTestemunha1}
+                    onChange={(e) => handleInputChange("nomeTestemunha1", e.target.value)}
+                    placeholder="Nome completo"
+                  />
+                  <Input
+                    value={formData.cpfTestemunha1}
+                    onChange={(e) => handleInputChange("cpfTestemunha1", e.target.value)}
+                    placeholder="CPF"
+                  />
+                  <Input
+                    value={formData.emailTestemunha1}
+                    onChange={(e) => handleInputChange("emailTestemunha1", e.target.value)}
+                    placeholder="E-mail"
+                  />
+                </div>
+              </div>
+              <div>
+                <h5 className="text-sm font-medium mb-2">Testemunha 2:</h5>
+                <div className="space-y-2">
+                  <Input
+                    value={formData.nomeTestemunha2}
+                    onChange={(e) => handleInputChange("nomeTestemunha2", e.target.value)}
+                    placeholder="Nome completo"
+                  />
+                  <Input
+                    value={formData.cpfTestemunha2}
+                    onChange={(e) => handleInputChange("cpfTestemunha2", e.target.value)}
+                    placeholder="CPF"
+                  />
+                  <Input
+                    value={formData.emailTestemunha2}
+                    onChange={(e) => handleInputChange("emailTestemunha2", e.target.value)}
+                    placeholder="E-mail"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+            <p className="text-sm text-gray-700">
+              <strong>Declaração:</strong> Esta Ordem de Compra é firmada eletronicamente, com ou sem a utilização de
+              certificado digital emitido no padrão estabelecido pela ICP-Brasil, reputando-se plenamente válida, em
+              todo o seu conteúdo, a partir da aposição da última assinatura, informação essa que será reconhecida pelas
+              partes em sua integridade e autenticidade, garantidas por sistema de criptografia, em conformidade com o
+              artigo 10, § 2, da Medida Provisória 2200-2/2001, bem como legislação superveniente. Os signatários
+              declaram ser os legítimos representantes das Partes e possuem poderes para firmar este Acordo, na presença
+              de 2 (duas) testemunhas abaixo assinadas.
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Botões de Ação */}
+      <div className="flex gap-4 justify-center print:hidden">
+        <Button onClick={handlePrint} className="bg-blue-600 hover:bg-blue-700">
+          Imprimir / Salvar PDF
+        </Button>
+        <Button variant="outline" onClick={() => window.location.reload()}>
+          Limpar Formulário
+        </Button>
+      </div>
+
+      {/* Rodapé */}
+      <div className="mt-8 text-center text-sm text-gray-500 border-t pt-4">
+        <p>TIVIT DevAPI - Plataforma de Integração de Sistemas</p>
+        <p>Rodrigo Vieira - Business Executive | rodrigo.vieira@tivit.com | 11 99101-8336</p>
+      </div>
+    </div>
+  )
+}

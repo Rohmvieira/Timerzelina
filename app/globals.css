@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --- Estilos customizados --- */
+@layer utilities {
+  @media print {
+    .print\:hidden {
+      display: none !important;
+    }
+
+    body {
+      -webkit-print-color-adjust: exact;
+      color-adjust: exact;
+    }
+
+    .bg-gradient-to-r {
+      background: #2563eb !important;
+      color: white !important;
+    }
+
+    .bg-blue-50,
+    .bg-green-50,
+    .bg-gray-50,
+    .bg-yellow-50 {
+      background-color: #f8fafc !important;
+      border: 1px solid #e2e8f0 !important;
+    }
+  }
+}
