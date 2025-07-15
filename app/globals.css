@@ -185,75 +185,153 @@
       page-break-inside: avoid !important;
     }
 
-    /* Forçar elementos lado a lado na impressão */
-    .print-side-by-side {
+    /* SLA completo em uma página */
+    .sla-complete-section {
+      page-break-inside: avoid !important;
+      font-size: 11px !important;
+    }
+
+    .sla-cards-container {
       display: grid !important;
       grid-template-columns: 1fr 1fr !important;
-      gap: 1rem !important;
-      page-break-inside: avoid !important;
+      gap: 0.75rem !important;
+      margin-bottom: 1rem !important;
     }
 
-    .print-full-width {
-      grid-column: 1 / -1 !important;
-    }
-
-    /* Estilos específicos para próximos passos - CORRIGIDO */
-    .proximos-passos-container {
-      page-break-inside: avoid !important;
-      margin: 1rem 0 !important;
-    }
-
-    .proximos-passos-grid {
-      display: grid !important;
-      grid-template-columns: repeat(5, 1fr) !important;
-      gap: 0.5rem !important;
-    }
-
-    .proximos-passos-item {
-      text-align: center !important;
-      padding: 0.5rem !important;
-      background: white !important;
+    .sla-card-compact {
+      padding: 0.75rem !important;
       border: 1px solid #e5e7eb !important;
-      border-radius: 4px !important;
-      color: #111827 !important;
+      border-radius: 6px !important;
+      background: white !important;
+      font-size: 10px !important;
     }
 
-    .proximos-passos-item .step-number {
+    .sla-card-header {
+      display: flex !important;
+      align-items: center !important;
+      gap: 0.5rem !important;
+      margin-bottom: 0.5rem !important;
+    }
+
+    .sla-card-icon {
       width: 2rem !important;
       height: 2rem !important;
-      background: #3b82f6 !important;
-      color: white !important;
       border-radius: 50% !important;
       display: flex !important;
       align-items: center !important;
       justify-content: center !important;
-      margin: 0 auto 0.5rem auto !important;
-      font-size: 0.875rem !important;
+      font-size: 0.75rem !important;
       font-weight: 700 !important;
+      color: white !important;
     }
 
-    .proximos-passos-item .step-text {
-      font-size: 0.75rem !important;
+    .sla-card-title {
+      font-size: 11px !important;
+      font-weight: 600 !important;
+      margin: 0 !important;
+    }
+
+    .sla-card-subtitle {
+      font-size: 9px !important;
+      margin: 0 !important;
+    }
+
+    .sla-card-content {
+      font-size: 9px !important;
+      line-height: 1.3 !important;
+    }
+
+    .sla-card-item {
+      margin-bottom: 0.25rem !important;
+      display: flex !important;
+      align-items: flex-start !important;
+      gap: 0.25rem !important;
+    }
+
+    .sla-card-bullet {
+      width: 0.25rem !important;
+      height: 0.25rem !important;
+      border-radius: 50% !important;
+      margin-top: 0.25rem !important;
+      flex-shrink: 0 !important;
+    }
+
+    /* Próximos passos melhorado */
+    .proximos-passos-section {
+      margin-top: 1rem !important;
+      page-break-inside: avoid !important;
+    }
+
+    .proximos-passos-container {
+      background: #f8fafc !important;
+      border: 2px solid #e2e8f0 !important;
+      border-radius: 8px !important;
+      padding: 1rem !important;
+    }
+
+    .proximos-passos-title {
+      text-align: center !important;
+      font-size: 14px !important;
+      font-weight: 700 !important;
+      color: #374151 !important;
+      margin-bottom: 1rem !important;
+    }
+
+    .proximos-passos-timeline {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      position: relative !important;
+    }
+
+    .proximos-passos-timeline::before {
+      content: "" !important;
+      position: absolute !important;
+      top: 1rem !important;
+      left: 1rem !important;
+      right: 1rem !important;
+      height: 2px !important;
+      background: #d1d5db !important;
+      z-index: 1 !important;
+    }
+
+    .proximos-passos-step {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      position: relative !important;
+      z-index: 2 !important;
+      background: #f8fafc !important;
+      padding: 0 0.5rem !important;
+    }
+
+    .proximos-passos-step-number {
+      width: 2rem !important;
+      height: 2rem !important;
+      border-radius: 50% !important;
+      background: #3b82f6 !important;
+      color: white !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      font-size: 12px !important;
+      font-weight: 700 !important;
+      margin-bottom: 0.5rem !important;
+    }
+
+    .proximos-passos-step-text {
+      font-size: 10px !important;
       font-weight: 500 !important;
       color: #374151 !important;
+      text-align: center !important;
+      max-width: 4rem !important;
+      line-height: 1.2 !important;
     }
 
     /* Matriz SLA específica */
     .matriz-sla-container {
       page-break-before: always !important;
       page-break-inside: avoid !important;
-    }
-
-    /* Manter SLA completo junto */
-    .sla-complete-section {
-      page-break-inside: avoid !important;
-    }
-
-    .sla-cards-grid {
-      display: grid !important;
-      grid-template-columns: 1fr 1fr !important;
-      gap: 1rem !important;
-      margin-bottom: 1rem !important;
     }
   }
 }
