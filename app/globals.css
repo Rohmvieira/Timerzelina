@@ -143,5 +143,51 @@
     .print-avoid-break {
       page-break-inside: avoid;
     }
+
+    /* Quebras de página estratégicas */
+    .page-break-before {
+      page-break-before: always !important;
+    }
+
+    .page-break-after {
+      page-break-after: always !important;
+    }
+
+    .avoid-page-break {
+      page-break-inside: avoid !important;
+    }
+
+    /* Seções específicas que devem quebrar página */
+    .anexo-escopo {
+      page-break-before: always !important;
+      page-break-inside: avoid !important;
+    }
+
+    .resumo-financeiro {
+      page-break-before: always !important;
+      page-break-inside: avoid !important;
+    }
+
+    .premissas-cliente {
+      page-break-before: always !important;
+      page-break-inside: avoid !important;
+    }
+
+    .matriz-sla {
+      page-break-before: always !important;
+      page-break-inside: avoid !important;
+    }
+
+    .assinatura-oc {
+      page-break-before: always !important;
+      page-break-inside: avoid !important;
+    }
+
+    /* Evitar quebras em elementos específicos */
+    .sla-card,
+    .financial-summary,
+    .signature-section {
+      page-break-inside: avoid !important;
+    }
   }
 }

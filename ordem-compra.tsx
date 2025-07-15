@@ -381,7 +381,7 @@ export default function OrdemCompra() {
       </Card>
 
       {/* Anexo I - Escopo */}
-      <Card className="mb-6">
+      <Card className="mb-6 anexo-escopo">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <FileText className="h-5 w-5" />
@@ -748,7 +748,7 @@ export default function OrdemCompra() {
 
               <Separator className="my-4" />
 
-              <div className="bg-gradient-to-r from-gray-50 to-gray-100 p-6 rounded-xl border-2 border-gray-200">
+              <div className="bg-gradient-to-r from-gray-50 to-gray-100 p-6 rounded-xl border-2 border-gray-200 resumo-financeiro">
                 <h4 className="font-bold text-lg mb-4 text-center text-gray-800">💰 Resumo Financeiro</h4>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="text-center p-4 bg-white rounded-lg shadow-sm">
@@ -864,7 +864,7 @@ export default function OrdemCompra() {
                 </div>
               </div>
 
-              <div className="bg-gradient-to-r from-gray-50 to-gray-100 p-6 rounded-xl border-2 border-gray-200">
+              <div className="bg-gradient-to-r from-gray-50 to-gray-100 p-6 rounded-xl border-2 border-gray-200 resumo-financeiro">
                 <h4 className="font-bold text-lg mb-4 text-center text-gray-800">💰 Resumo Financeiro</h4>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="text-center p-4 bg-white rounded-lg shadow-sm">
@@ -911,9 +911,9 @@ export default function OrdemCompra() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 premissas-cliente">
               {/* Disponibilidade */}
-              <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-xl border border-green-200">
+              <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-xl border border-green-200 sla-card">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center">
                     <span className="text-white font-bold text-xl">99.5%</span>
@@ -940,7 +940,7 @@ export default function OrdemCompra() {
               </div>
 
               {/* Premissas */}
-              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-200">
+              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-200 sla-card">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center">
                     <FileText className="w-8 h-8 text-white" />
@@ -978,7 +978,7 @@ export default function OrdemCompra() {
             {/* Pontos Importantes */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Suporte e Melhorias */}
-              <div className="bg-gradient-to-br from-orange-50 to-amber-50 p-6 rounded-xl border border-orange-200">
+              <div className="bg-gradient-to-br from-orange-50 to-amber-50 p-6 rounded-xl border border-orange-200 sla-card">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center">
                     <span className="text-white font-bold text-xl">⚠️</span>
@@ -1007,7 +1007,7 @@ export default function OrdemCompra() {
               </div>
 
               {/* Homologação e Entrega */}
-              <div className="bg-gradient-to-br from-purple-50 to-violet-50 p-6 rounded-xl border border-purple-200">
+              <div className="bg-gradient-to-br from-purple-50 to-violet-50 p-6 rounded-xl border border-purple-200 sla-card">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center">
                     <span className="text-white font-bold text-xl">✓</span>
@@ -1079,7 +1079,7 @@ export default function OrdemCompra() {
             </div>
 
             {/* Tabela de Prioridades de SLA */}
-            <div className="mt-6 bg-white p-6 rounded-xl border-2 border-gray-200">
+            <div className="mt-6 bg-white p-6 rounded-xl border-2 border-gray-200 matriz-sla">
               <h4 className="font-bold text-lg mb-6 text-center text-gray-800">📊 Matriz de Prioridades de SLA</h4>
 
               <div className="overflow-x-auto">
@@ -1171,7 +1171,7 @@ export default function OrdemCompra() {
       )}
 
       {/* Assinaturas */}
-      <Card className="mb-6">
+      <Card className="mb-6 assinatura-oc">
         <CardHeader>
           <CardTitle>Assinatura da Ordem de Compra</CardTitle>
         </CardHeader>
