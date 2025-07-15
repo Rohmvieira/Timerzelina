@@ -651,7 +651,7 @@ export default function OrdemCompra() {
       </Card>
 
       {/* Anexo II - Valores */}
-      <Card className="mb-6">
+      <Card className="mb-6 anexo-valores">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <DollarSign className="h-5 w-5" />
@@ -903,7 +903,7 @@ export default function OrdemCompra() {
 
       {/* SLA - Apenas para Integração */}
       {formData.tipoProjeto === "integracao" && (
-        <Card className="mb-6">
+        <Card className="mb-6 sla-section">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <CalendarDays className="h-5 w-5" />
@@ -911,7 +911,7 @@ export default function OrdemCompra() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 premissas-cliente">
+            <div className="print-side-by-side mb-6">
               {/* Disponibilidade */}
               <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-xl border border-green-200 sla-card">
                 <div className="flex items-center gap-3 mb-4">
@@ -976,7 +976,7 @@ export default function OrdemCompra() {
             </div>
 
             {/* Pontos Importantes */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="print-side-by-side mb-6">
               {/* Suporte e Melhorias */}
               <div className="bg-gradient-to-br from-orange-50 to-amber-50 p-6 rounded-xl border border-orange-200 sla-card">
                 <div className="flex items-center gap-3 mb-4">
@@ -1042,136 +1042,143 @@ export default function OrdemCompra() {
             </div>
 
             {/* Resumo dos Próximos Passos */}
-            <div className="mt-6 bg-gradient-to-r from-gray-50 to-gray-100 p-6 rounded-xl border-2 border-gray-200">
-              <h4 className="font-bold text-lg mb-4 text-center text-gray-800">📋 Próximos Passos</h4>
-              <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-                <div className="text-center p-3 bg-white rounded-lg shadow-sm">
-                  <div className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
-                    1
+            <div className="proximos-passos-container print-full-width">
+              <div className="bg-gradient-to-r from-gray-50 to-gray-100 p-6 rounded-xl border-2 border-gray-200">
+                <h4 className="font-bold text-lg mb-4 text-center text-gray-800">📋 Próximos Passos</h4>
+                <div className="proximos-passos-grid">
+                  <div className="proximos-passos-item">
+                    <div className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
+                      1
+                    </div>
+                    <div className="text-xs font-medium">Assinatura da OC</div>
                   </div>
-                  <div className="text-xs font-medium">Assinatura da OC</div>
-                </div>
-                <div className="text-center p-3 bg-white rounded-lg shadow-sm">
-                  <div className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
-                    2
+                  <div className="proximos-passos-item">
+                    <div className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
+                      2
+                    </div>
+                    <div className="text-xs font-medium">Kick-off</div>
                   </div>
-                  <div className="text-xs font-medium">Kick-off</div>
-                </div>
-                <div className="text-center p-3 bg-white rounded-lg shadow-sm">
-                  <div className="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
-                    3
+                  <div className="proximos-passos-item">
+                    <div className="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
+                      3
+                    </div>
+                    <div className="text-xs font-medium">Desenvolvimento</div>
                   </div>
-                  <div className="text-xs font-medium">Desenvolvimento</div>
-                </div>
-                <div className="text-center p-3 bg-white rounded-lg shadow-sm">
-                  <div className="w-8 h-8 bg-purple-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
-                    4
+                  <div className="proximos-passos-item">
+                    <div className="w-8 h-8 bg-purple-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
+                      4
+                    </div>
+                    <div className="text-xs font-medium">Homologação</div>
                   </div>
-                  <div className="text-xs font-medium">Homologação</div>
-                </div>
-                <div className="text-center p-3 bg-white rounded-lg shadow-sm">
-                  <div className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
-                    5
+                  <div className="proximos-passos-item">
+                    <div className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
+                      5
+                    </div>
+                    <div className="text-xs font-medium">Entrega Final</div>
                   </div>
-                  <div className="text-xs font-medium">Entrega Final</div>
                 </div>
-              </div>
-            </div>
-
-            {/* Tabela de Prioridades de SLA */}
-            <div className="mt-6 bg-white p-6 rounded-xl border-2 border-gray-200 matriz-sla">
-              <h4 className="font-bold text-lg mb-6 text-center text-gray-800">📊 Matriz de Prioridades de SLA</h4>
-
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse">
-                  <thead>
-                    <tr className="bg-gray-100">
-                      <th className="border border-gray-300 p-3 text-left font-bold">Prioridade</th>
-                      <th className="border border-gray-300 p-3 text-left font-bold">Descrição</th>
-                      <th className="border border-gray-300 p-3 text-left font-bold">Regras de SLA</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="bg-red-50">
-                      <td className="border border-gray-300 p-3">
-                        <div className="flex items-center gap-2">
-                          <div className="w-4 h-4 bg-red-500 rounded"></div>
-                          <span className="font-bold text-red-700">Urgente</span>
-                        </div>
-                      </td>
-                      <td className="border border-gray-300 p-3 text-sm">
-                        Situações onde o sistema para de integrar de forma integral, gerando impacto direto no cliente.
-                      </td>
-                      <td className="border border-gray-300 p-3 text-sm">
-                        Tempo para resposta de até <strong>4 horas úteis</strong> e resolução em até{" "}
-                        <strong>8 horas úteis</strong>.
-                      </td>
-                    </tr>
-                    <tr className="bg-orange-50">
-                      <td className="border border-gray-300 p-3">
-                        <div className="flex items-center gap-2">
-                          <div className="w-4 h-4 bg-orange-500 rounded"></div>
-                          <span className="font-bold text-orange-700">Alta</span>
-                        </div>
-                      </td>
-                      <td className="border border-gray-300 p-3 text-sm">
-                        Situações onde o sistema para de integrar de forma parcial, porém gerando impacto moderado no
-                        cliente.
-                      </td>
-                      <td className="border border-gray-300 p-3 text-sm">
-                        Tempo para resposta de até <strong>12 horas úteis</strong> e resolução em até{" "}
-                        <strong>1 dia e meio útil</strong>.
-                      </td>
-                    </tr>
-                    <tr className="bg-yellow-50">
-                      <td className="border border-gray-300 p-3">
-                        <div className="flex items-center gap-2">
-                          <div className="w-4 h-4 bg-yellow-500 rounded"></div>
-                          <span className="font-bold text-yellow-700">Média</span>
-                        </div>
-                      </td>
-                      <td className="border border-gray-300 p-3 text-sm">
-                        Situações onde o sistema integra, porém gerando algum erro nas integrações, causando um impacto
-                        baixo até moderado ao cliente.
-                      </td>
-                      <td className="border border-gray-300 p-3 text-sm">
-                        Tempo de resposta de até <strong>24 horas úteis</strong> e resolução em até{" "}
-                        <strong>2 dias úteis</strong>.
-                      </td>
-                    </tr>
-                    <tr className="bg-blue-50">
-                      <td className="border border-gray-300 p-3">
-                        <div className="flex items-center gap-2">
-                          <div className="w-4 h-4 bg-blue-500 rounded"></div>
-                          <span className="font-bold text-blue-700">Baixa</span>
-                        </div>
-                      </td>
-                      <td className="border border-gray-300 p-3 text-sm">
-                        Situações onde o sistema integra normalmente e sem nenhum relato de erros nas integrações, porém
-                        com algumas melhorias solicitadas pelo cliente.
-                      </td>
-                      <td className="border border-gray-300 p-3 text-sm">
-                        Tempo para resposta de até <strong>48 horas úteis</strong> e aplicação da melhoria ou calibrar
-                        em até <strong>5 dias úteis</strong>.
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              <div className="mt-4 p-3 bg-gray-50 rounded-lg">
-                <p className="text-xs text-gray-600">
-                  <strong>Observação:</strong> Os prazos são contados em dias e horas úteis (Segunda a Sexta, das 8h às
-                  18h, exceto feriados nacionais).
-                </p>
               </div>
             </div>
           </CardContent>
         </Card>
       )}
 
+      {/* Matriz de SLA - Seção separada */}
+      {formData.tipoProjeto === "integracao" && (
+        <Card className="mb-6 matriz-sla-container">
+          <CardHeader>
+            <CardTitle className="text-center">📊 Matriz de Prioridades de SLA</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="overflow-x-auto matriz-sla-table">
+              <table className="w-full border-collapse">
+                <thead>
+                  <tr className="bg-gray-100">
+                    <th className="border border-gray-300 p-3 text-left font-bold">Prioridade</th>
+                    <th className="border border-gray-300 p-3 text-left font-bold">Descrição</th>
+                    <th className="border border-gray-300 p-3 text-left font-bold">Regras de SLA</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="bg-red-50">
+                    <td className="border border-gray-300 p-3">
+                      <div className="flex items-center gap-2">
+                        <div className="w-4 h-4 bg-red-500 rounded"></div>
+                        <span className="font-bold text-red-700">Urgente</span>
+                      </div>
+                    </td>
+                    <td className="border border-gray-300 p-3 text-sm">
+                      Situações onde o sistema para de integrar de forma integral, gerando impacto direto no cliente.
+                    </td>
+                    <td className="border border-gray-300 p-3 text-sm">
+                      Tempo para resposta de até <strong>4 horas úteis</strong> e resolução em até{" "}
+                      <strong>8 horas úteis</strong>.
+                    </td>
+                  </tr>
+                  <tr className="bg-orange-50">
+                    <td className="border border-gray-300 p-3">
+                      <div className="flex items-center gap-2">
+                        <div className="w-4 h-4 bg-orange-500 rounded"></div>
+                        <span className="font-bold text-orange-700">Alta</span>
+                      </div>
+                    </td>
+                    <td className="border border-gray-300 p-3 text-sm">
+                      Situações onde o sistema para de integrar de forma parcial, porém gerando impacto moderado no
+                      cliente.
+                    </td>
+                    <td className="border border-gray-300 p-3 text-sm">
+                      Tempo para resposta de até <strong>12 horas úteis</strong> e resolução em até{" "}
+                      <strong>1 dia e meio útil</strong>.
+                    </td>
+                  </tr>
+                  <tr className="bg-yellow-50">
+                    <td className="border border-gray-300 p-3">
+                      <div className="flex items-center gap-2">
+                        <div className="w-4 h-4 bg-yellow-500 rounded"></div>
+                        <span className="font-bold text-yellow-700">Média</span>
+                      </div>
+                    </td>
+                    <td className="border border-gray-300 p-3 text-sm">
+                      Situações onde o sistema integra, porém gerando algum erro nas integrações, causando um impacto
+                      baixo até moderado ao cliente.
+                    </td>
+                    <td className="border border-gray-300 p-3 text-sm">
+                      Tempo de resposta de até <strong>24 horas úteis</strong> e resolução em até{" "}
+                      <strong>2 dias úteis</strong>.
+                    </td>
+                  </tr>
+                  <tr className="bg-blue-50">
+                    <td className="border border-gray-300 p-3">
+                      <div className="flex items-center gap-2">
+                        <div className="w-4 h-4 bg-blue-500 rounded"></div>
+                        <span className="font-bold text-blue-700">Baixa</span>
+                      </div>
+                    </td>
+                    <td className="border border-gray-300 p-3 text-sm">
+                      Situações onde o sistema integra normalmente e sem nenhum relato de erros nas integrações, porém
+                      com algumas melhorias solicitadas pelo cliente.
+                    </td>
+                    <td className="border border-gray-300 p-3 text-sm">
+                      Tempo para resposta de até <strong>48 horas úteis</strong> e aplicação da melhoria ou calibrar em
+                      até <strong>5 dias úteis</strong>.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+              <p className="text-xs text-gray-600">
+                <strong>Observação:</strong> Os prazos são contados em dias e horas úteis (Segunda a Sexta, das 8h às
+                18h, exceto feriados nacionais).
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Assinaturas */}
-      <Card className="mb-6 assinatura-oc">
+      <Card className="mb-6 assinatura-section">
         <CardHeader>
           <CardTitle>Assinatura da Ordem de Compra</CardTitle>
         </CardHeader>

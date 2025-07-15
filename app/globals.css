@@ -12,6 +12,8 @@
     body {
       -webkit-print-color-adjust: exact;
       color-adjust: exact;
+      font-size: 12px;
+      line-height: 1.4;
     }
 
     .bg-gradient-to-r {
@@ -39,9 +41,9 @@
     /* Mostrar apenas o conteúdo dos campos como texto */
     .print-field {
       display: block !important;
-      font-size: 14px;
+      font-size: 12px;
       line-height: 1.4;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .print-field-label {
@@ -79,7 +81,7 @@
     }
 
     .print-card-title {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 700;
       margin-bottom: 1rem;
       color: #111827;
@@ -105,6 +107,12 @@
       gap: 1rem;
     }
 
+    .print-grid-5 {
+      display: grid !important;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.5rem;
+    }
+
     /* Estilos para listas na impressão */
     .print-list {
       list-style: none;
@@ -114,34 +122,27 @@
 
     .print-list-item {
       margin-bottom: 4px;
-      font-size: 14px;
+      font-size: 12px;
     }
 
     /* Estilos para tabelas na impressão */
     table {
       border-collapse: collapse !important;
       width: 100% !important;
+      font-size: 11px !important;
     }
 
     th,
     td {
       border: 1px solid #d1d5db !important;
-      padding: 8px !important;
+      padding: 6px !important;
       text-align: left !important;
+      vertical-align: top !important;
     }
 
     th {
       background-color: #f3f4f6 !important;
       font-weight: 600 !important;
-    }
-
-    /* Quebras de página */
-    .print-page-break {
-      page-break-before: always;
-    }
-
-    .print-avoid-break {
-      page-break-inside: avoid;
     }
 
     /* Quebras de página estratégicas */
@@ -160,33 +161,64 @@
     /* Seções específicas que devem quebrar página */
     .anexo-escopo {
       page-break-before: always !important;
-      page-break-inside: avoid !important;
     }
 
-    .resumo-financeiro {
+    .anexo-valores {
       page-break-before: always !important;
-      page-break-inside: avoid !important;
     }
 
-    .premissas-cliente {
+    .sla-section {
       page-break-before: always !important;
-      page-break-inside: avoid !important;
     }
 
-    .matriz-sla {
+    .assinatura-section {
       page-break-before: always !important;
-      page-break-inside: avoid !important;
-    }
-
-    .assinatura-oc {
-      page-break-before: always !important;
-      page-break-inside: avoid !important;
     }
 
     /* Evitar quebras em elementos específicos */
     .sla-card,
     .financial-summary,
-    .signature-section {
+    .signature-section,
+    .proximos-passos,
+    .matriz-sla-table {
+      page-break-inside: avoid !important;
+    }
+
+    /* Forçar elementos lado a lado na impressão */
+    .print-side-by-side {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+      gap: 1rem !important;
+      page-break-inside: avoid !important;
+    }
+
+    .print-full-width {
+      grid-column: 1 / -1 !important;
+    }
+
+    /* Estilos específicos para próximos passos */
+    .proximos-passos-container {
+      page-break-inside: avoid !important;
+      margin: 1rem 0 !important;
+    }
+
+    .proximos-passos-grid {
+      display: grid !important;
+      grid-template-columns: repeat(5, 1fr) !important;
+      gap: 0.5rem !important;
+    }
+
+    .proximos-passos-item {
+      text-align: center !important;
+      padding: 0.5rem !important;
+      background: white !important;
+      border: 1px solid #e5e7eb !important;
+      border-radius: 4px !important;
+    }
+
+    /* Matriz SLA específica */
+    .matriz-sla-container {
+      page-break-before: always !important;
       page-break-inside: avoid !important;
     }
   }
