@@ -911,170 +911,161 @@ export default function OrdemCompra() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="print-side-by-side mb-6">
-              {/* Disponibilidade */}
-              <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-xl border border-green-200 sla-card">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center">
-                    <span className="text-white font-bold text-xl">99.5%</span>
+            <div className="sla-complete-section">
+              {/* 4 Cards do SLA lado a lado */}
+              <div className="sla-cards-grid mb-6">
+                {/* Disponibilidade */}
+                <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-xl border border-green-200 sla-card">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center">
+                      <span className="text-white font-bold text-xl">99.5%</span>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-green-800">Disponibilidade Garantida</h4>
+                      <p className="text-sm text-green-600">Uptime do sistema</p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-semibold text-green-800">Disponibilidade Garantida</h4>
-                    <p className="text-sm text-green-600">Uptime do sistema</p>
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      <span className="text-sm">Suporte técnico: 8x5 (Segunda a Sexta, 8h às 18h)</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      <span className="text-sm">Tempo de resposta: 4 horas úteis</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      <span className="text-sm">Resolução de incidentes críticos: 24 horas</span>
+                    </div>
                   </div>
                 </div>
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span className="text-sm">Suporte técnico: 8x5 (Segunda a Sexta, 8h às 18h)</span>
+
+                {/* Premissas */}
+                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-200 sla-card">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center">
+                      <FileText className="w-8 h-8 text-white" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-blue-800">Premissas do Cliente</h4>
+                      <p className="text-sm text-blue-600">Requisitos obrigatórios</p>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span className="text-sm">Tempo de resposta: 4 horas úteis</span>
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      <span className="text-sm">Fornecimento de credenciais de acesso</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      <span className="text-sm">Documentação das APIs disponibilizada</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      <span className="text-sm">Queries de banco prontas (se aplicável)</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      <span className="text-sm">Mapeamento/validação dos campos das APIs</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      <span className="text-sm">Homologação em até 15 dias após entrega</span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span className="text-sm">Resolução de incidentes críticos: 24 horas</span>
+                </div>
+
+                {/* Suporte e Melhorias */}
+                <div className="bg-gradient-to-br from-orange-50 to-amber-50 p-6 rounded-xl border border-orange-200 sla-card">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center">
+                      <span className="text-white font-bold text-xl">⚠️</span>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-orange-800">Suporte e Melhorias</h4>
+                      <p className="text-sm text-orange-600">Regras importantes</p>
+                    </div>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="bg-white p-3 rounded-lg border border-orange-100">
+                      <p className="text-sm font-medium text-orange-800 mb-1">Alterações Pós-Produção:</p>
+                      <p className="text-xs text-orange-700">
+                        Solicitações de alteração em itens ou ambientes já entregues em produção serão tratadas como
+                        melhorias e gerarão custo adicional por hora.
+                      </p>
+                    </div>
+                    <div className="bg-white p-3 rounded-lg border border-orange-100">
+                      <p className="text-sm font-medium text-orange-800 mb-1">Mudanças de Escopo:</p>
+                      <p className="text-xs text-orange-700">
+                        Toda solicitação de mudança dos ambientes, integrações, campos ou componentes será classificada
+                        como melhoria.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Homologação e Entrega */}
+                <div className="bg-gradient-to-br from-purple-50 to-violet-50 p-6 rounded-xl border border-purple-200 sla-card">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center">
+                      <span className="text-white font-bold text-xl">✓</span>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-purple-800">Homologação e Entrega</h4>
+                      <p className="text-sm text-purple-600">Processo de finalização</p>
+                    </div>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="bg-white p-3 rounded-lg border border-purple-100">
+                      <p className="text-sm font-medium text-purple-800 mb-1">Prazo de Homologação:</p>
+                      <p className="text-xs text-purple-700">
+                        A conclusão do projeto só ocorrerá após homologação. Esta deverá acontecer em até 15 dias após a
+                        entrega do desenvolvimento.
+                      </p>
+                    </div>
+                    <div className="bg-white p-3 rounded-lg border border-purple-100">
+                      <p className="text-sm font-medium text-purple-800 mb-1">Prazo de Entrega:</p>
+                      <p className="text-xs text-purple-700">
+                        O prazo de entrega passa a ser contado após kick-off e cumprimento de todas as premissas
+                        listadas.
+                      </p>
+                    </div>
+                    <div className="bg-white p-3 rounded-lg border border-purple-100">
+                      <p className="text-sm font-medium text-purple-800 mb-1">Não Retorno:</p>
+                      <p className="text-xs text-purple-700">
+                        Em caso de não retorno da homologação em 15 dias, o projeto será dado como concluído e entregue.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              {/* Premissas */}
-              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-200 sla-card">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center">
-                    <FileText className="w-8 h-8 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-blue-800">Premissas do Cliente</h4>
-                    <p className="text-sm text-blue-600">Requisitos obrigatórios</p>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <span className="text-sm">Fornecimento de credenciais de acesso</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <span className="text-sm">Documentação das APIs disponibilizada</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <span className="text-sm">Queries de banco prontas (se aplicável)</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <span className="text-sm">Mapeamento/validação dos campos das APIs</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <span className="text-sm">Homologação em até 15 dias após entrega</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Pontos Importantes */}
-            <div className="print-side-by-side mb-6">
-              {/* Suporte e Melhorias */}
-              <div className="bg-gradient-to-br from-orange-50 to-amber-50 p-6 rounded-xl border border-orange-200 sla-card">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center">
-                    <span className="text-white font-bold text-xl">⚠️</span>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-orange-800">Suporte e Melhorias</h4>
-                    <p className="text-sm text-orange-600">Regras importantes</p>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <div className="bg-white p-3 rounded-lg border border-orange-100">
-                    <p className="text-sm font-medium text-orange-800 mb-1">Alterações Pós-Produção:</p>
-                    <p className="text-xs text-orange-700">
-                      Solicitações de alteração em itens ou ambientes já entregues em produção serão tratadas como
-                      melhorias e gerarão custo adicional por hora.
-                    </p>
-                  </div>
-                  <div className="bg-white p-3 rounded-lg border border-orange-100">
-                    <p className="text-sm font-medium text-orange-800 mb-1">Mudanças de Escopo:</p>
-                    <p className="text-xs text-orange-700">
-                      Toda solicitação de mudança dos ambientes, integrações, campos ou componentes será classificada
-                      como melhoria.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Homologação e Entrega */}
-              <div className="bg-gradient-to-br from-purple-50 to-violet-50 p-6 rounded-xl border border-purple-200 sla-card">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center">
-                    <span className="text-white font-bold text-xl">✓</span>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-purple-800">Homologação e Entrega</h4>
-                    <p className="text-sm text-purple-600">Processo de finalização</p>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <div className="bg-white p-3 rounded-lg border border-purple-100">
-                    <p className="text-sm font-medium text-purple-800 mb-1">Prazo de Homologação:</p>
-                    <p className="text-xs text-purple-700">
-                      A conclusão do projeto só ocorrerá após homologação. Esta deverá acontecer em até 15 dias após a
-                      entrega do desenvolvimento.
-                    </p>
-                  </div>
-                  <div className="bg-white p-3 rounded-lg border border-purple-100">
-                    <p className="text-sm font-medium text-purple-800 mb-1">Prazo de Entrega:</p>
-                    <p className="text-xs text-purple-700">
-                      O prazo de entrega passa a ser contado após kick-off e cumprimento de todas as premissas listadas.
-                    </p>
-                  </div>
-                  <div className="bg-white p-3 rounded-lg border border-purple-100">
-                    <p className="text-sm font-medium text-purple-800 mb-1">Não Retorno:</p>
-                    <p className="text-xs text-purple-700">
-                      Em caso de não retorno da homologação em 15 dias, o projeto será dado como concluído e entregue.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Resumo dos Próximos Passos */}
-            <div className="proximos-passos-container print-full-width">
-              <div className="bg-gradient-to-r from-gray-50 to-gray-100 p-6 rounded-xl border-2 border-gray-200">
-                <h4 className="font-bold text-lg mb-4 text-center text-gray-800">📋 Próximos Passos</h4>
-                <div className="proximos-passos-grid">
-                  <div className="proximos-passos-item">
-                    <div className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
-                      1
+              {/* Resumo dos Próximos Passos - CORRIGIDO */}
+              <div className="proximos-passos-container">
+                <div className="bg-gradient-to-r from-gray-50 to-gray-100 p-6 rounded-xl border-2 border-gray-200">
+                  <h4 className="font-bold text-lg mb-4 text-center text-gray-800">📋 Próximos Passos</h4>
+                  <div className="proximos-passos-grid">
+                    <div className="proximos-passos-item">
+                      <div className="step-number">1</div>
+                      <div className="step-text">Assinatura da OC</div>
                     </div>
-                    <div className="text-xs font-medium">Assinatura da OC</div>
-                  </div>
-                  <div className="proximos-passos-item">
-                    <div className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
-                      2
+                    <div className="proximos-passos-item">
+                      <div className="step-number">2</div>
+                      <div className="step-text">Kick-off</div>
                     </div>
-                    <div className="text-xs font-medium">Kick-off</div>
-                  </div>
-                  <div className="proximos-passos-item">
-                    <div className="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
-                      3
+                    <div className="proximos-passos-item">
+                      <div className="step-number">3</div>
+                      <div className="step-text">Desenvolvimento</div>
                     </div>
-                    <div className="text-xs font-medium">Desenvolvimento</div>
-                  </div>
-                  <div className="proximos-passos-item">
-                    <div className="w-8 h-8 bg-purple-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
-                      4
+                    <div className="proximos-passos-item">
+                      <div className="step-number">4</div>
+                      <div className="step-text">Homologação</div>
                     </div>
-                    <div className="text-xs font-medium">Homologação</div>
-                  </div>
-                  <div className="proximos-passos-item">
-                    <div className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
-                      5
+                    <div className="proximos-passos-item">
+                      <div className="step-number">5</div>
+                      <div className="step-text">Entrega Final</div>
                     </div>
-                    <div className="text-xs font-medium">Entrega Final</div>
                   </div>
                 </div>
               </div>
