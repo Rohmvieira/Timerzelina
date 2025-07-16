@@ -103,6 +103,8 @@ export default function OrdemCompra() {
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white">
+      {/* PÁGINA 1: Cabeçalho até Responsável Técnico */}
+
       {/* Cabeçalho */}
       <div className="text-center mb-8">
         <div className="bg-gradient-to-r from-red-600 to-red-700 text-white p-6 rounded-lg mb-6">
@@ -342,13 +344,13 @@ export default function OrdemCompra() {
         </CardContent>
       </Card>
 
-      {/* Responsáveis */}
-      <Card className="mb-6">
+      {/* Responsáveis - Final da Página 1 */}
+      <Card className="mb-6 page-1-end">
         <CardHeader>
           <CardTitle>Responsável Técnico</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-3 gap-4 print:hidden">
             <div>
               <Label htmlFor="nomeResponsavelTecnico">Nome</Label>
               <Input
@@ -377,8 +379,26 @@ export default function OrdemCompra() {
               />
             </div>
           </div>
+
+          {/* Versão para impressão */}
+          <div className="hidden print:block print-grid-3">
+            <div className="print-field">
+              <span className="print-field-label">Nome:</span>
+              <span className="print-field-value">{formData.nomeResponsavelTecnico || "Não informado"}</span>
+            </div>
+            <div className="print-field">
+              <span className="print-field-label">Telefone:</span>
+              <span className="print-field-value">{formData.telefoneResponsavelTecnico || "Não informado"}</span>
+            </div>
+            <div className="print-field">
+              <span className="print-field-label">E-mail:</span>
+              <span className="print-field-value">{formData.emailResponsavelTecnico || "Não informado"}</span>
+            </div>
+          </div>
         </CardContent>
       </Card>
+
+      {/* PÁGINA 2: Anexo I e II */}
 
       {/* Anexo I - Escopo */}
       <Card className="mb-6">
@@ -650,8 +670,8 @@ export default function OrdemCompra() {
         </CardContent>
       </Card>
 
-      {/* Anexo II - Valores */}
-      <Card className="mb-6">
+      {/* Anexo II - Valores - Final da Página 2 */}
+      <Card className="mb-6 page-2-end">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <DollarSign className="h-5 w-5" />
@@ -901,9 +921,9 @@ export default function OrdemCompra() {
         </CardContent>
       </Card>
 
-      {/* Matriz de SLA - Logo após resumo financeiro */}
+      {/* PÁGINA 3: Matriz de SLA apenas */}
       {formData.tipoProjeto === "integracao" && (
-        <Card className="mb-6">
+        <Card className="mb-6 page-3-end">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <CalendarDays className="h-5 w-5" />📊 Matriz de Prioridades de SLA
@@ -997,290 +1017,293 @@ export default function OrdemCompra() {
         </Card>
       )}
 
-      {/* Acordo de Nível de Serviço - Logo após matriz de SLA */}
+      {/* PÁGINA 4: Acordo de Nível de Serviço e Próximos Passos */}
       {formData.tipoProjeto === "integracao" && (
-        <Card className="mb-6">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <CalendarDays className="h-5 w-5" />
-              Acordo de Nível de Serviço (SLA)
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {/* Versão para tela */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 print:hidden">
-              {/* Premissas */}
-              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-200">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center">
-                    <FileText className="w-8 h-8 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-blue-800">Premissas do Cliente</h4>
-                    <p className="text-sm text-blue-600">Requisitos obrigatórios</p>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <span className="text-sm">Fornecimento de credenciais de acesso</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <span className="text-sm">Documentação das APIs disponibilizada</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <span className="text-sm">Queries de banco prontas (se aplicável)</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <span className="text-sm">Mapeamento/validação dos campos das APIs</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <span className="text-sm">Homologação em até 15 dias após entrega</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Suporte e Melhorias */}
-              <div className="bg-gradient-to-br from-orange-50 to-amber-50 p-6 rounded-xl border border-orange-200">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center">
-                    <span className="text-white font-bold text-xl">⚠️</span>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-orange-800">Suporte e Melhorias</h4>
-                    <p className="text-sm text-orange-600">Regras importantes</p>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <div className="bg-white p-3 rounded-lg border border-orange-100">
-                    <p className="text-sm font-medium text-orange-800 mb-1">Alterações Pós-Produção:</p>
-                    <p className="text-xs text-orange-700">
-                      Solicitações de alteração em itens ou ambientes já entregues em produção serão tratadas como
-                      melhorias e gerarão custo adicional por hora.
-                    </p>
-                  </div>
-                  <div className="bg-white p-3 rounded-lg border border-orange-100">
-                    <p className="text-sm font-medium text-orange-800 mb-1">Mudanças de Escopo:</p>
-                    <p className="text-xs text-orange-700">
-                      Toda solicitação de mudança dos ambientes, integrações, campos ou componentes será classificada
-                      como melhoria.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Homologação e Entrega */}
-              <div className="bg-gradient-to-br from-purple-50 to-violet-50 p-6 rounded-xl border border-purple-200">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center">
-                    <span className="text-white font-bold text-xl">✓</span>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-purple-800">Homologação e Entrega</h4>
-                    <p className="text-sm text-purple-600">Processo de finalização</p>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <div className="bg-white p-3 rounded-lg border border-purple-100">
-                    <p className="text-sm font-medium text-purple-800 mb-1">Prazo de Homologação:</p>
-                    <p className="text-xs text-purple-700">
-                      A conclusão do projeto só ocorrerá após homologação. Esta deverá acontecer em até 15 dias após a
-                      entrega do desenvolvimento.
-                    </p>
-                  </div>
-                  <div className="bg-white p-3 rounded-lg border border-purple-100">
-                    <p className="text-sm font-medium text-purple-800 mb-1">Prazo de Entrega:</p>
-                    <p className="text-xs text-purple-700">
-                      O prazo de entrega passa a ser contado após kick-off e cumprimento de todas as premissas listadas.
-                    </p>
-                  </div>
-                  <div className="bg-white p-3 rounded-lg border border-purple-100">
-                    <p className="text-sm font-medium text-purple-800 mb-1">Não Retorno:</p>
-                    <p className="text-xs text-purple-700">
-                      Em caso de não retorno da homologação em 15 dias, o projeto será dado como concluído e entregue.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Versão para impressão */}
-            <div className="hidden print:block print-sla-container">
-              {/* Premissas do Cliente */}
-              <div className="print-sla-card blue">
-                <div className="print-sla-header">
-                  <div className="print-sla-icon blue">📄</div>
-                  <div>
-                    <div className="print-sla-title blue">Premissas do Cliente</div>
-                    <div className="print-sla-subtitle">Requisitos obrigatórios</div>
-                  </div>
-                </div>
-                <div className="print-sla-content">
-                  <ul className="print-sla-list">
-                    <li className="print-sla-list-item">
-                      <div className="print-sla-bullet blue"></div>
-                      <span>Fornecimento de credenciais de acesso</span>
-                    </li>
-                    <li className="print-sla-list-item">
-                      <div className="print-sla-bullet blue"></div>
-                      <span>Documentação das APIs disponibilizada</span>
-                    </li>
-                    <li className="print-sla-list-item">
-                      <div className="print-sla-bullet blue"></div>
-                      <span>Queries de banco prontas (se aplicável)</span>
-                    </li>
-                    <li className="print-sla-list-item">
-                      <div className="print-sla-bullet blue"></div>
-                      <span>Mapeamento/validação dos campos das APIs</span>
-                    </li>
-                    <li className="print-sla-list-item">
-                      <div className="print-sla-bullet blue"></div>
-                      <span>Homologação em até 15 dias após entrega</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              {/* Suporte e Melhorias */}
-              <div className="print-sla-card orange">
-                <div className="print-sla-header">
-                  <div className="print-sla-icon orange">⚠</div>
-                  <div>
-                    <div className="print-sla-title orange">Suporte e Melhorias</div>
-                    <div className="print-sla-subtitle">Regras importantes</div>
-                  </div>
-                </div>
-                <div className="print-sla-content">
-                  <div className="print-sla-section">
-                    <div className="print-sla-section-title">Alterações Pós-Produção:</div>
-                    <div className="print-sla-section-content">
-                      Solicitações de alteração em itens ou ambientes já entregues em produção serão tratadas como
-                      melhorias e gerarão custo adicional por hora.
+        <>
+          {/* Acordo de Nível de Serviço */}
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <CalendarDays className="h-5 w-5" />
+                Acordo de Nível de Serviço (SLA)
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {/* Versão para tela */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 print:hidden">
+                {/* Premissas */}
+                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-200">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center">
+                      <FileText className="w-8 h-8 text-white" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-blue-800">Premissas do Cliente</h4>
+                      <p className="text-sm text-blue-600">Requisitos obrigatórios</p>
                     </div>
                   </div>
-                  <div className="print-sla-section">
-                    <div className="print-sla-section-title">Mudanças de Escopo:</div>
-                    <div className="print-sla-section-content">
-                      Toda solicitação de mudança dos ambientes, integrações, campos ou componentes será classificada
-                      como melhoria.
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      <span className="text-sm">Fornecimento de credenciais de acesso</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      <span className="text-sm">Documentação das APIs disponibilizada</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      <span className="text-sm">Queries de banco prontas (se aplicável)</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      <span className="text-sm">Mapeamento/validação dos campos das APIs</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      <span className="text-sm">Homologação em até 15 dias após entrega</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Suporte e Melhorias */}
+                <div className="bg-gradient-to-br from-orange-50 to-amber-50 p-6 rounded-xl border border-orange-200">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center">
+                      <span className="text-white font-bold text-xl">⚠️</span>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-orange-800">Suporte e Melhorias</h4>
+                      <p className="text-sm text-orange-600">Regras importantes</p>
+                    </div>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="bg-white p-3 rounded-lg border border-orange-100">
+                      <p className="text-sm font-medium text-orange-800 mb-1">Alterações Pós-Produção:</p>
+                      <p className="text-xs text-orange-700">
+                        Solicitações de alteração em itens ou ambientes já entregues em produção serão tratadas como
+                        melhorias e gerarão custo adicional por hora.
+                      </p>
+                    </div>
+                    <div className="bg-white p-3 rounded-lg border border-orange-100">
+                      <p className="text-sm font-medium text-orange-800 mb-1">Mudanças de Escopo:</p>
+                      <p className="text-xs text-orange-700">
+                        Toda solicitação de mudança dos ambientes, integrações, campos ou componentes será classificada
+                        como melhoria.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Homologação e Entrega */}
+                <div className="bg-gradient-to-br from-purple-50 to-violet-50 p-6 rounded-xl border border-purple-200">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center">
+                      <span className="text-white font-bold text-xl">✓</span>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-purple-800">Homologação e Entrega</h4>
+                      <p className="text-sm text-purple-600">Processo de finalização</p>
+                    </div>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="bg-white p-3 rounded-lg border border-purple-100">
+                      <p className="text-sm font-medium text-purple-800 mb-1">Prazo de Homologação:</p>
+                      <p className="text-xs text-purple-700">
+                        A conclusão do projeto só ocorrerá após homologação. Esta deverá acontecer em até 15 dias após a
+                        entrega do desenvolvimento.
+                      </p>
+                    </div>
+                    <div className="bg-white p-3 rounded-lg border border-purple-100">
+                      <p className="text-sm font-medium text-purple-800 mb-1">Prazo de Entrega:</p>
+                      <p className="text-xs text-purple-700">
+                        O prazo de entrega passa a ser contado após kick-off e cumprimento de todas as premissas
+                        listadas.
+                      </p>
+                    </div>
+                    <div className="bg-white p-3 rounded-lg border border-purple-100">
+                      <p className="text-sm font-medium text-purple-800 mb-1">Não Retorno:</p>
+                      <p className="text-xs text-purple-700">
+                        Em caso de não retorno da homologação em 15 dias, o projeto será dado como concluído e entregue.
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Homologação e Entrega */}
-              <div className="print-sla-card purple">
-                <div className="print-sla-header">
-                  <div className="print-sla-icon purple">✓</div>
-                  <div>
-                    <div className="print-sla-title purple">Homologação e Entrega</div>
-                    <div className="print-sla-subtitle">Processo de finalização</div>
+              {/* Versão para impressão */}
+              <div className="hidden print:block print-sla-container">
+                {/* Premissas do Cliente */}
+                <div className="print-sla-card blue">
+                  <div className="print-sla-header">
+                    <div className="print-sla-icon blue">📄</div>
+                    <div>
+                      <div className="print-sla-title blue">Premissas do Cliente</div>
+                      <div className="print-sla-subtitle">Requisitos obrigatórios</div>
+                    </div>
+                  </div>
+                  <div className="print-sla-content">
+                    <ul className="print-sla-list">
+                      <li className="print-sla-list-item">
+                        <div className="print-sla-bullet blue"></div>
+                        <span>Fornecimento de credenciais de acesso</span>
+                      </li>
+                      <li className="print-sla-list-item">
+                        <div className="print-sla-bullet blue"></div>
+                        <span>Documentação das APIs disponibilizada</span>
+                      </li>
+                      <li className="print-sla-list-item">
+                        <div className="print-sla-bullet blue"></div>
+                        <span>Queries de banco prontas (se aplicável)</span>
+                      </li>
+                      <li className="print-sla-list-item">
+                        <div className="print-sla-bullet blue"></div>
+                        <span>Mapeamento/validação dos campos das APIs</span>
+                      </li>
+                      <li className="print-sla-list-item">
+                        <div className="print-sla-bullet blue"></div>
+                        <span>Homologação em até 15 dias após entrega</span>
+                      </li>
+                    </ul>
                   </div>
                 </div>
-                <div className="print-sla-content">
-                  <div className="print-sla-purple-section">
-                    <div className="print-sla-purple-title">Prazo de Homologação:</div>
-                    <div className="print-sla-purple-content">
-                      A conclusão do projeto só ocorrerá após homologação. Esta deverá acontecer em até 15 dias após a
-                      entrega do desenvolvimento.
+
+                {/* Suporte e Melhorias */}
+                <div className="print-sla-card orange">
+                  <div className="print-sla-header">
+                    <div className="print-sla-icon orange">⚠</div>
+                    <div>
+                      <div className="print-sla-title orange">Suporte e Melhorias</div>
+                      <div className="print-sla-subtitle">Regras importantes</div>
                     </div>
                   </div>
-                  <div className="print-sla-purple-section">
-                    <div className="print-sla-purple-title">Prazo de Entrega:</div>
-                    <div className="print-sla-purple-content">
-                      O prazo de entrega passa a ser contado após kick-off e cumprimento de todas as premissas listadas.
+                  <div className="print-sla-content">
+                    <div className="print-sla-section">
+                      <div className="print-sla-section-title">Alterações Pós-Produção:</div>
+                      <div className="print-sla-section-content">
+                        Solicitações de alteração em itens ou ambientes já entregues em produção serão tratadas como
+                        melhorias e gerarão custo adicional por hora.
+                      </div>
+                    </div>
+                    <div className="print-sla-section">
+                      <div className="print-sla-section-title">Mudanças de Escopo:</div>
+                      <div className="print-sla-section-content">
+                        Toda solicitação de mudança dos ambientes, integrações, campos ou componentes será classificada
+                        como melhoria.
+                      </div>
                     </div>
                   </div>
-                  <div className="print-sla-purple-section">
-                    <div className="print-sla-purple-title">Não Retorno:</div>
-                    <div className="print-sla-purple-content">
-                      Em caso de não retorno da homologação em 15 dias, o projeto será dado como concluído e entregue.
+                </div>
+
+                {/* Homologação e Entrega */}
+                <div className="print-sla-card purple">
+                  <div className="print-sla-header">
+                    <div className="print-sla-icon purple">✓</div>
+                    <div>
+                      <div className="print-sla-title purple">Homologação e Entrega</div>
+                      <div className="print-sla-subtitle">Processo de finalização</div>
+                    </div>
+                  </div>
+                  <div className="print-sla-content">
+                    <div className="print-sla-purple-section">
+                      <div className="print-sla-purple-title">Prazo de Homologação:</div>
+                      <div className="print-sla-purple-content">
+                        A conclusão do projeto só ocorrerá após homologação. Esta deverá acontecer em até 15 dias após a
+                        entrega do desenvolvimento.
+                      </div>
+                    </div>
+                    <div className="print-sla-purple-section">
+                      <div className="print-sla-purple-title">Prazo de Entrega:</div>
+                      <div className="print-sla-purple-content">
+                        O prazo de entrega passa a ser contado após kick-off e cumprimento de todas as premissas
+                        listadas.
+                      </div>
+                    </div>
+                    <div className="print-sla-purple-section">
+                      <div className="print-sla-purple-title">Não Retorno:</div>
+                      <div className="print-sla-purple-content">
+                        Em caso de não retorno da homologação em 15 dias, o projeto será dado como concluído e entregue.
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+
+          {/* Próximos Passos - Final da Página 4 */}
+          <Card className="mb-6 page-4-end">
+            <CardHeader>
+              <CardTitle className="text-center">📋 Próximos Passos</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {/* Versão para tela */}
+              <div className="bg-gradient-to-r from-gray-50 to-gray-100 p-6 rounded-xl border-2 border-gray-200 print:hidden">
+                <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+                  <div className="text-center p-3 bg-white rounded-lg shadow-sm">
+                    <div className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
+                      1
+                    </div>
+                    <div className="text-xs font-medium">Assinatura da OC</div>
+                  </div>
+                  <div className="text-center p-3 bg-white rounded-lg shadow-sm">
+                    <div className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
+                      2
+                    </div>
+                    <div className="text-xs font-medium">Kick-off</div>
+                  </div>
+                  <div className="text-center p-3 bg-white rounded-lg shadow-sm">
+                    <div className="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
+                      3
+                    </div>
+                    <div className="text-xs font-medium">Desenvolvimento</div>
+                  </div>
+                  <div className="text-center p-3 bg-white rounded-lg shadow-sm">
+                    <div className="w-8 h-8 bg-purple-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
+                      4
+                    </div>
+                    <div className="text-xs font-medium">Homologação</div>
+                  </div>
+                  <div className="text-center p-3 bg-white rounded-lg shadow-sm">
+                    <div className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
+                      5
+                    </div>
+                    <div className="text-xs font-medium">Entrega Final</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Versão para impressão */}
+              <div className="hidden print:block print-steps-container">
+                <div className="print-steps-grid">
+                  <div className="print-step-item">
+                    <div className="print-step-circle step-1">1</div>
+                    <div className="print-step-label">Assinatura da OC</div>
+                  </div>
+                  <div className="print-step-item">
+                    <div className="print-step-circle step-2">2</div>
+                    <div className="print-step-label">Kick-off</div>
+                  </div>
+                  <div className="print-step-item">
+                    <div className="print-step-circle step-3">3</div>
+                    <div className="print-step-label">Desenvolvimento</div>
+                  </div>
+                  <div className="print-step-item">
+                    <div className="print-step-circle step-4">4</div>
+                    <div className="print-step-label">Homologação</div>
+                  </div>
+                  <div className="print-step-item">
+                    <div className="print-step-circle step-5">5</div>
+                    <div className="print-step-label">Entrega Final</div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </>
       )}
 
-      {/* Próximos Passos - Por último */}
-      {formData.tipoProjeto === "integracao" && (
-        <Card className="mb-6">
-          <CardHeader>
-            <CardTitle className="text-center">📋 Próximos Passos</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {/* Versão para tela */}
-            <div className="bg-gradient-to-r from-gray-50 to-gray-100 p-6 rounded-xl border-2 border-gray-200 print:hidden">
-              <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-                <div className="text-center p-3 bg-white rounded-lg shadow-sm">
-                  <div className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
-                    1
-                  </div>
-                  <div className="text-xs font-medium">Assinatura da OC</div>
-                </div>
-                <div className="text-center p-3 bg-white rounded-lg shadow-sm">
-                  <div className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
-                    2
-                  </div>
-                  <div className="text-xs font-medium">Kick-off</div>
-                </div>
-                <div className="text-center p-3 bg-white rounded-lg shadow-sm">
-                  <div className="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
-                    3
-                  </div>
-                  <div className="text-xs font-medium">Desenvolvimento</div>
-                </div>
-                <div className="text-center p-3 bg-white rounded-lg shadow-sm">
-                  <div className="w-8 h-8 bg-purple-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
-                    4
-                  </div>
-                  <div className="text-xs font-medium">Homologação</div>
-                </div>
-                <div className="text-center p-3 bg-white rounded-lg shadow-sm">
-                  <div className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
-                    5
-                  </div>
-                  <div className="text-xs font-medium">Entrega Final</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Versão para impressão */}
-            <div className="hidden print:block print-steps-container">
-              <div className="print-steps-grid">
-                <div className="print-step-item">
-                  <div className="print-step-circle step-1">1</div>
-                  <div className="print-step-label">Assinatura da OC</div>
-                </div>
-                <div className="print-step-item">
-                  <div className="print-step-circle step-2">2</div>
-                  <div className="print-step-label">Kick-off</div>
-                </div>
-                <div className="print-step-item">
-                  <div className="print-step-circle step-3">3</div>
-                  <div className="print-step-label">Desenvolvimento</div>
-                </div>
-                <div className="print-step-item">
-                  <div className="print-step-circle step-4">4</div>
-                  <div className="print-step-label">Homologação</div>
-                </div>
-                <div className="print-step-item">
-                  <div className="print-step-circle step-5">5</div>
-                  <div className="print-step-label">Entrega Final</div>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Assinaturas */}
+      {/* PÁGINA 5: Assinaturas */}
       <Card className="mb-6">
         <CardHeader>
           <CardTitle>Assinatura da Ordem de Compra</CardTitle>

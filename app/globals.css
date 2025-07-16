@@ -135,13 +135,34 @@
       font-weight: 600 !important;
     }
 
-    /* Quebras de página */
-    .print-page-break {
-      page-break-before: always;
+    /* QUEBRAS DE PÁGINA ESPECÍFICAS */
+
+    /* Página 1: Cabeçalho até Responsável Técnico */
+    .page-1-end {
+      page-break-after: always !important;
     }
 
+    /* Página 2: Anexo I e II */
+    .page-2-end {
+      page-break-after: always !important;
+    }
+
+    /* Página 3: Matriz de SLA apenas */
+    .page-3-end {
+      page-break-after: always !important;
+    }
+
+    /* Página 4: Nível de Serviço e Próximos Passos */
+    .page-4-end {
+      page-break-after: always !important;
+    }
+
+    /* Página 5: Assinatura */
+    /* Sem quebra após a última página */
+
+    /* Evitar quebras dentro dos elementos */
     .print-avoid-break {
-      page-break-inside: avoid;
+      page-break-inside: avoid !important;
     }
 
     /* Estilos específicos para SLA na impressão */
