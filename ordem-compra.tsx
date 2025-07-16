@@ -105,7 +105,7 @@ export default function OrdemCompra() {
     <div className="max-w-4xl mx-auto p-6 bg-white">
       {/* Cabeçalho */}
       <div className="text-center mb-8">
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 rounded-lg mb-6">
+        <div className="bg-gradient-to-r from-red-600 to-red-700 text-white p-6 rounded-lg mb-6">
           <h1 className="text-3xl font-bold mb-2">ORDEM DE COMPRA</h1>
           <p className="text-lg">TIVIT DevAPI - Plataforma de Integração de Sistemas</p>
         </div>
