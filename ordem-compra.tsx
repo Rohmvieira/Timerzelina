@@ -381,7 +381,7 @@ export default function OrdemCompra() {
       </Card>
 
       {/* Anexo I - Escopo */}
-      <Card className="mb-6 anexo-escopo">
+      <Card className="mb-6">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <FileText className="h-5 w-5" />
@@ -651,7 +651,7 @@ export default function OrdemCompra() {
       </Card>
 
       {/* Anexo II - Valores */}
-      <Card className="mb-6 anexo-valores">
+      <Card className="mb-6">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <DollarSign className="h-5 w-5" />
@@ -748,7 +748,7 @@ export default function OrdemCompra() {
 
               <Separator className="my-4" />
 
-              <div className="bg-gradient-to-r from-gray-50 to-gray-100 p-6 rounded-xl border-2 border-gray-200 resumo-financeiro">
+              <div className="bg-gradient-to-r from-gray-50 to-gray-100 p-6 rounded-xl border-2 border-gray-200">
                 <h4 className="font-bold text-lg mb-4 text-center text-gray-800">💰 Resumo Financeiro</h4>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="text-center p-4 bg-white rounded-lg shadow-sm">
@@ -864,7 +864,7 @@ export default function OrdemCompra() {
                 </div>
               </div>
 
-              <div className="bg-gradient-to-r from-gray-50 to-gray-100 p-6 rounded-xl border-2 border-gray-200 resumo-financeiro">
+              <div className="bg-gradient-to-r from-gray-50 to-gray-100 p-6 rounded-xl border-2 border-gray-200">
                 <h4 className="font-bold text-lg mb-4 text-center text-gray-800">💰 Resumo Financeiro</h4>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="text-center p-4 bg-white rounded-lg shadow-sm">
@@ -901,243 +901,16 @@ export default function OrdemCompra() {
         </CardContent>
       </Card>
 
-      {/* SLA - Apenas para Integração - TUDO EM UMA PÁGINA */}
+      {/* Matriz de SLA - Logo após resumo financeiro */}
       {formData.tipoProjeto === "integracao" && (
-        <Card className="mb-6 sla-section">
+        <Card className="mb-6">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <CalendarDays className="h-5 w-5" />
-              Acordo de Nível de Serviço (SLA)
+              <CalendarDays className="h-5 w-5" />📊 Matriz de Prioridades de SLA
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="sla-complete-section">
-              {/* 4 Cards do SLA compactos */}
-              <div className="sla-cards-container">
-                {/* Disponibilidade */}
-                <div className="sla-card-compact" style={{ backgroundColor: "#f0fdf4", borderColor: "#16a34a" }}>
-                  <div className="sla-card-header">
-                    <div className="sla-card-icon" style={{ backgroundColor: "#16a34a" }}>
-                      99.5%
-                    </div>
-                    <div>
-                      <h4 className="sla-card-title" style={{ color: "#15803d" }}>
-                        Disponibilidade Garantida
-                      </h4>
-                      <p className="sla-card-subtitle" style={{ color: "#16a34a" }}>
-                        Uptime do sistema
-                      </p>
-                    </div>
-                  </div>
-                  <div className="sla-card-content">
-                    <div className="sla-card-item">
-                      <div className="sla-card-bullet" style={{ backgroundColor: "#16a34a" }}></div>
-                      <span>Suporte técnico: 8x5 (Segunda a Sexta, 8h às 18h)</span>
-                    </div>
-                    <div className="sla-card-item">
-                      <div className="sla-card-bullet" style={{ backgroundColor: "#16a34a" }}></div>
-                      <span>Tempo de resposta: 4 horas úteis</span>
-                    </div>
-                    <div className="sla-card-item">
-                      <div className="sla-card-bullet" style={{ backgroundColor: "#16a34a" }}></div>
-                      <span>Resolução de incidentes críticos: 24 horas</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Premissas */}
-                <div className="sla-card-compact" style={{ backgroundColor: "#eff6ff", borderColor: "#3b82f6" }}>
-                  <div className="sla-card-header">
-                    <div className="sla-card-icon" style={{ backgroundColor: "#3b82f6" }}>
-                      <FileText className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <h4 className="sla-card-title" style={{ color: "#1d4ed8" }}>
-                        Premissas do Cliente
-                      </h4>
-                      <p className="sla-card-subtitle" style={{ color: "#3b82f6" }}>
-                        Requisitos obrigatórios
-                      </p>
-                    </div>
-                  </div>
-                  <div className="sla-card-content">
-                    <div className="sla-card-item">
-                      <div className="sla-card-bullet" style={{ backgroundColor: "#3b82f6" }}></div>
-                      <span>Fornecimento de credenciais de acesso</span>
-                    </div>
-                    <div className="sla-card-item">
-                      <div className="sla-card-bullet" style={{ backgroundColor: "#3b82f6" }}></div>
-                      <span>Documentação das APIs disponibilizada</span>
-                    </div>
-                    <div className="sla-card-item">
-                      <div className="sla-card-bullet" style={{ backgroundColor: "#3b82f6" }}></div>
-                      <span>Queries de banco prontas (se aplicável)</span>
-                    </div>
-                    <div className="sla-card-item">
-                      <div className="sla-card-bullet" style={{ backgroundColor: "#3b82f6" }}></div>
-                      <span>Mapeamento/validação dos campos das APIs</span>
-                    </div>
-                    <div className="sla-card-item">
-                      <div className="sla-card-bullet" style={{ backgroundColor: "#3b82f6" }}></div>
-                      <span>Homologação em até 15 dias após entrega</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Suporte e Melhorias */}
-                <div className="sla-card-compact" style={{ backgroundColor: "#fffbeb", borderColor: "#f59e0b" }}>
-                  <div className="sla-card-header">
-                    <div className="sla-card-icon" style={{ backgroundColor: "#f59e0b" }}>
-                      ⚠️
-                    </div>
-                    <div>
-                      <h4 className="sla-card-title" style={{ color: "#d97706" }}>
-                        Suporte e Melhorias
-                      </h4>
-                      <p className="sla-card-subtitle" style={{ color: "#f59e0b" }}>
-                        Regras importantes
-                      </p>
-                    </div>
-                  </div>
-                  <div className="sla-card-content">
-                    <div
-                      style={{
-                        backgroundColor: "white",
-                        padding: "0.5rem",
-                        borderRadius: "4px",
-                        marginBottom: "0.5rem",
-                        border: "1px solid #fed7aa",
-                      }}
-                    >
-                      <p style={{ fontSize: "9px", fontWeight: "600", color: "#d97706", marginBottom: "0.25rem" }}>
-                        Alterações Pós-Produção:
-                      </p>
-                      <p style={{ fontSize: "8px", color: "#ea580c" }}>
-                        Solicitações de alteração em itens já entregues serão tratadas como melhorias.
-                      </p>
-                    </div>
-                    <div
-                      style={{
-                        backgroundColor: "white",
-                        padding: "0.5rem",
-                        borderRadius: "4px",
-                        border: "1px solid #fed7aa",
-                      }}
-                    >
-                      <p style={{ fontSize: "9px", fontWeight: "600", color: "#d97706", marginBottom: "0.25rem" }}>
-                        Mudanças de Escopo:
-                      </p>
-                      <p style={{ fontSize: "8px", color: "#ea580c" }}>
-                        Toda mudança de ambientes, integrações ou componentes será classificada como melhoria.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Homologação e Entrega */}
-                <div className="sla-card-compact" style={{ backgroundColor: "#faf5ff", borderColor: "#a855f7" }}>
-                  <div className="sla-card-header">
-                    <div className="sla-card-icon" style={{ backgroundColor: "#a855f7" }}>
-                      ✓
-                    </div>
-                    <div>
-                      <h4 className="sla-card-title" style={{ color: "#7c3aed" }}>
-                        Homologação e Entrega
-                      </h4>
-                      <p className="sla-card-subtitle" style={{ color: "#a855f7" }}>
-                        Processo de finalização
-                      </p>
-                    </div>
-                  </div>
-                  <div className="sla-card-content">
-                    <div
-                      style={{
-                        backgroundColor: "white",
-                        padding: "0.5rem",
-                        borderRadius: "4px",
-                        marginBottom: "0.25rem",
-                        border: "1px solid #e9d5ff",
-                      }}
-                    >
-                      <p style={{ fontSize: "9px", fontWeight: "600", color: "#7c3aed", marginBottom: "0.25rem" }}>
-                        Prazo de Homologação:
-                      </p>
-                      <p style={{ fontSize: "8px", color: "#8b5cf6" }}>Conclusão só após homologação em até 15 dias.</p>
-                    </div>
-                    <div
-                      style={{
-                        backgroundColor: "white",
-                        padding: "0.5rem",
-                        borderRadius: "4px",
-                        marginBottom: "0.25rem",
-                        border: "1px solid #e9d5ff",
-                      }}
-                    >
-                      <p style={{ fontSize: "9px", fontWeight: "600", color: "#7c3aed", marginBottom: "0.25rem" }}>
-                        Prazo de Entrega:
-                      </p>
-                      <p style={{ fontSize: "8px", color: "#8b5cf6" }}>
-                        Contado após kick-off e cumprimento das premissas.
-                      </p>
-                    </div>
-                    <div
-                      style={{
-                        backgroundColor: "white",
-                        padding: "0.5rem",
-                        borderRadius: "4px",
-                        border: "1px solid #e9d5ff",
-                      }}
-                    >
-                      <p style={{ fontSize: "9px", fontWeight: "600", color: "#7c3aed", marginBottom: "0.25rem" }}>
-                        Não Retorno:
-                      </p>
-                      <p style={{ fontSize: "8px", color: "#8b5cf6" }}>Sem retorno em 15 dias = projeto concluído.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Próximos Passos - MELHORADO */}
-              <div className="proximos-passos-section">
-                <div className="proximos-passos-container">
-                  <h4 className="proximos-passos-title">📋 Próximos Passos</h4>
-                  <div className="proximos-passos-timeline">
-                    <div className="proximos-passos-step">
-                      <div className="proximos-passos-step-number">1</div>
-                      <div className="proximos-passos-step-text">Assinatura da OC</div>
-                    </div>
-                    <div className="proximos-passos-step">
-                      <div className="proximos-passos-step-number">2</div>
-                      <div className="proximos-passos-step-text">Kick-off</div>
-                    </div>
-                    <div className="proximos-passos-step">
-                      <div className="proximos-passos-step-number">3</div>
-                      <div className="proximos-passos-step-text">Desenvolvimento</div>
-                    </div>
-                    <div className="proximos-passos-step">
-                      <div className="proximos-passos-step-number">4</div>
-                      <div className="proximos-passos-step-text">Homologação</div>
-                    </div>
-                    <div className="proximos-passos-step">
-                      <div className="proximos-passos-step-number">5</div>
-                      <div className="proximos-passos-step-text">Entrega Final</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Matriz de SLA - Seção separada */}
-      {formData.tipoProjeto === "integracao" && (
-        <Card className="mb-6 matriz-sla-container">
-          <CardHeader>
-            <CardTitle className="text-center">📊 Matriz de Prioridades de SLA</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="overflow-x-auto matriz-sla-table">
+            <div className="overflow-x-auto">
               <table className="w-full border-collapse">
                 <thead>
                   <tr className="bg-gray-100">
@@ -1224,8 +997,166 @@ export default function OrdemCompra() {
         </Card>
       )}
 
+      {/* Acordo de Nível de Serviço - SEM o quadro verde */}
+      {formData.tipoProjeto === "integracao" && (
+        <Card className="mb-6">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <CalendarDays className="h-5 w-5" />
+              Acordo de Nível de Serviço (SLA)
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+              {/* Premissas */}
+              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-200">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center">
+                    <FileText className="w-8 h-8 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-blue-800">Premissas do Cliente</h4>
+                    <p className="text-sm text-blue-600">Requisitos obrigatórios</p>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                    <span className="text-sm">Fornecimento de credenciais de acesso</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                    <span className="text-sm">Documentação das APIs disponibilizada</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                    <span className="text-sm">Queries de banco prontas (se aplicável)</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                    <span className="text-sm">Mapeamento/validação dos campos das APIs</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                    <span className="text-sm">Homologação em até 15 dias após entrega</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Suporte e Melhorias */}
+              <div className="bg-gradient-to-br from-orange-50 to-amber-50 p-6 rounded-xl border border-orange-200">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center">
+                    <span className="text-white font-bold text-xl">⚠️</span>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-orange-800">Suporte e Melhorias</h4>
+                    <p className="text-sm text-orange-600">Regras importantes</p>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <div className="bg-white p-3 rounded-lg border border-orange-100">
+                    <p className="text-sm font-medium text-orange-800 mb-1">Alterações Pós-Produção:</p>
+                    <p className="text-xs text-orange-700">
+                      Solicitações de alteração em itens ou ambientes já entregues em produção serão tratadas como
+                      melhorias e gerarão custo adicional por hora.
+                    </p>
+                  </div>
+                  <div className="bg-white p-3 rounded-lg border border-orange-100">
+                    <p className="text-sm font-medium text-orange-800 mb-1">Mudanças de Escopo:</p>
+                    <p className="text-xs text-orange-700">
+                      Toda solicitação de mudança dos ambientes, integrações, campos ou componentes será classificada
+                      como melhoria.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Homologação e Entrega */}
+              <div className="bg-gradient-to-br from-purple-50 to-violet-50 p-6 rounded-xl border border-purple-200">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center">
+                    <span className="text-white font-bold text-xl">✓</span>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-purple-800">Homologação e Entrega</h4>
+                    <p className="text-sm text-purple-600">Processo de finalização</p>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <div className="bg-white p-3 rounded-lg border border-purple-100">
+                    <p className="text-sm font-medium text-purple-800 mb-1">Prazo de Homologação:</p>
+                    <p className="text-xs text-purple-700">
+                      A conclusão do projeto só ocorrerá após homologação. Esta deverá acontecer em até 15 dias após a
+                      entrega do desenvolvimento.
+                    </p>
+                  </div>
+                  <div className="bg-white p-3 rounded-lg border border-purple-100">
+                    <p className="text-sm font-medium text-purple-800 mb-1">Prazo de Entrega:</p>
+                    <p className="text-xs text-purple-700">
+                      O prazo de entrega passa a ser contado após kick-off e cumprimento de todas as premissas listadas.
+                    </p>
+                  </div>
+                  <div className="bg-white p-3 rounded-lg border border-purple-100">
+                    <p className="text-sm font-medium text-purple-800 mb-1">Não Retorno:</p>
+                    <p className="text-xs text-purple-700">
+                      Em caso de não retorno da homologação em 15 dias, o projeto será dado como concluído e entregue.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Próximos Passos - Por último */}
+      {formData.tipoProjeto === "integracao" && (
+        <Card className="mb-6">
+          <CardHeader>
+            <CardTitle className="text-center">📋 Próximos Passos</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="bg-gradient-to-r from-gray-50 to-gray-100 p-6 rounded-xl border-2 border-gray-200">
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+                <div className="text-center p-3 bg-white rounded-lg shadow-sm">
+                  <div className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
+                    1
+                  </div>
+                  <div className="text-xs font-medium">Assinatura da OC</div>
+                </div>
+                <div className="text-center p-3 bg-white rounded-lg shadow-sm">
+                  <div className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
+                    2
+                  </div>
+                  <div className="text-xs font-medium">Kick-off</div>
+                </div>
+                <div className="text-center p-3 bg-white rounded-lg shadow-sm">
+                  <div className="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
+                    3
+                  </div>
+                  <div className="text-xs font-medium">Desenvolvimento</div>
+                </div>
+                <div className="text-center p-3 bg-white rounded-lg shadow-sm">
+                  <div className="w-8 h-8 bg-purple-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
+                    4
+                  </div>
+                  <div className="text-xs font-medium">Homologação</div>
+                </div>
+                <div className="text-center p-3 bg-white rounded-lg shadow-sm">
+                  <div className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
+                    5
+                  </div>
+                  <div className="text-xs font-medium">Entrega Final</div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Assinaturas */}
-      <Card className="mb-6 assinatura-section">
+      <Card className="mb-6">
         <CardHeader>
           <CardTitle>Assinatura da Ordem de Compra</CardTitle>
         </CardHeader>
