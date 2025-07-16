@@ -400,41 +400,48 @@ export default function OrdemCompra() {
 
       {/* PÁGINA 2: Anexo I e II */}
 
-      {/* Anexo I - Escopo */}
-      <Card className="mb-6">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+      {/* Anexo I - Escopo - Mais compacto */}
+      <Card className="mb-4">
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-lg">
             <FileText className="h-5 w-5" />
             Anexo I - Escopo do Projeto
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-0">
           {formData.tipoProjeto === "integracao" ? (
-            // Escopo para Integração
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="tituloEscopo">Título do Projeto</Label>
-                <Input
-                  id="tituloEscopo"
-                  value={formData.tituloEscopo}
-                  onChange={(e) => handleInputChange("tituloEscopo", e.target.value)}
-                  placeholder="Ex: Automatização de dados entre sistemas PandaPé e ATS G4S"
-                />
+            // Escopo para Integração - Layout mais compacto
+            <div className="space-y-3">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <Label htmlFor="tituloEscopo" className="text-sm">
+                    Título do Projeto
+                  </Label>
+                  <Input
+                    id="tituloEscopo"
+                    value={formData.tituloEscopo}
+                    onChange={(e) => handleInputChange("tituloEscopo", e.target.value)}
+                    placeholder="Ex: Automatização de dados entre sistemas PandaPé e ATS G4S"
+                    className="text-sm"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="descricaoEscopo" className="text-sm">
+                    Descrição Geral
+                  </Label>
+                  <Input
+                    id="descricaoEscopo"
+                    value={formData.descricaoEscopo}
+                    onChange={(e) => handleInputChange("descricaoEscopo", e.target.value)}
+                    placeholder="Ex: Contendo X fluxos de integração"
+                    className="text-sm"
+                  />
+                </div>
               </div>
 
-              <div>
-                <Label htmlFor="descricaoEscopo">Descrição Geral</Label>
-                <Input
-                  id="descricaoEscopo"
-                  value={formData.descricaoEscopo}
-                  onChange={(e) => handleInputChange("descricaoEscopo", e.target.value)}
-                  placeholder="Ex: Contendo X fluxos de integração"
-                />
-              </div>
-
-              {/* Seletor de quantidade de fluxos */}
-              <div className="bg-blue-50 p-4 rounded-lg">
-                <Label htmlFor="quantidadeFluxos" className="text-base font-medium">
+              {/* Seletor de quantidade de fluxos - mais compacto */}
+              <div className="bg-blue-50 p-3 rounded-lg">
+                <Label htmlFor="quantidadeFluxos" className="text-sm font-medium">
                   Quantidade de Fluxos de Integração
                 </Label>
                 <select
@@ -458,7 +465,7 @@ export default function OrdemCompra() {
                       fluxos: novosFluxos,
                     }))
                   }}
-                  className="mt-2 w-full p-2 border border-gray-300 rounded-md"
+                  className="mt-1 w-full p-2 border border-gray-300 rounded-md text-sm"
                 >
                   {[...Array(30)].map((_, index) => {
                     const num = index + 1
@@ -471,12 +478,14 @@ export default function OrdemCompra() {
                 </select>
               </div>
 
-              {/* Campos dinâmicos para os fluxos */}
+              {/* Campos dinâmicos para os fluxos - mais compactos */}
               <div className="space-y-2">
-                <Label className="text-base font-medium">Detalhamento dos Fluxos:</Label>
+                <Label className="text-sm font-medium">Detalhamento dos Fluxos:</Label>
                 {Array.from({ length: formData.quantidadeFluxos }, (_, index) => (
                   <div key={index}>
-                    <Label htmlFor={`fluxo${index + 1}`}>Fluxo {index + 1}</Label>
+                    <Label htmlFor={`fluxo${index + 1}`} className="text-xs">
+                      Fluxo {index + 1}
+                    </Label>
                     <Input
                       id={`fluxo${index + 1}`}
                       value={formData.fluxos[index] || ""}
@@ -486,75 +495,91 @@ export default function OrdemCompra() {
                         setFormData((prev) => ({ ...prev, fluxos: novosFluxos }))
                       }}
                       placeholder={`Ex: Sistema A → Sistema B (descrição do fluxo ${index + 1})`}
+                      className="text-sm"
                     />
                   </div>
                 ))}
               </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <div className="grid grid-cols-5 gap-2">
                 <div>
-                  <Label htmlFor="tempoProjeto">Tempo de Projeto</Label>
+                  <Label htmlFor="tempoProjeto" className="text-xs">
+                    Tempo de Projeto
+                  </Label>
                   <Input
                     id="tempoProjeto"
                     value={formData.tempoProjeto}
                     onChange={(e) => handleInputChange("tempoProjeto", e.target.value)}
                     placeholder="20 dias úteis"
+                    className="text-sm"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="fluxosInclusos">Fluxos Inclusos</Label>
+                  <Label htmlFor="fluxosInclusos" className="text-xs">
+                    Fluxos Inclusos
+                  </Label>
                   <Input
                     id="fluxosInclusos"
                     value={formData.fluxosInclusos}
                     onChange={(e) => handleInputChange("fluxosInclusos", e.target.value)}
                     placeholder="10"
+                    className="text-sm"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="apiCalls">API Calls</Label>
+                  <Label htmlFor="apiCalls" className="text-xs">
+                    API Calls
+                  </Label>
                   <Input
                     id="apiCalls"
                     value={formData.apiCalls}
                     onChange={(e) => handleInputChange("apiCalls", e.target.value)}
                     placeholder="1.000.000"
+                    className="text-sm"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="horasOnboarding">Horas Onboarding</Label>
+                  <Label htmlFor="horasOnboarding" className="text-xs">
+                    Horas Onboarding
+                  </Label>
                   <Input
                     id="horasOnboarding"
                     value={formData.horasOnboarding}
                     onChange={(e) => handleInputChange("horasOnboarding", e.target.value)}
                     placeholder="8"
+                    className="text-sm"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="suporteTipo" className="text-xs">
+                    Tipo de Suporte
+                  </Label>
+                  <Input
+                    id="suporteTipo"
+                    value={formData.suporteTipo}
+                    onChange={(e) => handleInputChange("suporteTipo", e.target.value)}
+                    placeholder="8x5"
+                    className="text-sm"
                   />
                 </div>
               </div>
 
-              <div>
-                <Label htmlFor="suporteTipo">Tipo de Suporte</Label>
-                <Input
-                  id="suporteTipo"
-                  value={formData.suporteTipo}
-                  onChange={(e) => handleInputChange("suporteTipo", e.target.value)}
-                  placeholder="8x5"
-                />
-              </div>
-
-              <div className="bg-blue-50 p-3 rounded-lg mt-4">
-                <h3 className="font-semibold text-lg mb-2">{formData.tituloEscopo || "Título do Projeto"}</h3>
-                <p className="text-gray-700 mb-4">
+              {/* Resumo do projeto - mais compacto */}
+              <div className="bg-blue-50 p-3 rounded-lg">
+                <h3 className="font-semibold text-base mb-2">{formData.tituloEscopo || "Título do Projeto"}</h3>
+                <p className="text-gray-700 mb-3 text-sm">
                   {formData.descricaoEscopo ||
                     `Contendo ${formData.quantidadeFluxos} fluxo${
                       formData.quantidadeFluxos > 1 ? "s" : ""
                     } de integração`}
                 </p>
 
-                <div className="space-y-3 mb-4">
+                <div className="space-y-2 mb-3">
                   {formData.fluxos.map(
                     (fluxo, index) =>
                       fluxo && (
-                        <div key={index} className="border-l-4 border-blue-500 pl-4">
-                          <h4 className="font-medium">
+                        <div key={index} className="border-l-4 border-blue-500 pl-3">
+                          <h4 className="font-medium text-sm">
                             Fluxo {index + 1}: {fluxo}
                           </h4>
                         </div>
@@ -562,10 +587,10 @@ export default function OrdemCompra() {
                   )}
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <h4 className="font-medium mb-2">Especificações Técnicas:</h4>
-                    <ul className="text-sm space-y-1">
+                    <h4 className="font-medium mb-1 text-sm">Especificações Técnicas:</h4>
+                    <ul className="text-xs space-y-1">
                       <li>• Tempo de projeto: {formData.tempoProjeto || "20 dias úteis"}</li>
                       <li>• Fluxos inclusos: {formData.fluxosInclusos || "10"}</li>
                       <li>• API Calls: {formData.apiCalls || "1.000.000"}</li>
@@ -574,8 +599,8 @@ export default function OrdemCompra() {
                     </ul>
                   </div>
                   <div>
-                    <h4 className="font-medium mb-2">Entregas:</h4>
-                    <ul className="text-sm space-y-1">
+                    <h4 className="font-medium mb-1 text-sm">Entregas:</h4>
+                    <ul className="text-xs space-y-1">
                       <li>• Conectores personalizados</li>
                       <li>• Fluxos de trabalho automatizados</li>
                       <li>• Documentação técnica</li>
@@ -670,36 +695,41 @@ export default function OrdemCompra() {
 
       {/* Anexo II - Valores - Final da Página 2 */}
       <Card className="mb-6 page-2-end">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-lg">
             <DollarSign className="h-5 w-5" />
             Anexo II - Valores e Condições Comerciais
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-0">
           {formData.tipoProjeto === "integracao" ? (
             // Valores para Integração
             <>
-              <div className="grid grid-cols-2 gap-6 mb-6">
-                <div className="bg-green-50 p-4 rounded-lg">
-                  <h3 className="font-semibold text-lg mb-3">Professional Services</h3>
-                  <div className="space-y-3">
+              <div className="grid grid-cols-2 gap-4 mb-4">
+                <div className="bg-green-50 p-3 rounded-lg">
+                  <h3 className="font-semibold text-base mb-2">Professional Services</h3>
+                  <div className="space-y-2">
                     <div>
-                      <Label htmlFor="investimentoSetup">Valor Total (R$)</Label>
+                      <Label htmlFor="investimentoSetup" className="text-sm">
+                        Valor Total (R$)
+                      </Label>
                       <Input
                         id="investimentoSetup"
                         value={formData.investimentoSetup}
                         onChange={(e) => handleInputChange("investimentoSetup", e.target.value)}
                         placeholder="6.600,00"
+                        className="text-sm"
                       />
                     </div>
                     <div>
-                      <Label htmlFor="parcelamentoSetup">Parcelamento</Label>
+                      <Label htmlFor="parcelamentoSetup" className="text-sm">
+                        Parcelamento
+                      </Label>
                       <select
                         id="parcelamentoSetup"
                         value={formData.parcelamentoSetup}
                         onChange={(e) => handleInputChange("parcelamentoSetup", e.target.value)}
-                        className="w-full p-2 border border-gray-300 rounded-md"
+                        className="w-full p-2 border border-gray-300 rounded-md text-sm"
                       >
                         <option value="1">À vista</option>
                         <option value="2">2x</option>
@@ -707,7 +737,7 @@ export default function OrdemCompra() {
                         <option value="4">4x</option>
                       </select>
                     </div>
-                    <div className="flex justify-between">
+                    <div className="flex justify-between text-sm">
                       <span>Valor por parcela:</span>
                       <span>
                         {formData.parcelamentoSetup === "1"
@@ -718,86 +748,88 @@ export default function OrdemCompra() {
                             ).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
                       </span>
                     </div>
-                    <div>
-                      <Label htmlFor="tempoProjeto">Prazo</Label>
-                      <Input
-                        id="tempoProjeto"
-                        value={formData.tempoProjeto}
-                        onChange={(e) => handleInputChange("tempoProjeto", e.target.value)}
-                        placeholder="20 dias úteis"
-                      />
-                    </div>
                   </div>
                 </div>
 
-                <div className="bg-blue-50 p-4 rounded-lg">
-                  <h3 className="font-semibold text-lg mb-3">Plano Essencial</h3>
-                  <div className="space-y-3">
+                <div className="bg-blue-50 p-3 rounded-lg">
+                  <h3 className="font-semibold text-base mb-2">Plano Essencial</h3>
+                  <div className="space-y-2">
                     <div>
-                      <Label htmlFor="investimentoMensal">Valor Mensal (R$)</Label>
+                      <Label htmlFor="investimentoMensal" className="text-sm">
+                        Valor Mensal (R$)
+                      </Label>
                       <Input
                         id="investimentoMensal"
                         value={formData.investimentoMensal}
                         onChange={(e) => handleInputChange("investimentoMensal", e.target.value)}
                         placeholder="1.399,00"
+                        className="text-sm"
                       />
                     </div>
                     <div>
-                      <Label htmlFor="tempoContrato">Contrato (meses)</Label>
+                      <Label htmlFor="tempoContrato" className="text-sm">
+                        Contrato (meses)
+                      </Label>
                       <Input
                         id="tempoContrato"
                         value={formData.tempoContrato}
                         onChange={(e) => handleInputChange("tempoContrato", e.target.value)}
                         placeholder="12"
+                        className="text-sm"
                       />
                     </div>
                     <div>
-                      <Label htmlFor="diaVencimento">Dia Vencimento</Label>
+                      <Label htmlFor="diaVencimento" className="text-sm">
+                        Dia Vencimento
+                      </Label>
                       <Input
                         id="diaVencimento"
                         value={formData.diaVencimento}
                         onChange={(e) => handleInputChange("diaVencimento", e.target.value)}
                         placeholder="10"
+                        className="text-sm"
                       />
                     </div>
                   </div>
                 </div>
               </div>
 
-              <Separator className="my-4" />
-
-              <div className="bg-gradient-to-r from-gray-50 to-gray-100 p-6 rounded-xl border-2 border-gray-200">
-                <h4 className="font-bold text-lg mb-4 text-center text-gray-800">💰 Resumo Financeiro</h4>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="text-center p-4 bg-white rounded-lg shadow-sm">
-                    <div className="text-2xl font-bold text-green-600">R$ {formData.investimentoSetup}</div>
-                    <div className="text-sm text-gray-600">Valor Setup</div>
+              <div className="bg-gradient-to-r from-gray-50 to-gray-100 p-4 rounded-xl border-2 border-gray-200">
+                <h4 className="font-bold text-base mb-3 text-center text-gray-800">💰 Resumo Financeiro</h4>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  <div className="text-center p-3 bg-white rounded-lg shadow-sm">
+                    <div className="text-xl font-bold text-green-600">R$ {formData.investimentoSetup}</div>
+                    <div className="text-xs text-gray-600">Valor Setup</div>
                     <div className="text-xs text-gray-500 mt-1">Pagamento único</div>
                   </div>
-                  <div className="text-center p-4 bg-white rounded-lg shadow-sm">
-                    <div className="text-2xl font-bold text-blue-600">R$ {formData.investimentoMensal}</div>
-                    <div className="text-sm text-gray-600">Valor Mensal</div>
+                  <div className="text-center p-3 bg-white rounded-lg shadow-sm">
+                    <div className="text-xl font-bold text-blue-600">R$ {formData.investimentoMensal}</div>
+                    <div className="text-xs text-gray-600">Valor Mensal</div>
                     <div className="text-xs text-gray-500 mt-1">Recorrente por {formData.tempoContrato} meses</div>
                   </div>
-                  <div className="text-center p-4 bg-white rounded-lg shadow-sm">
-                    <div className="text-2xl font-bold text-purple-600">R$ {calcularValorTotal()}</div>
-                    <div className="text-sm text-gray-600">Valor Total</div>
+                  <div className="text-center p-3 bg-white rounded-lg shadow-sm">
+                    <div className="text-xl font-bold text-purple-600">R$ {calcularValorTotal()}</div>
+                    <div className="text-xs text-gray-600">Valor Total</div>
                     <div className="text-xs text-gray-500 mt-1">Setup + {formData.tempoContrato} mensalidades</div>
                   </div>
                 </div>
-                <div className="mt-4 pt-4 border-t border-gray-200">
-                  <div className="grid grid-cols-2 gap-4 text-sm">
+                <div className="mt-3 pt-3 border-t border-gray-200">
+                  <div className="grid grid-cols-2 gap-3 text-sm">
                     <div>
-                      <Label htmlFor="formaPagamento">Forma de Pagamento</Label>
+                      <Label htmlFor="formaPagamento" className="text-xs">
+                        Forma de Pagamento
+                      </Label>
                       <Input
                         id="formaPagamento"
                         value={formData.formaPagamento}
                         onChange={(e) => handleInputChange("formaPagamento", e.target.value)}
                         placeholder="Boleto/PIX"
+                        className="text-sm"
                       />
                     </div>
-                    <div>
-                      <span className="font-medium">Vencimento:</span> Dia {formData.diaVencimentoGeral} de cada mês
+                    <div className="flex items-center">
+                      <span className="font-medium text-sm">Vencimento:</span>
+                      <span className="ml-1 text-sm">Dia {formData.diaVencimentoGeral} de cada mês</span>
                     </div>
                   </div>
                 </div>
