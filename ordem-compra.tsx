@@ -472,7 +472,7 @@ export default function OrdemCompra() {
               </div>
 
               {/* Campos dinâmicos para os fluxos */}
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <Label className="text-base font-medium">Detalhamento dos Fluxos:</Label>
                 {Array.from({ length: formData.quantidadeFluxos }, (_, index) => (
                   <div key={index}>
@@ -491,7 +491,7 @@ export default function OrdemCompra() {
                 ))}
               </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 <div>
                   <Label htmlFor="tempoProjeto">Tempo de Projeto</Label>
                   <Input
@@ -540,9 +540,7 @@ export default function OrdemCompra() {
                 />
               </div>
 
-              <Separator className="my-6" />
-
-              <div className="bg-blue-50 p-4 rounded-lg">
+              <div className="bg-blue-50 p-3 rounded-lg mt-4">
                 <h3 className="font-semibold text-lg mb-2">{formData.tituloEscopo || "Título do Projeto"}</h3>
                 <p className="text-gray-700 mb-4">
                   {formData.descricaoEscopo ||
