@@ -74,6 +74,19 @@ export default function OrdemCompra() {
     horasVendidas: "",
     prazoMelhoria: "",
     valorTotalMelhoria: "",
+
+    // Campos para Adicional
+    tituloAdicional: "",
+    descricaoAdicional: "",
+    itensAdicionais: {
+      fluxos: false,
+      apiCalls: false,
+      tenants: false,
+    },
+    quantidadeFluxosAdicionais: "",
+    quantidadeApiCallsAdicionais: "",
+    quantidadeTenantsAdicionais: "",
+    valorTotalAdicional: "",
   })
 
   const handleInputChange = (field: string, value: string) => {
@@ -92,6 +105,8 @@ export default function OrdemCompra() {
   const calcularValorTotal = () => {
     if (formData.tipoProjeto === "melhoria") {
       return formData.valorTotalMelhoria || "0,00"
+    } else if (formData.tipoProjeto === "adicional") {
+      return formData.valorTotalAdicional || "0,00"
     } else {
       return (
         Number.parseFloat(formData.investimentoSetup.replace(".", "").replace(",", ".")) +
@@ -205,7 +220,7 @@ export default function OrdemCompra() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-3 gap-4">
             <div
               className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
                 formData.tipoProjeto === "integracao"
@@ -236,6 +251,23 @@ export default function OrdemCompra() {
                 <div>
                   <h3 className="font-semibold">Melhorias</h3>
                   <p className="text-sm text-gray-600">Ajustes e melhorias em integrações existentes</p>
+                </div>
+              </div>
+            </div>
+
+            <div
+              className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                formData.tipoProjeto === "adicional"
+                  ? "border-purple-500 bg-purple-50"
+                  : "border-gray-200 hover:border-gray-300"
+              }`}
+              onClick={() => handleInputChange("tipoProjeto", "adicional")}
+            >
+              <div className="flex items-center gap-3">
+                <Settings className="h-8 w-8 text-purple-500" />
+                <div>
+                  <h3 className="font-semibold">Adicional</h3>
+                  <p className="text-sm text-gray-600">Adicionar recursos ao plano existente</p>
                 </div>
               </div>
             </div>
@@ -611,7 +643,7 @@ export default function OrdemCompra() {
                 </div>
               </div>
             </div>
-          ) : (
+          ) : formData.tipoProjeto === "melhoria" ? (
             // Escopo para Melhorias
             <div className="space-y-4">
               <div>
@@ -689,6 +721,188 @@ export default function OrdemCompra() {
                 </div>
               </div>
             </div>
+          ) : formData.tipoProjeto === "adicional" ? (
+            // Escopo para Adicional
+            <div className="space-y-3">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <Label htmlFor="tituloAdicional" className="text-sm">
+                    Título do Adicional
+                  </Label>
+                  <Input
+                    id="tituloAdicional"
+                    value={formData.tituloAdicional}
+                    onChange={(e) => handleInputChange("tituloAdicional", e.target.value)}
+                    placeholder="Ex: Expansão de recursos do plano atual"
+                    className="text-sm"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="descricaoAdicional" className="text-sm">
+                    Descrição Geral
+                  </Label>
+                  <Input
+                    id="descricaoAdicional"
+                    value={formData.descricaoAdicional}
+                    onChange={(e) => handleInputChange("descricaoAdicional", e.target.value)}
+                    placeholder="Ex: Adição de recursos ao plano existente"
+                    className="text-sm"
+                  />
+                </div>
+              </div>
+
+              {/* Seletor de itens adicionais */}
+              <div className="bg-purple-50 p-3 rounded-lg">
+                <Label className="text-sm font-medium mb-2 block">Selecione os itens que deseja adicionar:</Label>
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      id="fluxos"
+                      checked={formData.itensAdicionais.fluxos}
+                      onChange={(e) => {
+                        setFormData((prev) => ({
+                          ...prev,
+                          itensAdicionais: {
+                            ...prev.itensAdicionais,
+                            fluxos: e.target.checked,
+                          },
+                        }))
+                      }}
+                      className="rounded"
+                    />
+                    <Label htmlFor="fluxos" className="text-sm">
+                      Fluxos
+                    </Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      id="apiCalls"
+                      checked={formData.itensAdicionais.apiCalls}
+                      onChange={(e) => {
+                        setFormData((prev) => ({
+                          ...prev,
+                          itensAdicionais: {
+                            ...prev.itensAdicionais,
+                            apiCalls: e.target.checked,
+                          },
+                        }))
+                      }}
+                      className="rounded"
+                    />
+                    <Label htmlFor="apiCalls" className="text-sm">
+                      API Calls
+                    </Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      id="tenants"
+                      checked={formData.itensAdicionais.tenants}
+                      onChange={(e) => {
+                        setFormData((prev) => ({
+                          ...prev,
+                          itensAdicionais: {
+                            ...prev.itensAdicionais,
+                            tenants: e.target.checked,
+                          },
+                        }))
+                      }}
+                      className="rounded"
+                    />
+                    <Label htmlFor="tenants" className="text-sm">
+                      Tenants
+                    </Label>
+                  </div>
+                </div>
+              </div>
+
+              {/* Campos de quantidade baseados na seleção */}
+              <div className="grid grid-cols-3 gap-3">
+                {formData.itensAdicionais.fluxos && (
+                  <div>
+                    <Label htmlFor="quantidadeFluxosAdicionais" className="text-xs">
+                      Quantidade de Fluxos
+                    </Label>
+                    <Input
+                      id="quantidadeFluxosAdicionais"
+                      value={formData.quantidadeFluxosAdicionais}
+                      onChange={(e) => handleInputChange("quantidadeFluxosAdicionais", e.target.value)}
+                      placeholder="Ex: 5"
+                      className="text-sm"
+                    />
+                  </div>
+                )}
+                {formData.itensAdicionais.apiCalls && (
+                  <div>
+                    <Label htmlFor="quantidadeApiCallsAdicionais" className="text-xs">
+                      Quantidade de API Calls
+                    </Label>
+                    <Input
+                      id="quantidadeApiCallsAdicionais"
+                      value={formData.quantidadeApiCallsAdicionais}
+                      onChange={(e) => handleInputChange("quantidadeApiCallsAdicionais", e.target.value)}
+                      placeholder="Ex: 500.000"
+                      className="text-sm"
+                    />
+                  </div>
+                )}
+                {formData.itensAdicionais.tenants && (
+                  <div>
+                    <Label htmlFor="quantidadeTenantsAdicionais" className="text-xs">
+                      Quantidade de Tenants
+                    </Label>
+                    <Input
+                      id="quantidadeTenantsAdicionais"
+                      value={formData.quantidadeTenantsAdicionais}
+                      onChange={(e) => handleInputChange("quantidadeTenantsAdicionais", e.target.value)}
+                      placeholder="Ex: 3"
+                      className="text-sm"
+                    />
+                  </div>
+                )}
+              </div>
+
+              {/* Resumo do adicional */}
+              <div className="bg-purple-50 p-3 rounded-lg">
+                <h3 className="font-semibold text-base mb-2">{formData.tituloAdicional || "Título do Adicional"}</h3>
+                <p className="text-gray-700 mb-3 text-sm">
+                  {formData.descricaoAdicional || "Descrição dos itens adicionais"}
+                </p>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <h4 className="font-medium mb-1 text-sm">Itens Adicionais:</h4>
+                    <ul className="text-xs space-y-1">
+                      {formData.itensAdicionais.fluxos && (
+                        <li>• Fluxos: {formData.quantidadeFluxosAdicionais || "0"} unidades</li>
+                      )}
+                      {formData.itensAdicionais.apiCalls && (
+                        <li>• API Calls: {formData.quantidadeApiCallsAdicionais || "0"} chamadas</li>
+                      )}
+                      {formData.itensAdicionais.tenants && (
+                        <li>• Tenants: {formData.quantidadeTenantsAdicionais || "0"} unidades</li>
+                      )}
+                      {!formData.itensAdicionais.fluxos &&
+                        !formData.itensAdicionais.apiCalls &&
+                        !formData.itensAdicionais.tenants && <li>• Nenhum item selecionado</li>}
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="font-medium mb-1 text-sm">Benefícios:</h4>
+                    <ul className="text-xs space-y-1">
+                      <li>• Expansão da capacidade atual</li>
+                      <li>• Sem necessidade de novo setup</li>
+                      <li>• Integração com plano existente</li>
+                      <li>• Suporte técnico incluído</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            ""
           )}
         </CardContent>
       </Card>
@@ -835,7 +1049,7 @@ export default function OrdemCompra() {
                 </div>
               </div>
             </>
-          ) : (
+          ) : formData.tipoProjeto === "melhoria" ? (
             // Valores para Melhorias
             <div className="space-y-6">
               <div className="bg-green-50 p-6 rounded-xl border border-green-200">
@@ -947,6 +1161,124 @@ export default function OrdemCompra() {
                 </div>
               </div>
             </div>
+          ) : formData.tipoProjeto === "adicional" ? (
+            // Valores para Adicional
+            <div className="space-y-4">
+              <div className="bg-purple-50 p-4 rounded-xl border border-purple-200">
+                <h3 className="font-semibold text-base mb-3">Serviço Adicional</h3>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <Label htmlFor="valorTotalAdicional" className="text-sm">
+                      Valor Total (R$)
+                    </Label>
+                    <Input
+                      id="valorTotalAdicional"
+                      value={formData.valorTotalAdicional}
+                      onChange={(e) => handleInputChange("valorTotalAdicional", e.target.value)}
+                      placeholder="Ex: 2.000,00"
+                      className="text-sm"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="parcelamentoAdicional" className="text-sm">
+                      Parcelamento
+                    </Label>
+                    <select
+                      id="parcelamentoAdicional"
+                      value={formData.parcelamentoMelhoria}
+                      onChange={(e) => handleInputChange("parcelamentoMelhoria", e.target.value)}
+                      className="w-full p-2 border border-gray-300 rounded-md text-sm"
+                    >
+                      <option value="1">À vista</option>
+                      <option value="2">2x</option>
+                      <option value="3">3x</option>
+                      <option value="4">4x</option>
+                    </select>
+                  </div>
+                  <div>
+                    <Label htmlFor="formaPagamentoAdicional" className="text-sm">
+                      Forma de Pagamento
+                    </Label>
+                    <Input
+                      id="formaPagamentoAdicional"
+                      value={formData.formaPagamento}
+                      onChange={(e) => handleInputChange("formaPagamento", e.target.value)}
+                      placeholder="Boleto/PIX"
+                      className="text-sm"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="diaVencimentoAdicional" className="text-sm">
+                      Dia Vencimento
+                    </Label>
+                    <Input
+                      id="diaVencimentoAdicional"
+                      value={formData.diaVencimento}
+                      onChange={(e) => handleInputChange("diaVencimento", e.target.value)}
+                      placeholder="10"
+                      className="text-sm"
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <div className="flex justify-between items-center p-3 bg-white rounded-lg border">
+                      <span className="font-medium text-sm">Valor por parcela:</span>
+                      <span className="font-bold text-purple-600">
+                        {formData.parcelamentoMelhoria === "1"
+                          ? `R$ ${formData.valorTotalAdicional || "0,00"}`
+                          : `${formData.parcelamentoMelhoria}x de R$ ${
+                              formData.valorTotalAdicional
+                                ? (
+                                    Number.parseFloat(formData.valorTotalAdicional.replace(".", "").replace(",", ".")) /
+                                    Number.parseInt(formData.parcelamentoMelhoria)
+                                  ).toLocaleString("pt-BR", {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                  })
+                                : "0,00"
+                            }`}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-r from-gray-50 to-gray-100 p-4 rounded-xl border-2 border-gray-200">
+                <h4 className="font-bold text-base mb-3 text-center text-gray-800">💰 Resumo Financeiro</h4>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  <div className="text-center p-3 bg-white rounded-lg shadow-sm">
+                    <div className="text-xl font-bold text-purple-600">
+                      {Object.values(formData.itensAdicionais).filter(Boolean).length}
+                    </div>
+                    <div className="text-xs text-gray-600">Itens Selecionados</div>
+                    <div className="text-xs text-gray-500 mt-1">Recursos adicionais</div>
+                  </div>
+                  <div className="text-center p-3 bg-white rounded-lg shadow-sm">
+                    <div className="text-xl font-bold text-blue-600">{formData.parcelamentoMelhoria}x</div>
+                    <div className="text-xs text-gray-600">Parcelas</div>
+                    <div className="text-xs text-gray-500 mt-1">Forma de pagamento</div>
+                  </div>
+                  <div className="text-center p-3 bg-white rounded-lg shadow-sm">
+                    <div className="text-xl font-bold text-green-600">R$ {formData.valorTotalAdicional || "0,00"}</div>
+                    <div className="text-xs text-gray-600">Valor Total</div>
+                    <div className="text-xs text-gray-500 mt-1">
+                      {formData.parcelamentoMelhoria === "1" ? "À vista" : `${formData.parcelamentoMelhoria} parcelas`}
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-3 pt-3 border-t border-gray-200">
+                  <div className="grid grid-cols-2 gap-3 text-sm">
+                    <div>
+                      <span className="font-medium">Forma de Pagamento:</span> {formData.formaPagamento}
+                    </div>
+                    <div>
+                      <span className="font-medium">Vencimento:</span> Dia {formData.diaVencimentoGeral} de cada mês
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            ""
           )}
         </CardContent>
       </Card>
