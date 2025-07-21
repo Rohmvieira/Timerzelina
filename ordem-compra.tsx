@@ -11,7 +11,7 @@ import { CalendarDays, FileText, Users, DollarSign, Settings, Workflow } from "l
 export default function OrdemCompra() {
   const [formData, setFormData] = useState({
     // Tipo de Projeto
-    tipoProjeto: "integracao", // "integracao" ou "melhoria"
+    tipoProjeto: "integracao", // "integracao" ou "melhoria" ou "adicional"
 
     // Dados do Cliente
     nomeFantasia: "",
@@ -377,7 +377,7 @@ export default function OrdemCompra() {
       </Card>
 
       {/* Responsáveis - Final da Página 1 */}
-      <Card className="mb-6 page-1-end">
+      <Card className={`mb-6 ${formData.tipoProjeto === "integracao" ? "page-1-end" : ""}`}>
         <CardHeader>
           <CardTitle>Responsável Técnico</CardTitle>
         </CardHeader>
@@ -430,858 +430,994 @@ export default function OrdemCompra() {
         </CardContent>
       </Card>
 
-      {/* PÁGINA 2: Anexo I e II */}
-
-      {/* Anexo I - Escopo - Mais compacto */}
-      <Card className="mb-4">
-        <CardHeader className="pb-3">
-          <CardTitle className="flex items-center gap-2 text-lg">
-            <FileText className="h-5 w-5" />
-            Anexo I - Escopo do Projeto
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="pt-0">
-          {formData.tipoProjeto === "integracao" ? (
-            // Escopo para Integração - Layout mais compacto
-            <div className="space-y-3">
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <Label htmlFor="tituloEscopo" className="text-sm">
-                    Título do Projeto
-                  </Label>
-                  <Input
-                    id="tituloEscopo"
-                    value={formData.tituloEscopo}
-                    onChange={(e) => handleInputChange("tituloEscopo", e.target.value)}
-                    placeholder="Ex: Automatização de dados entre sistemas PandaPé e ATS G4S"
-                    className="text-sm"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="descricaoEscopo" className="text-sm">
-                    Descrição Geral
-                  </Label>
-                  <Input
-                    id="descricaoEscopo"
-                    value={formData.descricaoEscopo}
-                    onChange={(e) => handleInputChange("descricaoEscopo", e.target.value)}
-                    placeholder="Ex: Contendo X fluxos de integração"
-                    className="text-sm"
-                  />
-                </div>
-              </div>
-
-              {/* Seletor de quantidade de fluxos - mais compacto */}
-              <div className="bg-blue-50 p-3 rounded-lg">
-                <Label htmlFor="quantidadeFluxos" className="text-sm font-medium">
-                  Quantidade de Fluxos de Integração
-                </Label>
-                <select
-                  id="quantidadeFluxos"
-                  value={formData.quantidadeFluxos}
-                  onChange={(e) => {
-                    const quantidade = Number.parseInt(e.target.value)
-                    const novosFluxos = [...formData.fluxos]
-
-                    if (quantidade > formData.fluxos.length) {
-                      for (let i = formData.fluxos.length; i < quantidade; i++) {
-                        novosFluxos.push("")
-                      }
-                    } else {
-                      novosFluxos.splice(quantidade)
-                    }
-
-                    setFormData((prev) => ({
-                      ...prev,
-                      quantidadeFluxos: quantidade,
-                      fluxos: novosFluxos,
-                    }))
-                  }}
-                  className="mt-1 w-full p-2 border border-gray-300 rounded-md text-sm"
-                >
-                  {[...Array(30)].map((_, index) => {
-                    const num = index + 1
-                    return (
-                      <option key={num} value={num}>
-                        {num} fluxo{num > 1 ? "s" : ""}
-                      </option>
-                    )
-                  })}
-                </select>
-              </div>
-
-              {/* Campos dinâmicos para os fluxos - mais compactos */}
-              <div className="space-y-2">
-                <Label className="text-sm font-medium">Detalhamento dos Fluxos:</Label>
-                {Array.from({ length: formData.quantidadeFluxos }, (_, index) => (
-                  <div key={index}>
-                    <Label htmlFor={`fluxo${index + 1}`} className="text-xs">
-                      Fluxo {index + 1}
+      {/* Container para Melhorias e Adicional - Tudo na mesma página */}
+      {(formData.tipoProjeto === "melhoria" || formData.tipoProjeto === "adicional") && (
+        <div className="melhoria-adicional-container">
+          {/* Anexo I - Escopo */}
+          <Card className="mb-4 compact-section melhoria-adicional-escopo">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center gap-2 text-lg">
+                <FileText className="h-5 w-5" />
+                Anexo I - Escopo do Projeto
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="pt-0">
+              {formData.tipoProjeto === "melhoria" ? (
+                // Escopo para Melhorias - Compacto
+                <div className="space-y-3">
+                  <div>
+                    <Label htmlFor="tituloMelhoria" className="text-sm">
+                      Título da Melhoria
                     </Label>
                     <Input
-                      id={`fluxo${index + 1}`}
-                      value={formData.fluxos[index] || ""}
-                      onChange={(e) => {
-                        const novosFluxos = [...formData.fluxos]
-                        novosFluxos[index] = e.target.value
-                        setFormData((prev) => ({ ...prev, fluxos: novosFluxos }))
-                      }}
-                      placeholder={`Ex: Sistema A → Sistema B (descrição do fluxo ${index + 1})`}
+                      id="tituloMelhoria"
+                      value={formData.tituloMelhoria}
+                      onChange={(e) => handleInputChange("tituloMelhoria", e.target.value)}
+                      placeholder="Ex: Otimização de performance nas integrações existentes"
+                      className="print:hidden"
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="descricaoMelhoria" className="text-sm">
+                      Descrição Detalhada
+                    </Label>
+                    <textarea
+                      id="descricaoMelhoria"
+                      value={formData.descricaoMelhoria}
+                      onChange={(e) => handleInputChange("descricaoMelhoria", e.target.value)}
+                      placeholder="Descreva detalhadamente as melhorias que serão implementadas..."
+                      className="w-full p-3 border border-gray-300 rounded-md min-h-[80px] resize-y text-sm print:hidden"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <Label htmlFor="horasVendidas" className="text-sm">
+                        Horas Vendidas
+                      </Label>
+                      <Input
+                        id="horasVendidas"
+                        value={formData.horasVendidas}
+                        onChange={(e) => handleInputChange("horasVendidas", e.target.value)}
+                        placeholder="Ex: 40"
+                        className="text-sm print:hidden"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="prazoMelhoria" className="text-sm">
+                        Prazo de Entrega
+                      </Label>
+                      <Input
+                        id="prazoMelhoria"
+                        value={formData.prazoMelhoria}
+                        onChange={(e) => handleInputChange("prazoMelhoria", e.target.value)}
+                        placeholder="Ex: 10 dias úteis"
+                        className="text-sm print:hidden"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Resumo do projeto - compacto */}
+                  <div className="bg-green-50 p-3 rounded-lg">
+                    <h3 className="font-semibold text-base mb-2">{formData.tituloMelhoria || "Título da Melhoria"}</h3>
+                    <p className="text-gray-700 mb-3 text-sm whitespace-pre-wrap">
+                      {formData.descricaoMelhoria || "Descrição detalhada das melhorias a serem implementadas."}
+                    </p>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <h4 className="font-medium mb-1 text-sm">Especificações:</h4>
+                        <ul className="text-xs space-y-1">
+                          <li>• Horas: {formData.horasVendidas || "0"} horas</li>
+                          <li>• Prazo: {formData.prazoMelhoria || "A definir"}</li>
+                          <li>• Valor total: R$ {formData.valorTotalMelhoria || "0,00"}</li>
+                          <li>
+                            • Parcelamento:{" "}
+                            {formData.parcelamentoMelhoria === "1" ? "À vista" : `${formData.parcelamentoMelhoria}x`}
+                          </li>
+                        </ul>
+                      </div>
+                      <div>
+                        <h4 className="font-medium mb-1 text-sm">Entregas:</h4>
+                        <ul className="text-xs space-y-1">
+                          <li>• Implementação das melhorias</li>
+                          <li>• Testes e validação</li>
+                          <li>• Documentação atualizada</li>
+                          <li>• Relatório de conclusão</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                // Escopo para Adicional - Compacto
+                <div className="space-y-3">
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <Label htmlFor="tituloAdicional" className="text-sm">
+                        Título do Adicional
+                      </Label>
+                      <Input
+                        id="tituloAdicional"
+                        value={formData.tituloAdicional}
+                        onChange={(e) => handleInputChange("tituloAdicional", e.target.value)}
+                        placeholder="Ex: Expansão de recursos do plano atual"
+                        className="text-sm print:hidden"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="descricaoAdicional" className="text-sm">
+                        Descrição Geral
+                      </Label>
+                      <Input
+                        id="descricaoAdicional"
+                        value={formData.descricaoAdicional}
+                        onChange={(e) => handleInputChange("descricaoAdicional", e.target.value)}
+                        placeholder="Ex: Adição de recursos ao plano existente"
+                        className="text-sm print:hidden"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Seletor de itens adicionais */}
+                  <div className="bg-purple-50 p-3 rounded-lg print:hidden">
+                    <Label className="text-sm font-medium mb-2 block">Selecione os itens que deseja adicionar:</Label>
+                    <div className="grid grid-cols-3 gap-3">
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          id="fluxos"
+                          checked={formData.itensAdicionais.fluxos}
+                          onChange={(e) => {
+                            setFormData((prev) => ({
+                              ...prev,
+                              itensAdicionais: {
+                                ...prev.itensAdicionais,
+                                fluxos: e.target.checked,
+                              },
+                            }))
+                          }}
+                          className="rounded"
+                        />
+                        <Label htmlFor="fluxos" className="text-sm">
+                          Fluxos
+                        </Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          id="apiCalls"
+                          checked={formData.itensAdicionais.apiCalls}
+                          onChange={(e) => {
+                            setFormData((prev) => ({
+                              ...prev,
+                              itensAdicionais: {
+                                ...prev.itensAdicionais,
+                                apiCalls: e.target.checked,
+                              },
+                            }))
+                          }}
+                          className="rounded"
+                        />
+                        <Label htmlFor="apiCalls" className="text-sm">
+                          API Calls
+                        </Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          id="tenants"
+                          checked={formData.itensAdicionais.tenants}
+                          onChange={(e) => {
+                            setFormData((prev) => ({
+                              ...prev,
+                              itensAdicionais: {
+                                ...prev.itensAdicionais,
+                                tenants: e.target.checked,
+                              },
+                            }))
+                          }}
+                          className="rounded"
+                        />
+                        <Label htmlFor="tenants" className="text-sm">
+                          Tenants
+                        </Label>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Campos de quantidade baseados na seleção */}
+                  <div className="grid grid-cols-3 gap-3 print:hidden">
+                    {formData.itensAdicionais.fluxos && (
+                      <div>
+                        <Label htmlFor="quantidadeFluxosAdicionais" className="text-xs">
+                          Quantidade de Fluxos
+                        </Label>
+                        <Input
+                          id="quantidadeFluxosAdicionais"
+                          value={formData.quantidadeFluxosAdicionais}
+                          onChange={(e) => handleInputChange("quantidadeFluxosAdicionais", e.target.value)}
+                          placeholder="Ex: 5"
+                          className="text-sm"
+                        />
+                      </div>
+                    )}
+                    {formData.itensAdicionais.apiCalls && (
+                      <div>
+                        <Label htmlFor="quantidadeApiCallsAdicionais" className="text-xs">
+                          Quantidade de API Calls
+                        </Label>
+                        <Input
+                          id="quantidadeApiCallsAdicionais"
+                          value={formData.quantidadeApiCallsAdicionais}
+                          onChange={(e) => handleInputChange("quantidadeApiCallsAdicionais", e.target.value)}
+                          placeholder="Ex: 500.000"
+                          className="text-sm"
+                        />
+                      </div>
+                    )}
+                    {formData.itensAdicionais.tenants && (
+                      <div>
+                        <Label htmlFor="quantidadeTenantsAdicionais" className="text-xs">
+                          Quantidade de Tenants
+                        </Label>
+                        <Input
+                          id="quantidadeTenantsAdicionais"
+                          value={formData.quantidadeTenantsAdicionais}
+                          onChange={(e) => handleInputChange("quantidadeTenantsAdicionais", e.target.value)}
+                          placeholder="Ex: 3"
+                          className="text-sm"
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Resumo do adicional */}
+                  <div className="bg-purple-50 p-3 rounded-lg">
+                    <h3 className="font-semibold text-base mb-2">
+                      {formData.tituloAdicional || "Título do Adicional"}
+                    </h3>
+                    <p className="text-gray-700 mb-3 text-sm">
+                      {formData.descricaoAdicional || "Descrição dos itens adicionais"}
+                    </p>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <h4 className="font-medium mb-1 text-sm">Itens Adicionais:</h4>
+                        <ul className="text-xs space-y-1">
+                          {formData.itensAdicionais.fluxos && (
+                            <li>• Fluxos: {formData.quantidadeFluxosAdicionais || "0"} unidades</li>
+                          )}
+                          {formData.itensAdicionais.apiCalls && (
+                            <li>• API Calls: {formData.quantidadeApiCallsAdicionais || "0"} chamadas</li>
+                          )}
+                          {formData.itensAdicionais.tenants && (
+                            <li>• Tenants: {formData.quantidadeTenantsAdicionais || "0"} unidades</li>
+                          )}
+                          {!formData.itensAdicionais.fluxos &&
+                            !formData.itensAdicionais.apiCalls &&
+                            !formData.itensAdicionais.tenants && <li>• Nenhum item selecionado</li>}
+                        </ul>
+                      </div>
+                      <div>
+                        <h4 className="font-medium mb-1 text-sm">Benefícios:</h4>
+                        <ul className="text-xs space-y-1">
+                          <li>• Expansão da capacidade atual</li>
+                          <li>• Sem necessidade de novo setup</li>
+                          <li>• Integração com plano existente</li>
+                          <li>• Suporte técnico incluído</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Anexo II - Valores - Compacto */}
+          <Card className="mb-6 compact-section melhoria-adicional-valores">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center gap-2 text-lg">
+                <DollarSign className="h-5 w-5" />
+                Anexo II - Valores e Condições Comerciais
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="pt-0">
+              {formData.tipoProjeto === "melhoria" ? (
+                // Valores para Melhorias - Compacto
+                <div className="space-y-4">
+                  <div className="bg-green-50 p-4 rounded-xl border border-green-200 print:hidden">
+                    <h3 className="font-semibold text-base mb-3">Serviço de Melhorias</h3>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <Label htmlFor="valorTotalMelhoria" className="text-sm">
+                          Valor Total (R$)
+                        </Label>
+                        <Input
+                          id="valorTotalMelhoria"
+                          value={formData.valorTotalMelhoria}
+                          onChange={(e) => handleInputChange("valorTotalMelhoria", e.target.value)}
+                          placeholder="Ex: 6.000,00"
+                          className="text-sm"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="parcelamentoMelhoria" className="text-sm">
+                          Parcelamento
+                        </Label>
+                        <select
+                          id="parcelamentoMelhoria"
+                          value={formData.parcelamentoMelhoria}
+                          onChange={(e) => handleInputChange("parcelamentoMelhoria", e.target.value)}
+                          className="w-full p-2 border border-gray-300 rounded-md text-sm"
+                        >
+                          <option value="1">À vista</option>
+                          <option value="2">2x</option>
+                          <option value="3">3x</option>
+                          <option value="4">4x</option>
+                        </select>
+                      </div>
+                      <div>
+                        <Label htmlFor="formaPagamentoMelhoria" className="text-sm">
+                          Forma de Pagamento
+                        </Label>
+                        <Input
+                          id="formaPagamentoMelhoria"
+                          value={formData.formaPagamento}
+                          onChange={(e) => handleInputChange("formaPagamento", e.target.value)}
+                          placeholder="Boleto/PIX"
+                          className="text-sm"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="diaVencimentoMelhoria" className="text-sm">
+                          Dia Vencimento
+                        </Label>
+                        <Input
+                          id="diaVencimentoMelhoria"
+                          value={formData.diaVencimento}
+                          onChange={(e) => handleInputChange("diaVencimento", e.target.value)}
+                          placeholder="10"
+                          className="text-sm"
+                        />
+                      </div>
+                      <div className="col-span-2">
+                        <div className="flex justify-between items-center p-3 bg-white rounded-lg border">
+                          <span className="font-medium text-sm">Valor por parcela:</span>
+                          <span className="font-bold text-green-600">
+                            {formData.parcelamentoMelhoria === "1"
+                              ? `R$ ${formData.valorTotalMelhoria || "0,00"}`
+                              : `${formData.parcelamentoMelhoria}x de R$ ${
+                                  formData.valorTotalMelhoria
+                                    ? (
+                                        Number.parseFloat(
+                                          formData.valorTotalMelhoria.replace(".", "").replace(",", "."),
+                                        ) / Number.parseInt(formData.parcelamentoMelhoria)
+                                      ).toLocaleString("pt-BR", {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                      })
+                                    : "0,00"
+                                }`}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Versão para impressão - Melhorias */}
+                  <div className="hidden print:block">
+                    <div className="print-card-title">Serviço de Melhorias</div>
+                    <div className="print-grid-2 mb-4">
+                      <div className="print-field">
+                        <span className="print-field-label">Valor Total:</span>
+                        <span className="print-field-value">R$ {formData.valorTotalMelhoria || "0,00"}</span>
+                      </div>
+                      <div className="print-field">
+                        <span className="print-field-label">Parcelamento:</span>
+                        <span className="print-field-value">
+                          {formData.parcelamentoMelhoria === "1" ? "À vista" : `${formData.parcelamentoMelhoria}x`}
+                        </span>
+                      </div>
+                      <div className="print-field">
+                        <span className="print-field-label">Forma de Pagamento:</span>
+                        <span className="print-field-value">{formData.formaPagamento}</span>
+                      </div>
+                      <div className="print-field">
+                        <span className="print-field-label">Valor por parcela:</span>
+                        <span className="print-field-value">
+                          {formData.parcelamentoMelhoria === "1"
+                            ? `R$ ${formData.valorTotalMelhoria || "0,00"}`
+                            : `${formData.parcelamentoMelhoria}x de R$ ${
+                                formData.valorTotalMelhoria
+                                  ? (
+                                      Number.parseFloat(
+                                        formData.valorTotalMelhoria.replace(".", "").replace(",", "."),
+                                      ) / Number.parseInt(formData.parcelamentoMelhoria)
+                                    ).toLocaleString("pt-BR", {
+                                      minimumFractionDigits: 2,
+                                      maximumFractionDigits: 2,
+                                    })
+                                  : "0,00"
+                              }`}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gradient-to-r from-gray-50 to-gray-100 p-4 rounded-xl border-2 border-gray-200 compact-financial-summary">
+                    <h4 className="font-bold text-base mb-3 text-center text-gray-800 print:hidden">
+                      💰 Resumo Financeiro
+                    </h4>
+                    <div className="hidden print:block print-card-title text-center">💰 Resumo Financeiro</div>
+                    <div className="compact-financial-grid">
+                      <div className="compact-financial-item">
+                        <div className="compact-financial-value text-green-600">{formData.horasVendidas || "0"}</div>
+                        <div className="compact-financial-label">Horas Vendidas</div>
+                        <div className="compact-financial-sublabel">Total de horas</div>
+                      </div>
+                      <div className="compact-financial-item">
+                        <div className="compact-financial-value text-blue-600">{formData.parcelamentoMelhoria}x</div>
+                        <div className="compact-financial-label">Parcelas</div>
+                        <div className="compact-financial-sublabel">Forma de pagamento</div>
+                      </div>
+                      <div className="compact-financial-item">
+                        <div className="compact-financial-value text-purple-600">
+                          R$ {formData.valorTotalMelhoria || "0,00"}
+                        </div>
+                        <div className="compact-financial-label">Valor Total</div>
+                        <div className="compact-financial-sublabel">
+                          {formData.parcelamentoMelhoria === "1"
+                            ? "À vista"
+                            : `${formData.parcelamentoMelhoria} parcelas`}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mt-3 pt-3 border-t border-gray-200">
+                      <div className="grid grid-cols-2 gap-3 text-sm">
+                        <div>
+                          <span className="font-medium">Forma de Pagamento:</span> {formData.formaPagamento}
+                        </div>
+                        <div>
+                          <span className="font-medium">Prazo:</span> {formData.prazoMelhoria || "A definir"}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                // Valores para Adicional - Compacto
+                <div className="space-y-4">
+                  <div className="bg-purple-50 p-4 rounded-xl border border-purple-200 print:hidden">
+                    <h3 className="font-semibold text-base mb-3">Serviço Adicional</h3>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <Label htmlFor="valorTotalAdicional" className="text-sm">
+                          Valor Total (R$)
+                        </Label>
+                        <Input
+                          id="valorTotalAdicional"
+                          value={formData.valorTotalAdicional}
+                          onChange={(e) => handleInputChange("valorTotalAdicional", e.target.value)}
+                          placeholder="Ex: 2.000,00"
+                          className="text-sm"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="parcelamentoAdicional" className="text-sm">
+                          Parcelamento
+                        </Label>
+                        <select
+                          id="parcelamentoAdicional"
+                          value={formData.parcelamentoMelhoria}
+                          onChange={(e) => handleInputChange("parcelamentoMelhoria", e.target.value)}
+                          className="w-full p-2 border border-gray-300 rounded-md text-sm"
+                        >
+                          <option value="1">À vista</option>
+                          <option value="2">2x</option>
+                          <option value="3">3x</option>
+                          <option value="4">4x</option>
+                        </select>
+                      </div>
+                      <div>
+                        <Label htmlFor="formaPagamentoAdicional" className="text-sm">
+                          Forma de Pagamento
+                        </Label>
+                        <Input
+                          id="formaPagamentoAdicional"
+                          value={formData.formaPagamento}
+                          onChange={(e) => handleInputChange("formaPagamento", e.target.value)}
+                          placeholder="Boleto/PIX"
+                          className="text-sm"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="diaVencimentoAdicional" className="text-sm">
+                          Dia Vencimento
+                        </Label>
+                        <Input
+                          id="diaVencimentoAdicional"
+                          value={formData.diaVencimento}
+                          onChange={(e) => handleInputChange("diaVencimento", e.target.value)}
+                          placeholder="10"
+                          className="text-sm"
+                        />
+                      </div>
+                      <div className="col-span-2">
+                        <div className="flex justify-between items-center p-3 bg-white rounded-lg border">
+                          <span className="font-medium text-sm">Valor por parcela:</span>
+                          <span className="font-bold text-purple-600">
+                            {formData.parcelamentoMelhoria === "1"
+                              ? `R$ ${formData.valorTotalAdicional || "0,00"}`
+                              : `${formData.parcelamentoMelhoria}x de R$ ${
+                                  formData.valorTotalAdicional
+                                    ? (
+                                        Number.parseFloat(
+                                          formData.valorTotalAdicional.replace(".", "").replace(",", "."),
+                                        ) / Number.parseInt(formData.parcelamentoMelhoria)
+                                      ).toLocaleString("pt-BR", {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                      })
+                                    : "0,00"
+                                }`}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Versão para impressão - Adicional */}
+                  <div className="hidden print:block">
+                    <div className="print-card-title">Serviço Adicional</div>
+                    <div className="print-grid-2 mb-4">
+                      <div className="print-field">
+                        <span className="print-field-label">Valor Total:</span>
+                        <span className="print-field-value">R$ {formData.valorTotalAdicional || "0,00"}</span>
+                      </div>
+                      <div className="print-field">
+                        <span className="print-field-label">Parcelamento:</span>
+                        <span className="print-field-value">
+                          {formData.parcelamentoMelhoria === "1" ? "À vista" : `${formData.parcelamentoMelhoria}x`}
+                        </span>
+                      </div>
+                      <div className="print-field">
+                        <span className="print-field-label">Forma de Pagamento:</span>
+                        <span className="print-field-value">{formData.formaPagamento}</span>
+                      </div>
+                      <div className="print-field">
+                        <span className="print-field-label">Valor por parcela:</span>
+                        <span className="print-field-value">
+                          {formData.parcelamentoMelhoria === "1"
+                            ? `R$ ${formData.valorTotalAdicional || "0,00"}`
+                            : `${formData.parcelamentoMelhoria}x de R$ ${
+                                formData.valorTotalAdicional
+                                  ? (
+                                      Number.parseFloat(
+                                        formData.valorTotalAdicional.replace(".", "").replace(",", "."),
+                                      ) / Number.parseInt(formData.parcelamentoMelhoria)
+                                    ).toLocaleString("pt-BR", {
+                                      minimumFractionDigits: 2,
+                                      maximumFractionDigits: 2,
+                                    })
+                                  : "0,00"
+                              }`}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gradient-to-r from-gray-50 to-gray-100 p-4 rounded-xl border-2 border-gray-200 compact-financial-summary">
+                    <h4 className="font-bold text-base mb-3 text-center text-gray-800 print:hidden">
+                      💰 Resumo Financeiro
+                    </h4>
+                    <div className="hidden print:block print-card-title text-center">💰 Resumo Financeiro</div>
+                    <div className="compact-financial-grid">
+                      <div className="compact-financial-item">
+                        <div className="compact-financial-value text-purple-600">
+                          {Object.values(formData.itensAdicionais).filter(Boolean).length}
+                        </div>
+                        <div className="compact-financial-label">Itens Selecionados</div>
+                        <div className="compact-financial-sublabel">Recursos adicionais</div>
+                      </div>
+                      <div className="compact-financial-item">
+                        <div className="compact-financial-value text-blue-600">{formData.parcelamentoMelhoria}x</div>
+                        <div className="compact-financial-label">Parcelas</div>
+                        <div className="compact-financial-sublabel">Forma de pagamento</div>
+                      </div>
+                      <div className="compact-financial-item">
+                        <div className="compact-financial-value text-green-600">
+                          R$ {formData.valorTotalAdicional || "0,00"}
+                        </div>
+                        <div className="compact-financial-label">Valor Total</div>
+                        <div className="compact-financial-sublabel">
+                          {formData.parcelamentoMelhoria === "1"
+                            ? "À vista"
+                            : `${formData.parcelamentoMelhoria} parcelas`}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mt-3 pt-3 border-t border-gray-200">
+                      <div className="grid grid-cols-2 gap-3 text-sm">
+                        <div>
+                          <span className="font-medium">Forma de Pagamento:</span> {formData.formaPagamento}
+                        </div>
+                        <div>
+                          <span className="font-medium">Vencimento:</span> Dia {formData.diaVencimentoGeral} de cada mês
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* PÁGINA 2: Anexo I e II para Integração */}
+      {formData.tipoProjeto === "integracao" && (
+        <>
+          {/* Anexo I - Escopo - Mais compacto */}
+          <Card className="mb-4">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center gap-2 text-lg">
+                <FileText className="h-5 w-5" />
+                Anexo I - Escopo do Projeto
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="pt-0">
+              {/* Escopo para Integração - Layout mais compacto */}
+              <div className="space-y-3">
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <Label htmlFor="tituloEscopo" className="text-sm">
+                      Título do Projeto
+                    </Label>
+                    <Input
+                      id="tituloEscopo"
+                      value={formData.tituloEscopo}
+                      onChange={(e) => handleInputChange("tituloEscopo", e.target.value)}
+                      placeholder="Ex: Automatização de dados entre sistemas PandaPé e ATS G4S"
                       className="text-sm"
                     />
                   </div>
-                ))}
-              </div>
-
-              <div className="grid grid-cols-5 gap-2">
-                <div>
-                  <Label htmlFor="tempoProjeto" className="text-xs">
-                    Tempo de Projeto
-                  </Label>
-                  <Input
-                    id="tempoProjeto"
-                    value={formData.tempoProjeto}
-                    onChange={(e) => handleInputChange("tempoProjeto", e.target.value)}
-                    placeholder="20 dias úteis"
-                    className="text-sm"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="fluxosInclusos" className="text-xs">
-                    Fluxos Inclusos
-                  </Label>
-                  <Input
-                    id="fluxosInclusos"
-                    value={formData.fluxosInclusos}
-                    onChange={(e) => handleInputChange("fluxosInclusos", e.target.value)}
-                    placeholder="10"
-                    className="text-sm"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="apiCalls" className="text-xs">
-                    API Calls
-                  </Label>
-                  <Input
-                    id="apiCalls"
-                    value={formData.apiCalls}
-                    onChange={(e) => handleInputChange("apiCalls", e.target.value)}
-                    placeholder="1.000.000"
-                    className="text-sm"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="horasOnboarding" className="text-xs">
-                    Horas Onboarding
-                  </Label>
-                  <Input
-                    id="horasOnboarding"
-                    value={formData.horasOnboarding}
-                    onChange={(e) => handleInputChange("horasOnboarding", e.target.value)}
-                    placeholder="8"
-                    className="text-sm"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="suporteTipo" className="text-xs">
-                    Tipo de Suporte
-                  </Label>
-                  <Input
-                    id="suporteTipo"
-                    value={formData.suporteTipo}
-                    onChange={(e) => handleInputChange("suporteTipo", e.target.value)}
-                    placeholder="8x5"
-                    className="text-sm"
-                  />
-                </div>
-              </div>
-
-              {/* Resumo do projeto - mais compacto */}
-              <div className="bg-blue-50 p-3 rounded-lg">
-                <h3 className="font-semibold text-base mb-2">{formData.tituloEscopo || "Título do Projeto"}</h3>
-                <p className="text-gray-700 mb-3 text-sm">
-                  {formData.descricaoEscopo ||
-                    `Contendo ${formData.quantidadeFluxos} fluxo${
-                      formData.quantidadeFluxos > 1 ? "s" : ""
-                    } de integração`}
-                </p>
-
-                <div className="space-y-2 mb-3">
-                  {formData.fluxos.map(
-                    (fluxo, index) =>
-                      fluxo && (
-                        <div key={index} className="border-l-4 border-blue-500 pl-3">
-                          <h4 className="font-medium text-sm">
-                            Fluxo {index + 1}: {fluxo}
-                          </h4>
-                        </div>
-                      ),
-                  )}
-                </div>
-
-                <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <h4 className="font-medium mb-1 text-sm">Especificações Técnicas:</h4>
-                    <ul className="text-xs space-y-1">
-                      <li>• Tempo de projeto: {formData.tempoProjeto || "20 dias úteis"}</li>
-                      <li>• Fluxos inclusos: {formData.fluxosInclusos || "10"}</li>
-                      <li>• API Calls: {formData.apiCalls || "1.000.000"}</li>
-                      <li>• Suporte: {formData.suporteTipo || "8x5"}</li>
-                      <li>• Onboarding: {formData.horasOnboarding || "8"} horas</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h4 className="font-medium mb-1 text-sm">Entregas:</h4>
-                    <ul className="text-xs space-y-1">
-                      <li>• Conectores personalizados</li>
-                      <li>• Fluxos de trabalho automatizados</li>
-                      <li>• Documentação técnica</li>
-                      <li>• Treinamento da equipe</li>
-                      <li>• Suporte pós-implementação</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ) : formData.tipoProjeto === "melhoria" ? (
-            // Escopo para Melhorias
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="tituloMelhoria">Título da Melhoria</Label>
-                <Input
-                  id="tituloMelhoria"
-                  value={formData.tituloMelhoria}
-                  onChange={(e) => handleInputChange("tituloMelhoria", e.target.value)}
-                  placeholder="Ex: Otimização de performance nas integrações existentes"
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="descricaoMelhoria">Descrição Detalhada</Label>
-                <textarea
-                  id="descricaoMelhoria"
-                  value={formData.descricaoMelhoria}
-                  onChange={(e) => handleInputChange("descricaoMelhoria", e.target.value)}
-                  placeholder="Descreva detalhadamente as melhorias que serão implementadas..."
-                  className="w-full p-3 border border-gray-300 rounded-md min-h-[100px] resize-y"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="horasVendidas">Horas Vendidas</Label>
-                  <Input
-                    id="horasVendidas"
-                    value={formData.horasVendidas}
-                    onChange={(e) => handleInputChange("horasVendidas", e.target.value)}
-                    placeholder="Ex: 40"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="prazoMelhoria">Prazo de Entrega</Label>
-                  <Input
-                    id="prazoMelhoria"
-                    value={formData.prazoMelhoria}
-                    onChange={(e) => handleInputChange("prazoMelhoria", e.target.value)}
-                    placeholder="Ex: 10 dias úteis"
-                  />
-                </div>
-              </div>
-
-              <Separator className="my-6" />
-
-              <div className="bg-green-50 p-4 rounded-lg">
-                <h3 className="font-semibold text-lg mb-2">{formData.tituloMelhoria || "Título da Melhoria"}</h3>
-                <p className="text-gray-700 mb-4 whitespace-pre-wrap">
-                  {formData.descricaoMelhoria || "Descrição detalhada das melhorias a serem implementadas."}
-                </p>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <h4 className="font-medium mb-2">Especificações:</h4>
-                    <ul className="text-sm space-y-1">
-                      <li>• Horas: {formData.horasVendidas || "0"} horas</li>
-                      <li>• Prazo: {formData.prazoMelhoria || "A definir"}</li>
-                      <li>• Valor total: R$ {formData.valorTotalMelhoria || "0,00"}</li>
-                      <li>
-                        • Parcelamento:{" "}
-                        {formData.parcelamentoMelhoria === "1" ? "À vista" : `${formData.parcelamentoMelhoria}x`}
-                      </li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h4 className="font-medium mb-2">Entregas:</h4>
-                    <ul className="text-sm space-y-1">
-                      <li>• Implementação das melhorias</li>
-                      <li>• Testes e validação</li>
-                      <li>• Documentação atualizada</li>
-                      <li>• Relatório de conclusão</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ) : formData.tipoProjeto === "adicional" ? (
-            // Escopo para Adicional
-            <div className="space-y-3">
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <Label htmlFor="tituloAdicional" className="text-sm">
-                    Título do Adicional
-                  </Label>
-                  <Input
-                    id="tituloAdicional"
-                    value={formData.tituloAdicional}
-                    onChange={(e) => handleInputChange("tituloAdicional", e.target.value)}
-                    placeholder="Ex: Expansão de recursos do plano atual"
-                    className="text-sm"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="descricaoAdicional" className="text-sm">
-                    Descrição Geral
-                  </Label>
-                  <Input
-                    id="descricaoAdicional"
-                    value={formData.descricaoAdicional}
-                    onChange={(e) => handleInputChange("descricaoAdicional", e.target.value)}
-                    placeholder="Ex: Adição de recursos ao plano existente"
-                    className="text-sm"
-                  />
-                </div>
-              </div>
-
-              {/* Seletor de itens adicionais */}
-              <div className="bg-purple-50 p-3 rounded-lg">
-                <Label className="text-sm font-medium mb-2 block">Selecione os itens que deseja adicionar:</Label>
-                <div className="grid grid-cols-3 gap-3">
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      id="fluxos"
-                      checked={formData.itensAdicionais.fluxos}
-                      onChange={(e) => {
-                        setFormData((prev) => ({
-                          ...prev,
-                          itensAdicionais: {
-                            ...prev.itensAdicionais,
-                            fluxos: e.target.checked,
-                          },
-                        }))
-                      }}
-                      className="rounded"
-                    />
-                    <Label htmlFor="fluxos" className="text-sm">
-                      Fluxos
+                    <Label htmlFor="descricaoEscopo" className="text-sm">
+                      Descrição Geral
                     </Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      id="apiCalls"
-                      checked={formData.itensAdicionais.apiCalls}
-                      onChange={(e) => {
-                        setFormData((prev) => ({
-                          ...prev,
-                          itensAdicionais: {
-                            ...prev.itensAdicionais,
-                            apiCalls: e.target.checked,
-                          },
-                        }))
-                      }}
-                      className="rounded"
+                    <Input
+                      id="descricaoEscopo"
+                      value={formData.descricaoEscopo}
+                      onChange={(e) => handleInputChange("descricaoEscopo", e.target.value)}
+                      placeholder="Ex: Contendo X fluxos de integração"
+                      className="text-sm"
                     />
-                    <Label htmlFor="apiCalls" className="text-sm">
+                  </div>
+                </div>
+
+                {/* Seletor de quantidade de fluxos - mais compacto */}
+                <div className="bg-blue-50 p-3 rounded-lg">
+                  <Label htmlFor="quantidadeFluxos" className="text-sm font-medium">
+                    Quantidade de Fluxos de Integração
+                  </Label>
+                  <select
+                    id="quantidadeFluxos"
+                    value={formData.quantidadeFluxos}
+                    onChange={(e) => {
+                      const quantidade = Number.parseInt(e.target.value)
+                      const novosFluxos = [...formData.fluxos]
+
+                      if (quantidade > formData.fluxos.length) {
+                        for (let i = formData.fluxos.length; i < quantidade; i++) {
+                          novosFluxos.push("")
+                        }
+                      } else {
+                        novosFluxos.splice(quantidade)
+                      }
+
+                      setFormData((prev) => ({
+                        ...prev,
+                        quantidadeFluxos: quantidade,
+                        fluxos: novosFluxos,
+                      }))
+                    }}
+                    className="mt-1 w-full p-2 border border-gray-300 rounded-md text-sm"
+                  >
+                    {[...Array(30)].map((_, index) => {
+                      const num = index + 1
+                      return (
+                        <option key={num} value={num}>
+                          {num} fluxo{num > 1 ? "s" : ""}
+                        </option>
+                      )
+                    })}
+                  </select>
+                </div>
+
+                {/* Campos dinâmicos para os fluxos - mais compactos */}
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium">Detalhamento dos Fluxos:</Label>
+                  {Array.from({ length: formData.quantidadeFluxos }, (_, index) => (
+                    <div key={index}>
+                      <Label htmlFor={`fluxo${index + 1}`} className="text-xs">
+                        Fluxo {index + 1}
+                      </Label>
+                      <Input
+                        id={`fluxo${index + 1}`}
+                        value={formData.fluxos[index] || ""}
+                        onChange={(e) => {
+                          const novosFluxos = [...formData.fluxos]
+                          novosFluxos[index] = e.target.value
+                          setFormData((prev) => ({ ...prev, fluxos: novosFluxos }))
+                        }}
+                        placeholder={`Ex: Sistema A → Sistema B (descrição do fluxo ${index + 1})`}
+                        className="text-sm"
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                <div className="grid grid-cols-5 gap-2">
+                  <div>
+                    <Label htmlFor="tempoProjeto" className="text-xs">
+                      Tempo de Projeto
+                    </Label>
+                    <Input
+                      id="tempoProjeto"
+                      value={formData.tempoProjeto}
+                      onChange={(e) => handleInputChange("tempoProjeto", e.target.value)}
+                      placeholder="20 dias úteis"
+                      className="text-sm"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="fluxosInclusos" className="text-xs">
+                      Fluxos Inclusos
+                    </Label>
+                    <Input
+                      id="fluxosInclusos"
+                      value={formData.fluxosInclusos}
+                      onChange={(e) => handleInputChange("fluxosInclusos", e.target.value)}
+                      placeholder="10"
+                      className="text-sm"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="apiCalls" className="text-xs">
                       API Calls
                     </Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      id="tenants"
-                      checked={formData.itensAdicionais.tenants}
-                      onChange={(e) => {
-                        setFormData((prev) => ({
-                          ...prev,
-                          itensAdicionais: {
-                            ...prev.itensAdicionais,
-                            tenants: e.target.checked,
-                          },
-                        }))
-                      }}
-                      className="rounded"
-                    />
-                    <Label htmlFor="tenants" className="text-sm">
-                      Tenants
-                    </Label>
-                  </div>
-                </div>
-              </div>
-
-              {/* Campos de quantidade baseados na seleção */}
-              <div className="grid grid-cols-3 gap-3">
-                {formData.itensAdicionais.fluxos && (
-                  <div>
-                    <Label htmlFor="quantidadeFluxosAdicionais" className="text-xs">
-                      Quantidade de Fluxos
-                    </Label>
                     <Input
-                      id="quantidadeFluxosAdicionais"
-                      value={formData.quantidadeFluxosAdicionais}
-                      onChange={(e) => handleInputChange("quantidadeFluxosAdicionais", e.target.value)}
-                      placeholder="Ex: 5"
+                      id="apiCalls"
+                      value={formData.apiCalls}
+                      onChange={(e) => handleInputChange("apiCalls", e.target.value)}
+                      placeholder="1.000.000"
                       className="text-sm"
                     />
                   </div>
-                )}
-                {formData.itensAdicionais.apiCalls && (
                   <div>
-                    <Label htmlFor="quantidadeApiCallsAdicionais" className="text-xs">
-                      Quantidade de API Calls
+                    <Label htmlFor="horasOnboarding" className="text-xs">
+                      Horas Onboarding
                     </Label>
                     <Input
-                      id="quantidadeApiCallsAdicionais"
-                      value={formData.quantidadeApiCallsAdicionais}
-                      onChange={(e) => handleInputChange("quantidadeApiCallsAdicionais", e.target.value)}
-                      placeholder="Ex: 500.000"
+                      id="horasOnboarding"
+                      value={formData.horasOnboarding}
+                      onChange={(e) => handleInputChange("horasOnboarding", e.target.value)}
+                      placeholder="8"
                       className="text-sm"
                     />
                   </div>
-                )}
-                {formData.itensAdicionais.tenants && (
                   <div>
-                    <Label htmlFor="quantidadeTenantsAdicionais" className="text-xs">
-                      Quantidade de Tenants
+                    <Label htmlFor="suporteTipo" className="text-xs">
+                      Tipo de Suporte
                     </Label>
                     <Input
-                      id="quantidadeTenantsAdicionais"
-                      value={formData.quantidadeTenantsAdicionais}
-                      onChange={(e) => handleInputChange("quantidadeTenantsAdicionais", e.target.value)}
-                      placeholder="Ex: 3"
+                      id="suporteTipo"
+                      value={formData.suporteTipo}
+                      onChange={(e) => handleInputChange("suporteTipo", e.target.value)}
+                      placeholder="8x5"
                       className="text-sm"
                     />
                   </div>
-                )}
-              </div>
-
-              {/* Resumo do adicional */}
-              <div className="bg-purple-50 p-3 rounded-lg">
-                <h3 className="font-semibold text-base mb-2">{formData.tituloAdicional || "Título do Adicional"}</h3>
-                <p className="text-gray-700 mb-3 text-sm">
-                  {formData.descricaoAdicional || "Descrição dos itens adicionais"}
-                </p>
-
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <h4 className="font-medium mb-1 text-sm">Itens Adicionais:</h4>
-                    <ul className="text-xs space-y-1">
-                      {formData.itensAdicionais.fluxos && (
-                        <li>• Fluxos: {formData.quantidadeFluxosAdicionais || "0"} unidades</li>
-                      )}
-                      {formData.itensAdicionais.apiCalls && (
-                        <li>• API Calls: {formData.quantidadeApiCallsAdicionais || "0"} chamadas</li>
-                      )}
-                      {formData.itensAdicionais.tenants && (
-                        <li>• Tenants: {formData.quantidadeTenantsAdicionais || "0"} unidades</li>
-                      )}
-                      {!formData.itensAdicionais.fluxos &&
-                        !formData.itensAdicionais.apiCalls &&
-                        !formData.itensAdicionais.tenants && <li>• Nenhum item selecionado</li>}
-                    </ul>
-                  </div>
-                  <div>
-                    <h4 className="font-medium mb-1 text-sm">Benefícios:</h4>
-                    <ul className="text-xs space-y-1">
-                      <li>• Expansão da capacidade atual</li>
-                      <li>• Sem necessidade de novo setup</li>
-                      <li>• Integração com plano existente</li>
-                      <li>• Suporte técnico incluído</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ) : (
-            ""
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Anexo II - Valores - Final da Página 2 */}
-      <Card className="mb-6 page-2-end">
-        <CardHeader className="pb-3">
-          <CardTitle className="flex items-center gap-2 text-lg">
-            <DollarSign className="h-5 w-5" />
-            Anexo II - Valores e Condições Comerciais
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="pt-0">
-          {formData.tipoProjeto === "integracao" ? (
-            // Valores para Integração
-            <>
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <div className="bg-green-50 p-3 rounded-lg">
-                  <h3 className="font-semibold text-base mb-2">Professional Services</h3>
-                  <div className="space-y-2">
-                    <div>
-                      <Label htmlFor="investimentoSetup" className="text-sm">
-                        Valor Total (R$)
-                      </Label>
-                      <Input
-                        id="investimentoSetup"
-                        value={formData.investimentoSetup}
-                        onChange={(e) => handleInputChange("investimentoSetup", e.target.value)}
-                        placeholder="6.600,00"
-                        className="text-sm"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="parcelamentoSetup" className="text-sm">
-                        Parcelamento
-                      </Label>
-                      <select
-                        id="parcelamentoSetup"
-                        value={formData.parcelamentoSetup}
-                        onChange={(e) => handleInputChange("parcelamentoSetup", e.target.value)}
-                        className="w-full p-2 border border-gray-300 rounded-md text-sm"
-                      >
-                        <option value="1">À vista</option>
-                        <option value="2">2x</option>
-                        <option value="3">3x</option>
-                        <option value="4">4x</option>
-                      </select>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span>Valor por parcela:</span>
-                      <span>
-                        {formData.parcelamentoSetup === "1"
-                          ? `R$ ${formData.investimentoSetup}`
-                          : `${formData.parcelamentoSetup}x de R$ ${(
-                              Number.parseFloat(formData.investimentoSetup.replace(".", "").replace(",", ".")) /
-                                Number.parseInt(formData.parcelamentoSetup)
-                            ).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
-                      </span>
-                    </div>
-                  </div>
                 </div>
 
+                {/* Resumo do projeto - mais compacto */}
                 <div className="bg-blue-50 p-3 rounded-lg">
-                  <h3 className="font-semibold text-base mb-2">Plano Essencial</h3>
-                  <div className="space-y-2">
-                    <div>
-                      <Label htmlFor="investimentoMensal" className="text-sm">
-                        Valor Mensal (R$)
-                      </Label>
-                      <Input
-                        id="investimentoMensal"
-                        value={formData.investimentoMensal}
-                        onChange={(e) => handleInputChange("investimentoMensal", e.target.value)}
-                        placeholder="1.399,00"
-                        className="text-sm"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="tempoContrato" className="text-sm">
-                        Contrato (meses)
-                      </Label>
-                      <Input
-                        id="tempoContrato"
-                        value={formData.tempoContrato}
-                        onChange={(e) => handleInputChange("tempoContrato", e.target.value)}
-                        placeholder="12"
-                        className="text-sm"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="diaVencimento" className="text-sm">
-                        Dia Vencimento
-                      </Label>
-                      <Input
-                        id="diaVencimento"
-                        value={formData.diaVencimento}
-                        onChange={(e) => handleInputChange("diaVencimento", e.target.value)}
-                        placeholder="10"
-                        className="text-sm"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
+                  <h3 className="font-semibold text-base mb-2">{formData.tituloEscopo || "Título do Projeto"}</h3>
+                  <p className="text-gray-700 mb-3 text-sm">
+                    {formData.descricaoEscopo ||
+                      `Contendo ${formData.quantidadeFluxos} fluxo${
+                        formData.quantidadeFluxos > 1 ? "s" : ""
+                      } de integração`}
+                  </p>
 
-              <div className="bg-gradient-to-r from-gray-50 to-gray-100 p-4 rounded-xl border-2 border-gray-200">
-                <h4 className="font-bold text-base mb-3 text-center text-gray-800">💰 Resumo Financeiro</h4>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                  <div className="text-center p-3 bg-white rounded-lg shadow-sm">
-                    <div className="text-xl font-bold text-green-600">R$ {formData.investimentoSetup}</div>
-                    <div className="text-xs text-gray-600">Valor Setup</div>
-                    <div className="text-xs text-gray-500 mt-1">Pagamento único</div>
+                  <div className="space-y-2 mb-3">
+                    {formData.fluxos.map(
+                      (fluxo, index) =>
+                        fluxo && (
+                          <div key={index} className="border-l-4 border-blue-500 pl-3">
+                            <h4 className="font-medium text-sm">
+                              Fluxo {index + 1}: {fluxo}
+                            </h4>
+                          </div>
+                        ),
+                    )}
                   </div>
-                  <div className="text-center p-3 bg-white rounded-lg shadow-sm">
-                    <div className="text-xl font-bold text-blue-600">R$ {formData.investimentoMensal}</div>
-                    <div className="text-xs text-gray-600">Valor Mensal</div>
-                    <div className="text-xs text-gray-500 mt-1">Recorrente por {formData.tempoContrato} meses</div>
-                  </div>
-                  <div className="text-center p-3 bg-white rounded-lg shadow-sm">
-                    <div className="text-xl font-bold text-purple-600">R$ {calcularValorTotal()}</div>
-                    <div className="text-xs text-gray-600">Valor Total</div>
-                    <div className="text-xs text-gray-500 mt-1">Setup + {formData.tempoContrato} mensalidades</div>
-                  </div>
-                </div>
-                <div className="mt-3 pt-3 border-t border-gray-200">
-                  <div className="grid grid-cols-2 gap-3 text-sm">
-                    <div>
-                      <Label htmlFor="formaPagamento" className="text-xs">
-                        Forma de Pagamento
-                      </Label>
-                      <Input
-                        id="formaPagamento"
-                        value={formData.formaPagamento}
-                        onChange={(e) => handleInputChange("formaPagamento", e.target.value)}
-                        placeholder="Boleto/PIX"
-                        className="text-sm"
-                      />
-                    </div>
-                    <div className="flex items-center">
-                      <span className="font-medium text-sm">Vencimento:</span>
-                      <span className="ml-1 text-sm">Dia {formData.diaVencimentoGeral} de cada mês</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </>
-          ) : formData.tipoProjeto === "melhoria" ? (
-            // Valores para Melhorias
-            <div className="space-y-6">
-              <div className="bg-green-50 p-6 rounded-xl border border-green-200">
-                <h3 className="font-semibold text-lg mb-4">Serviço de Melhorias</h3>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="valorTotalMelhoria">Valor Total (R$)</Label>
-                    <Input
-                      id="valorTotalMelhoria"
-                      value={formData.valorTotalMelhoria}
-                      onChange={(e) => handleInputChange("valorTotalMelhoria", e.target.value)}
-                      placeholder="Ex: 6.000,00"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="parcelamentoMelhoria">Parcelamento</Label>
-                    <select
-                      id="parcelamentoMelhoria"
-                      value={formData.parcelamentoMelhoria}
-                      onChange={(e) => handleInputChange("parcelamentoMelhoria", e.target.value)}
-                      className="w-full p-2 border border-gray-300 rounded-md"
-                    >
-                      <option value="1">À vista</option>
-                      <option value="2">2x</option>
-                      <option value="3">3x</option>
-                      <option value="4">4x</option>
-                    </select>
-                  </div>
-                  <div>
-                    <Label htmlFor="formaPagamentoMelhoria">Forma de Pagamento</Label>
-                    <Input
-                      id="formaPagamentoMelhoria"
-                      value={formData.formaPagamento}
-                      onChange={(e) => handleInputChange("formaPagamento", e.target.value)}
-                      placeholder="Boleto/PIX"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="prazoMelhoria">Prazo de Entrega</Label>
-                    <Input
-                      id="prazoMelhoria"
-                      value={formData.prazoMelhoria}
-                      onChange={(e) => handleInputChange("prazoMelhoria", e.target.value)}
-                      placeholder="10 dias úteis"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="diaVencimentoMelhoria">Dia Vencimento</Label>
-                    <Input
-                      id="diaVencimentoMelhoria"
-                      value={formData.diaVencimento}
-                      onChange={(e) => handleInputChange("diaVencimento", e.target.value)}
-                      placeholder="10"
-                    />
-                  </div>
-                  <div className="col-span-2">
-                    <div className="flex justify-between items-center p-3 bg-white rounded-lg border">
-                      <span className="font-medium">Valor por parcela:</span>
-                      <span className="font-bold text-green-600">
-                        {formData.parcelamentoMelhoria === "1"
-                          ? `R$ ${formData.valorTotalMelhoria || "0,00"}`
-                          : `${formData.parcelamentoMelhoria}x de R$ ${
-                              formData.valorTotalMelhoria
-                                ? (
-                                    Number.parseFloat(formData.valorTotalMelhoria.replace(".", "").replace(",", ".")) /
-                                    Number.parseInt(formData.parcelamentoMelhoria)
-                                  ).toLocaleString("pt-BR", {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                  })
-                                : "0,00"
-                            }`}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
-              <div className="bg-gradient-to-r from-gray-50 to-gray-100 p-6 rounded-xl border-2 border-gray-200">
-                <h4 className="font-bold text-lg mb-4 text-center text-gray-800">💰 Resumo Financeiro</h4>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="text-center p-4 bg-white rounded-lg shadow-sm">
-                    <div className="text-2xl font-bold text-green-600">{formData.horasVendidas || "0"}</div>
-                    <div className="text-sm text-gray-600">Horas Vendidas</div>
-                    <div className="text-xs text-gray-500 mt-1">Total de horas</div>
-                  </div>
-                  <div className="text-center p-4 bg-white rounded-lg shadow-sm">
-                    <div className="text-2xl font-bold text-blue-600">{formData.parcelamentoMelhoria}x</div>
-                    <div className="text-sm text-gray-600">Parcelas</div>
-                    <div className="text-xs text-gray-500 mt-1">Forma de pagamento</div>
-                  </div>
-                  <div className="text-center p-4 bg-white rounded-lg shadow-sm">
-                    <div className="text-2xl font-bold text-purple-600">R$ {formData.valorTotalMelhoria || "0,00"}</div>
-                    <div className="text-sm text-gray-600">Valor Total</div>
-                    <div className="text-xs text-gray-500 mt-1">
-                      {formData.parcelamentoMelhoria === "1" ? "À vista" : `${formData.parcelamentoMelhoria} parcelas`}
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-4 pt-4 border-t border-gray-200">
-                  <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <span className="font-medium">Forma de Pagamento:</span> {formData.formaPagamento}
+                      <h4 className="font-medium mb-1 text-sm">Especificações Técnicas:</h4>
+                      <ul className="text-xs space-y-1">
+                        <li>• Tempo de projeto: {formData.tempoProjeto || "20 dias úteis"}</li>
+                        <li>• Fluxos inclusos: {formData.fluxosInclusos || "10"}</li>
+                        <li>• API Calls: {formData.apiCalls || "1.000.000"}</li>
+                        <li>• Suporte: {formData.suporteTipo || "8x5"}</li>
+                        <li>• Onboarding: {formData.horasOnboarding || "8"} horas</li>
+                      </ul>
                     </div>
                     <div>
-                      <span className="font-medium">Prazo:</span> {formData.prazoMelhoria || "A definir"}
+                      <h4 className="font-medium mb-1 text-sm">Entregas:</h4>
+                      <ul className="text-xs space-y-1">
+                        <li>• Conectores personalizados</li>
+                        <li>• Fluxos de trabalho automatizados</li>
+                        <li>• Documentação técnica</li>
+                        <li>• Treinamento da equipe</li>
+                        <li>• Suporte pós-implementação</li>
+                      </ul>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ) : formData.tipoProjeto === "adicional" ? (
-            // Valores para Adicional
-            <div className="space-y-4">
-              <div className="bg-purple-50 p-4 rounded-xl border border-purple-200">
-                <h3 className="font-semibold text-base mb-3">Serviço Adicional</h3>
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <Label htmlFor="valorTotalAdicional" className="text-sm">
-                      Valor Total (R$)
-                    </Label>
-                    <Input
-                      id="valorTotalAdicional"
-                      value={formData.valorTotalAdicional}
-                      onChange={(e) => handleInputChange("valorTotalAdicional", e.target.value)}
-                      placeholder="Ex: 2.000,00"
-                      className="text-sm"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="parcelamentoAdicional" className="text-sm">
-                      Parcelamento
-                    </Label>
-                    <select
-                      id="parcelamentoAdicional"
-                      value={formData.parcelamentoMelhoria}
-                      onChange={(e) => handleInputChange("parcelamentoMelhoria", e.target.value)}
-                      className="w-full p-2 border border-gray-300 rounded-md text-sm"
-                    >
-                      <option value="1">À vista</option>
-                      <option value="2">2x</option>
-                      <option value="3">3x</option>
-                      <option value="4">4x</option>
-                    </select>
-                  </div>
-                  <div>
-                    <Label htmlFor="formaPagamentoAdicional" className="text-sm">
-                      Forma de Pagamento
-                    </Label>
-                    <Input
-                      id="formaPagamentoAdicional"
-                      value={formData.formaPagamento}
-                      onChange={(e) => handleInputChange("formaPagamento", e.target.value)}
-                      placeholder="Boleto/PIX"
-                      className="text-sm"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="diaVencimentoAdicional" className="text-sm">
-                      Dia Vencimento
-                    </Label>
-                    <Input
-                      id="diaVencimentoAdicional"
-                      value={formData.diaVencimento}
-                      onChange={(e) => handleInputChange("diaVencimento", e.target.value)}
-                      placeholder="10"
-                      className="text-sm"
-                    />
-                  </div>
-                  <div className="col-span-2">
-                    <div className="flex justify-between items-center p-3 bg-white rounded-lg border">
-                      <span className="font-medium text-sm">Valor por parcela:</span>
-                      <span className="font-bold text-purple-600">
-                        {formData.parcelamentoMelhoria === "1"
-                          ? `R$ ${formData.valorTotalAdicional || "0,00"}`
-                          : `${formData.parcelamentoMelhoria}x de R$ ${
-                              formData.valorTotalAdicional
-                                ? (
-                                    Number.parseFloat(formData.valorTotalAdicional.replace(".", "").replace(",", ".")) /
-                                    Number.parseInt(formData.parcelamentoMelhoria)
-                                  ).toLocaleString("pt-BR", {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                  })
-                                : "0,00"
-                            }`}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            </CardContent>
+          </Card>
 
-              <div className="bg-gradient-to-r from-gray-50 to-gray-100 p-4 rounded-xl border-2 border-gray-200">
-                <h4 className="font-bold text-base mb-3 text-center text-gray-800">💰 Resumo Financeiro</h4>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                  <div className="text-center p-3 bg-white rounded-lg shadow-sm">
-                    <div className="text-xl font-bold text-purple-600">
-                      {Object.values(formData.itensAdicionais).filter(Boolean).length}
+          {/* Anexo II - Valores - Final da Página 2 */}
+          <Card className="mb-6 page-2-end">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center gap-2 text-lg">
+                <DollarSign className="h-5 w-5" />
+                Anexo II - Valores e Condições Comerciais
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="pt-0">
+              {/* Valores para Integração */}
+              <>
+                <div className="grid grid-cols-2 gap-4 mb-4">
+                  <div className="bg-green-50 p-3 rounded-lg">
+                    <h3 className="font-semibold text-base mb-2">Professional Services</h3>
+                    <div className="space-y-2">
+                      <div>
+                        <Label htmlFor="investimentoSetup" className="text-sm">
+                          Valor Total (R$)
+                        </Label>
+                        <Input
+                          id="investimentoSetup"
+                          value={formData.investimentoSetup}
+                          onChange={(e) => handleInputChange("investimentoSetup", e.target.value)}
+                          placeholder="6.600,00"
+                          className="text-sm"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="parcelamentoSetup" className="text-sm">
+                          Parcelamento
+                        </Label>
+                        <select
+                          id="parcelamentoSetup"
+                          value={formData.parcelamentoSetup}
+                          onChange={(e) => handleInputChange("parcelamentoSetup", e.target.value)}
+                          className="w-full p-2 border border-gray-300 rounded-md text-sm"
+                        >
+                          <option value="1">À vista</option>
+                          <option value="2">2x</option>
+                          <option value="3">3x</option>
+                          <option value="4">4x</option>
+                        </select>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span>Valor por parcela:</span>
+                        <span>
+                          {formData.parcelamentoSetup === "1"
+                            ? `R$ ${formData.investimentoSetup}`
+                            : `${formData.parcelamentoSetup}x de R$ ${(
+                                Number.parseFloat(formData.investimentoSetup.replace(".", "").replace(",", ".")) /
+                                  Number.parseInt(formData.parcelamentoSetup)
+                              ).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+                        </span>
+                      </div>
                     </div>
-                    <div className="text-xs text-gray-600">Itens Selecionados</div>
-                    <div className="text-xs text-gray-500 mt-1">Recursos adicionais</div>
                   </div>
-                  <div className="text-center p-3 bg-white rounded-lg shadow-sm">
-                    <div className="text-xl font-bold text-blue-600">{formData.parcelamentoMelhoria}x</div>
-                    <div className="text-xs text-gray-600">Parcelas</div>
-                    <div className="text-xs text-gray-500 mt-1">Forma de pagamento</div>
-                  </div>
-                  <div className="text-center p-3 bg-white rounded-lg shadow-sm">
-                    <div className="text-xl font-bold text-green-600">R$ {formData.valorTotalAdicional || "0,00"}</div>
-                    <div className="text-xs text-gray-600">Valor Total</div>
-                    <div className="text-xs text-gray-500 mt-1">
-                      {formData.parcelamentoMelhoria === "1" ? "À vista" : `${formData.parcelamentoMelhoria} parcelas`}
+
+                  <div className="bg-blue-50 p-3 rounded-lg">
+                    <h3 className="font-semibold text-base mb-2">Plano Essencial</h3>
+                    <div className="space-y-2">
+                      <div>
+                        <Label htmlFor="investimentoMensal" className="text-sm">
+                          Valor Mensal (R$)
+                        </Label>
+                        <Input
+                          id="investimentoMensal"
+                          value={formData.investimentoMensal}
+                          onChange={(e) => handleInputChange("investimentoMensal", e.target.value)}
+                          placeholder="1.399,00"
+                          className="text-sm"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="tempoContrato" className="text-sm">
+                          Contrato (meses)
+                        </Label>
+                        <Input
+                          id="tempoContrato"
+                          value={formData.tempoContrato}
+                          onChange={(e) => handleInputChange("tempoContrato", e.target.value)}
+                          placeholder="12"
+                          className="text-sm"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="diaVencimento" className="text-sm">
+                          Dia Vencimento
+                        </Label>
+                        <Input
+                          id="diaVencimento"
+                          value={formData.diaVencimento}
+                          onChange={(e) => handleInputChange("diaVencimento", e.target.value)}
+                          placeholder="10"
+                          className="text-sm"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div className="mt-3 pt-3 border-t border-gray-200">
-                  <div className="grid grid-cols-2 gap-3 text-sm">
-                    <div>
-                      <span className="font-medium">Forma de Pagamento:</span> {formData.formaPagamento}
+
+                <div className="bg-gradient-to-r from-gray-50 to-gray-100 p-4 rounded-xl border-2 border-gray-200">
+                  <h4 className="font-bold text-base mb-3 text-center text-gray-800">💰 Resumo Financeiro</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div className="text-center p-3 bg-white rounded-lg shadow-sm">
+                      <div className="text-xl font-bold text-green-600">R$ {formData.investimentoSetup}</div>
+                      <div className="text-xs text-gray-600">Valor Setup</div>
+                      <div className="text-xs text-gray-500 mt-1">Pagamento único</div>
                     </div>
-                    <div>
-                      <span className="font-medium">Vencimento:</span> Dia {formData.diaVencimentoGeral} de cada mês
+                    <div className="text-center p-3 bg-white rounded-lg shadow-sm">
+                      <div className="text-xl font-bold text-blue-600">R$ {formData.investimentoMensal}</div>
+                      <div className="text-xs text-gray-600">Valor Mensal</div>
+                      <div className="text-xs text-gray-500 mt-1">Recorrente por {formData.tempoContrato} meses</div>
+                    </div>
+                    <div className="text-center p-3 bg-white rounded-lg shadow-sm">
+                      <div className="text-xl font-bold text-purple-600">R$ {calcularValorTotal()}</div>
+                      <div className="text-xs text-gray-600">Valor Total</div>
+                      <div className="text-xs text-gray-500 mt-1">Setup + {formData.tempoContrato} mensalidades</div>
+                    </div>
+                  </div>
+                  <div className="mt-3 pt-3 border-t border-gray-200">
+                    <div className="grid grid-cols-2 gap-3 text-sm">
+                      <div>
+                        <Label htmlFor="formaPagamento" className="text-xs">
+                          Forma de Pagamento
+                        </Label>
+                        <Input
+                          id="formaPagamento"
+                          value={formData.formaPagamento}
+                          onChange={(e) => handleInputChange("formaPagamento", e.target.value)}
+                          placeholder="Boleto/PIX"
+                          className="text-sm"
+                        />
+                      </div>
+                      <div className="flex items-center">
+                        <span className="font-medium text-sm">Vencimento:</span>
+                        <span className="ml-1 text-sm">Dia {formData.diaVencimentoGeral} de cada mês</span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          ) : (
-            ""
-          )}
-        </CardContent>
-      </Card>
+              </>
+            </CardContent>
+          </Card>
+        </>
+      )}
 
       {/* PÁGINA 3: Matriz de SLA apenas */}
       {formData.tipoProjeto === "integracao" && (

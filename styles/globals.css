@@ -92,3 +92,360 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* Estilos de impressão */
+@media print {
+  @page {
+    size: A4;
+    margin: 0.5in;
+  }
+
+  body {
+    font-size: 12px;
+    line-height: 1.3;
+  }
+
+  /* Quebras de página estratégicas */
+  .page-1-end {
+    page-break-after: always;
+  }
+
+  .page-2-end {
+    page-break-after: always;
+  }
+
+  .page-3-end {
+    page-break-after: always;
+  }
+
+  .page-4-end {
+    page-break-after: always;
+  }
+
+  /* Layout do cabeçalho para impressão */
+  .print-header-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .print-header-left {
+    text-align: left;
+  }
+
+  .print-header-right {
+    text-align: right;
+  }
+
+  .print-field {
+    margin-bottom: 0.5rem;
+  }
+
+  .print-field-label {
+    font-weight: bold;
+    margin-right: 0.5rem;
+  }
+
+  .print-field-value {
+    font-weight: normal;
+  }
+
+  /* Títulos dos cards para impressão */
+  .print-card-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #374151;
+  }
+
+  /* Grids para impressão */
+  .print-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .print-grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+  }
+
+  /* SLA Cards para impressão */
+  .print-sla-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .print-sla-card {
+    border: 2px solid;
+    border-radius: 8px;
+    padding: 1rem;
+    background: #f9fafb;
+  }
+
+  .print-sla-card.blue {
+    border-color: #3b82f6;
+    background: #eff6ff;
+  }
+
+  .print-sla-card.orange {
+    border-color: #f97316;
+    background: #fff7ed;
+  }
+
+  .print-sla-card.purple {
+    border-color: #8b5cf6;
+    background: #f5f3ff;
+  }
+
+  .print-sla-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .print-sla-icon {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+  }
+
+  .print-sla-icon.blue {
+    background-color: #3b82f6;
+  }
+
+  .print-sla-icon.orange {
+    background-color: #f97316;
+  }
+
+  .print-sla-icon.purple {
+    background-color: #8b5cf6;
+  }
+
+  .print-sla-title {
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  .print-sla-title.blue {
+    color: #1e40af;
+  }
+
+  .print-sla-title.orange {
+    color: #c2410c;
+  }
+
+  .print-sla-title.purple {
+    color: #7c3aed;
+  }
+
+  .print-sla-subtitle {
+    font-size: 11px;
+    color: #6b7280;
+  }
+
+  .print-sla-content {
+    font-size: 11px;
+  }
+
+  .print-sla-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .print-sla-list-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .print-sla-bullet {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    margin-top: 0.25rem;
+    flex-shrink: 0;
+  }
+
+  .print-sla-bullet.blue {
+    background-color: #3b82f6;
+  }
+
+  .print-sla-section {
+    background: white;
+    padding: 0.75rem;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+    margin-bottom: 0.75rem;
+  }
+
+  .print-sla-section-title {
+    font-weight: bold;
+    font-size: 11px;
+    color: #c2410c;
+    margin-bottom: 0.25rem;
+  }
+
+  .print-sla-section-content {
+    font-size: 10px;
+    color: #c2410c;
+  }
+
+  .print-sla-purple-section {
+    background: white;
+    padding: 0.75rem;
+    border-radius: 6px;
+    border: 1px solid #c4b5fd;
+    margin-bottom: 0.75rem;
+  }
+
+  .print-sla-purple-title {
+    font-weight: bold;
+    font-size: 11px;
+    color: #7c3aed;
+    margin-bottom: 0.25rem;
+  }
+
+  .print-sla-purple-content {
+    font-size: 10px;
+    color: #7c3aed;
+  }
+
+  /* Próximos Passos para impressão */
+  .print-steps-container {
+    background: #f9fafb;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 2px solid #e5e7eb;
+  }
+
+  .print-steps-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+  }
+
+  .print-step-item {
+    text-align: center;
+    padding: 0.75rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .print-step-circle {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 0.5rem;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+  }
+
+  .print-step-circle.step-1 {
+    background-color: #3b82f6;
+  }
+
+  .print-step-circle.step-2 {
+    background-color: #10b981;
+  }
+
+  .print-step-circle.step-3 {
+    background-color: #f59e0b;
+  }
+
+  .print-step-circle.step-4 {
+    background-color: #8b5cf6;
+  }
+
+  .print-step-circle.step-5 {
+    background-color: #ef4444;
+  }
+
+  .print-step-label {
+    font-size: 10px;
+    font-weight: 500;
+  }
+
+  /* Remover quebras de página para melhorias e adicional */
+  .melhoria-adicional-container {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Ajustar espaçamento para melhorias e adicional */
+  .melhoria-adicional-escopo {
+    margin-bottom: 1rem;
+  }
+
+  .melhoria-adicional-valores {
+    margin-bottom: 1.5rem;
+  }
+
+  /* Compactar seções para melhorias e adicional */
+  .compact-section {
+    margin-bottom: 1rem;
+  }
+
+  .compact-section .print-card-title {
+    font-size: 14px;
+    margin-bottom: 0.75rem;
+  }
+
+  /* Ajustar altura dos resumos financeiros */
+  .compact-financial-summary {
+    padding: 1rem;
+  }
+
+  .compact-financial-summary h4 {
+    font-size: 14px;
+    margin-bottom: 0.75rem;
+  }
+
+  .compact-financial-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+  }
+
+  .compact-financial-item {
+    text-align: center;
+    padding: 0.75rem;
+    background: white;
+    border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+
+  .compact-financial-value {
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .compact-financial-label {
+    font-size: 10px;
+    color: #6b7280;
+  }
+
+  .compact-financial-sublabel {
+    font-size: 9px;
+    color: #9ca3af;
+    margin-top: 0.25rem;
+  }
+}
